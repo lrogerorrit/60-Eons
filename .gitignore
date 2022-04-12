@@ -29,3 +29,8 @@
 *.exe
 *.out
 *.app
+
+visual/libs/*
+visual/.vs/*
+out/*
+.vs/*
