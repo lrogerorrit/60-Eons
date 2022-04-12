@@ -9,6 +9,7 @@
     <ClCompile Include="..\..\src\synth.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\utils\mapHandler.cpp" />
+    <ClCompile Include="..\..\src\characterHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\framework.h" />
@@ -19,5 +20,6 @@
     <ClInclude Include="..\..\src\synth.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\utils\mapHandler.h" />
+    <ClInclude Include="..\..\src\characterHandler.h" />
   </ItemGroup>
 </Project>
