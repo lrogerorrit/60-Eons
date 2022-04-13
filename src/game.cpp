@@ -36,8 +36,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->localChar = charHandler.getCharacter(0);
 	
 
-	enableAudio(); //enable this line if you plan to add audio to your application
-	synth.playSample("data/music/countdownMusic.wav",.5,true);
+	//enableAudio(); //enable this line if you plan to add audio to your application
+	//synth.playSample("data/music/countdownMusic.wav",.5,true);
 	//synth.osc1.amplitude = 0.5;
 }
 
@@ -89,12 +89,13 @@ void Game::render(void)
 		framebuffer.fill( bgcolor );								//fills the image with one color
 		//framebuffer.drawLine( 0, 0, 100,100, Color::RED );		//draws a line
 		//framebuffer.drawImage( sprite, 0, 0 );					//draws full image
-		framebuffer.drawImage( sprite, 0, 0, 18, 27,18,27 );			//draws a scaled image
+		//framebuffer.drawImage( sprite, 0, 0, 18, 27,18,27 );			//draws a scaled image
 		//framebuffer.drawImage( sprite, 0, 0, Area(0,0,14,18) );	//draws only a part of an image
 		framebuffer.drawText( "Hello World", 0, 0, font );				//draws some text using a bitmap font in an image (assuming every char is 7x9)
 		//framebuffer.drawText( toString(time), 1, 10, minifont,4,6);	//draws some text using a bitmap font in an image (assuming every char is 4x6)
 		renderMapTest(Game::startMap, framebuffer);
-		framebuffer.drawImage(sprite, charPos.x, charPos.y, 18, 27, 18, 27);			//draws a scaled image
+		std::cout << totalTime << "\n";
+		framebuffer.drawImage(sprite, charPos.x, charPos.y, ((int)std::round(totalTime*localChar.getSpeed()*.4)%4) * 18, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
 	//send image to screen
 	showFramebuffer(&framebuffer);
 }
@@ -107,10 +108,12 @@ void updateCountdownLevel(double seconds_elapsed, Game game) {
 
 void Game::update(double seconds_elapsed)
 {
-	//print seconds_elapsed
-	std::cout << seconds_elapsed << std::endl;
+	
+	
 	//Add here your update method
 	//...
+	
+	totalTime+= seconds_elapsed;
 	Vector2& charPos = this->localChar.getPositionRef();
 	float speed = this->localChar.getSpeed();
 	std::cout <<charPos.x<< " "<<charPos.y<<"\n";
@@ -118,22 +121,29 @@ void Game::update(double seconds_elapsed)
 	if (Input::isKeyPressed(SDL_SCANCODE_UP)){ //if key up
 
 		charPos.y -= speed*seconds_elapsed;
+		localChar.dir = UP;
 	
 	}
-	if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
+	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
 	{
 		
 		charPos.y += speed *seconds_elapsed;
+		localChar.dir = DOWN;
 	}
-	if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
+	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
 
 		charPos.x -= speed *seconds_elapsed;
+		localChar.dir = LEFT;
 
 	}
-	if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
+	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
 	{
 
 		charPos.x += speed *seconds_elapsed;
+		localChar.dir = RIGHT;
+	}
+	else {
+		localChar.dir = DOWN;
 	}
 
 	//example of 'was pressed'

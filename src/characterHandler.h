@@ -35,7 +35,13 @@ const std::string names[] = {
 	"Ole",
 };
 
-
+enum facingDirection :int
+{
+	DOWN,
+	LEFT,
+	RIGHT,
+	UP,
+};
 	
 
 class character {
@@ -47,7 +53,8 @@ class character {
         characterStatus status;
 		bool isPlayerChar;
         bool isAlive = true;
-		float movementSpeed = 10.0f;
+		float movementSpeed = 15.0f;
+		facingDirection dir = DOWN;
 		
 		std::string name = names[rand() % 15];
 		character(bool isPlayerChar = false, CHAR_COLOR characterColor = WHITE, Vector2 position = Vector2(0, 0)){
@@ -69,6 +76,9 @@ class character {
 		void setStatus(characterStatus stat) { status = stat; };
 		void setIsAlive(bool alive) { isAlive = alive; };
 		float getSpeed() {return movementSpeed;	};
+		facingDirection getDirection() {
+			return dir;
+		};
 		
 		
         

@@ -11,6 +11,7 @@
 #include "synth.h"
 #include "characterHandler.h"
 #include "utils/mapHandler.h"
+#include <cmath>
 
 class Game
 {
@@ -26,6 +27,7 @@ public:
 	long frame;
     float time;
 	float elapsed_time;
+	float totalTime = 0.0f;
 	int fps;
 	bool must_exit;
 
