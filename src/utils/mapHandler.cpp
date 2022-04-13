@@ -11,18 +11,18 @@ struct sMapHeader {
 //make gameMap constructor
 
 gameMap::gameMap() {
-	width = height = 0;
-	data = NULL;
+	this->width = this->height = 0;
+	this->data = NULL;
 }
 
 gameMap::gameMap(int w, int h) {
-	width = w;
-	height = h;
-	data = new sCell[w * h];
+	this->width = w;
+	this->height = h;
+	this->data = new sCell[w * h];
 }
 
 void gameMap::setCellType(int x, int y, eCellType type) {
-	data[x + y * width].type = type;
+	this->data[x + y * width].type = type;
 }
 
 gameMap* gameMap::loadGameMap(const char* filename)
@@ -41,11 +41,18 @@ gameMap* gameMap::loadGameMap(const char* filename)
 	fread(cells, header.bytes, header.w * header.h, file);
 	fclose(file); //always close open files
 	//create the map where we will store it
-	gameMap* map = new gameMap(header.w, header.h);
+	std::cout << header.w <<" "<< header.h << "\n";
+	gameMap* map = this;//new gameMap(header.w, header.h);
+	this->height = header.h;
+	this->width = header.w;
+	delete[] this->data;
+	this->data=new sCell[header.w * header.h];
 
 	for (int x = 0; x < map->width; x++)
-		for (int y = 0; y < map->height; y++)
-			map->setCellType(x, y, (eCellType) cells[x + y * map->width]);
+		for (int y = 0; y < map->height; y++) {
+			std::cout << x << " " << y << "\n";
+			map->setCellType(x, y, (eCellType)cells[x + y * map->width]);
+		}
 
 	delete[] cells; //always free any memory allocated!
 

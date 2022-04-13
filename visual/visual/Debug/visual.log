@@ -1,4 +1,48 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   characterHandler.cpp
-characterHandler.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-  visual.vcxproj -> C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\Game.exe
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,16): error C2059: syntax error: '<'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,33): error C2238: unexpected token(s) preceding ';'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(56,10): error C2039: 'position': is not a member of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(41): message : see declaration of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(63,40): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(64,38): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(67,35): error C2065: 'position': undeclared identifier
+  game.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,16): error C2059: syntax error: '<'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,33): error C2238: unexpected token(s) preceding ';'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(56,10): error C2039: 'position': is not a member of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(41): message : see declaration of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(63,40): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(64,38): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(67,35): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\game.cpp(66,33): warning C4018: '>': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\game.cpp(67,30): warning C4018: '>': signed/unsigned mismatch
+  main.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,16): error C2059: syntax error: '<'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,33): error C2238: unexpected token(s) preceding ';'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(56,10): error C2039: 'position': is not a member of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(41): message : see declaration of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(63,40): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(64,38): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(67,35): error C2065: 'position': undeclared identifier
+  utils.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,16): error C2059: syntax error: '<'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(46,33): error C2238: unexpected token(s) preceding ';'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(56,10): error C2039: 'position': is not a member of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(41): message : see declaration of 'character'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(63,40): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(64,38): error C2065: 'position': undeclared identifier
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.h(67,35): error C2065: 'position': undeclared identifier
+  Generating Code...

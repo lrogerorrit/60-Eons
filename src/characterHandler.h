@@ -41,33 +41,66 @@ const std::string names[] = {
 class character {
     public:
 		
+		
         CHAR_COLOR characterColor= WHITE;
         Vector2 position;
         characterStatus status;
 		bool isPlayerChar;
         bool isAlive = true;
+		float movementSpeed = 10.0f;
+		
 		std::string name = names[rand() % 15];
 		character(bool isPlayerChar = false, CHAR_COLOR characterColor = WHITE, Vector2 position = Vector2(0, 0)){
 			this->isPlayerChar = isPlayerChar;
 			this->characterColor = characterColor;
 			this->position = position;
 		};
-		~character();
-
-        inline characterStatus getStatus() { return status; };
-        inline bool getIsAlive() { return isAlive; };
-        inline Vector2 getPosition() { return position; };
-        inline CHAR_COLOR getCharacterColor() { return characterColor; };
-		inline void setCharacterColor(CHAR_COLOR color) { characterColor = color; };
-		inline void setPosition(Vector2 pos) { position = pos; };
-		inline void setStatus(characterStatus stat) { status = stat; };
-		inline void setIsAlive(bool alive) { isAlive = alive; };
 		
 
+        characterStatus getStatus() { return status; };
+		characterStatus& getStatusRef() { return status; };
+        bool getIsAlive() { return isAlive; };
+        Vector2 getPosition() { return position; };
+		Vector2& getPositionRef() { return position; };
+        CHAR_COLOR getCharacterColor() { return characterColor; };
+		void setCharacterColor(CHAR_COLOR color) { characterColor = color; };
+		void setPosition(Vector2 pos) { position = pos; };
+		
+		void setStatus(characterStatus stat) { status = stat; };
+		void setIsAlive(bool alive) { isAlive = alive; };
+		float getSpeed() {return movementSpeed;	};
+		
+		
         
 
         
         
 
+};
+
+
+//TODO: Make constructor to load characters from savefile
+
+class characterHandler {
+	public:
+		std::vector<character> characters;
+		int numCharacters;
+		
+		characterHandler() {};
+		
+		
+		
+
+		void makeCharacters(const int numCharacters);
+
+		character& getCharacter(int index)
+		{
+			return characters[index];
+		};
+		std::vector<character>& getCharacters() {
+			return characters;
+		};
+		
+		
 };
 

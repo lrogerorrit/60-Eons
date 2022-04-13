@@ -10,6 +10,7 @@ Game* Game::instance = NULL;
 Image font;
 Image minifont;
 Image sprite;
+Image testTileset;
 Color bgcolor(130, 80, 100);
 
 Game::Game(int window_width, int window_height, SDL_Window* window)
@@ -28,16 +29,51 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	font.loadTGA("data/bitmap-font-white.tga"); //load bitmap-font image
 	minifont.loadTGA("data/mini-font-white-4x6.tga"); //load bitmap-font image
 	sprite.loadTGA("data/spritesheet.tga"); //example to load an sprite
+	testTileset.loadTGA("data/tileset.tga");
 
-	//enableAudio(); //enable this line if you plan to add audio to your application
-	//synth.playSample("data/coin.wav",1,true);
+	this->charHandler.makeCharacters(this->astronautNum);
+	Game::startMap.loadGameMap("data/mymap.map");
+	this->localChar = charHandler.getCharacter(0);
+	
+
+	enableAudio(); //enable this line if you plan to add audio to your application
+	synth.playSample("data/music/countdownMusic.wav",.5,true);
 	//synth.osc1.amplitude = 0.5;
 }
 
 
 
 
+void renderMapTest(gameMap& map, Image& framebuffer) {
+	int cs = testTileset.width / 16;
+	
+	//for every cell
+	for (int x = 0; x < map.width; ++x)
+		for (int y = 0; y < map.height; ++y)
+		{
+			//get cell info
+			sCell& cell = map.getCell(x, y);
+			if (cell.type == 0) //skip empty
+				continue;
+			int type = (int)cell.type;
+			//compute tile pos in tileset image
+			int tilex = (type % 16) * cs; 	//x pos in tileset
+			int tiley = floor(type / 16) * cs;	//y pos in tileset
+			Area area(tilex, tiley, cs, cs); //tile area
+			int screenx = x * cs; //place offset here if you want
+			int screeny = y * cs;
+			//avoid rendering out of screen stuff
+			if (screenx < -cs || screenx > framebuffer.width ||
+				screeny < -cs || screeny > framebuffer.height)
+				continue;
 
+			//draw region of tileset inside framebuffer
+			framebuffer.drawImage(testTileset, 		//image
+				screenx, screeny, 	//pos in screen
+				area); 		//area
+		}
+
+}
 
 //what to do when the image has to be draw
 void Game::render(void)
@@ -49,34 +85,61 @@ void Game::render(void)
 	//...
 
 	//some new useful functions
+	Vector2 charPos = this->localChar.getPosition();
 		framebuffer.fill( bgcolor );								//fills the image with one color
 		//framebuffer.drawLine( 0, 0, 100,100, Color::RED );		//draws a line
 		//framebuffer.drawImage( sprite, 0, 0 );					//draws full image
-		framebuffer.drawImage( sprite, 0, 0, framebuffer.width, framebuffer.height );			//draws a scaled image
+		framebuffer.drawImage( sprite, 0, 0, 18, 27,18,27 );			//draws a scaled image
 		//framebuffer.drawImage( sprite, 0, 0, Area(0,0,14,18) );	//draws only a part of an image
 		framebuffer.drawText( "Hello World", 0, 0, font );				//draws some text using a bitmap font in an image (assuming every char is 7x9)
 		//framebuffer.drawText( toString(time), 1, 10, minifont,4,6);	//draws some text using a bitmap font in an image (assuming every char is 4x6)
-
+		renderMapTest(Game::startMap, framebuffer);
+		framebuffer.drawImage(sprite, charPos.x, charPos.y, 18, 27, 18, 27);			//draws a scaled image
 	//send image to screen
 	showFramebuffer(&framebuffer);
 }
 
+
+
+void updateCountdownLevel(double seconds_elapsed, Game game) {
+	
+}
+
 void Game::update(double seconds_elapsed)
 {
+	//print seconds_elapsed
+	std::cout << seconds_elapsed << std::endl;
 	//Add here your update method
 	//...
-
+	Vector2& charPos = this->localChar.getPositionRef();
+	float speed = this->localChar.getSpeed();
+	std::cout <<charPos.x<< " "<<charPos.y<<"\n";
 	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
-	if (Input::isKeyPressed(SDL_SCANCODE_UP)) //if key up
-	{
+	if (Input::isKeyPressed(SDL_SCANCODE_UP)){ //if key up
+
+		charPos.y -= speed*seconds_elapsed;
+	
 	}
 	if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
 	{
+		
+		charPos.y += speed *seconds_elapsed;
+	}
+	if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
+
+		charPos.x -= speed *seconds_elapsed;
+
+	}
+	if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
+	{
+
+		charPos.x += speed *seconds_elapsed;
 	}
 
 	//example of 'was pressed'
 	if (Input::wasKeyPressed(SDL_SCANCODE_A)) //if key A was pressed
 	{
+		
 	}
 	if (Input::wasKeyPressed(SDL_SCANCODE_Z)) //if key Z was pressed
 	{

@@ -35,14 +35,21 @@ class gameMap{
 		int width;
 		int height;
 		sCell* data;
+		gameMap* map;
 		gameMap* loadGameMap(const char* filename);
+		
 		gameMap();
 		gameMap(int width, int height);
-		~gameMap();
-		sCell getCell(int x, int y);
-		void setCell(int x, int y, sCell cell);
+		
+		sCell getCell(int x, int y) {
+			return data[y*width+x];
+		};
+		void setCell(int x, int y, sCell cell) {
+			data[y*width+x] = cell;
+		};
+		
 		void setCellType(int x, int y, eCellType type);
-		void printMap();
+		//void printMap();
 		
 		
 		

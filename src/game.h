@@ -9,6 +9,8 @@
 #include "image.h"
 #include "utils.h"
 #include "synth.h"
+#include "characterHandler.h"
+#include "utils/mapHandler.h"
 
 class Game
 {
@@ -29,6 +31,18 @@ public:
 
 	//audio
 	Synth synth;
+
+	//custom stuff
+	const int astronautNum = 1;
+	character localChar;
+
+	characterHandler charHandler;
+	gameMap startMap;
+
+	bool is_countdownLevel=false;
+
+	// make a list of ints of size astronautNum
+	
 
 	//ctor
 	Game( int window_width, int window_height, SDL_Window* window );
@@ -53,6 +67,18 @@ public:
 	//audio stuff
 	void enableAudio(); //opens audio channel to play sound
 	void onAudio(float* buffer, unsigned int len, double time, SDL_AudioSpec &audio_spec); //called constantly to fill the audio buffer
+
+	//custom functions
+	inline bool getIsCountdownLevel() { return is_countdownLevel; }
+	inline void setIsCountdownLevel(bool value) { is_countdownLevel = value; }
+	void setLocalChar(character& plChar) {
+		this->localChar = plChar;
+	};
+	
+
+	
+	
+	
 };
 
 
