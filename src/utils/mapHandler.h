@@ -6,13 +6,18 @@
 //make an enum of itemtypes
 typedef unsigned char uint8;
 
-enum eCellType:uint8 {
-	EMPTY,
-	START,
-	WALL,
-	DOOR,
-	CHEST
+enum eDataType {
+	WALKABLE=3,
+	FOOD=6,
+	WATER=7,
+	WALL=3,
+	MEDS=8,
+	GUNS=4,
+	EXIT=9,
+
 };
+
+
 
 enum eItemType:uint8 {
 	NOTHING,
@@ -24,8 +29,10 @@ enum eItemType:uint8 {
 
 
 struct sCell {
-	eCellType type;
+	int type;
+	eDataType dataType;
 	eItemType item;
+	
 	
 };
 
@@ -39,7 +46,7 @@ class gameMap{
 		gameMap* loadGameMap(const char* filename);
 		
 		gameMap();
-		gameMap(int width, int height);
+		gameMap(int w, int h, int layers = 1);
 		
 		sCell getCell(int x, int y) {
 			return data[y*width+x];
@@ -48,7 +55,8 @@ class gameMap{
 			data[y*width+x] = cell;
 		};
 		
-		void setCellType(int x, int y, eCellType type);
+		void setCellType(int x, int y, int type);
+		void setDataType(int x, int y, int dataType);
 		//void printMap();
 		
 		

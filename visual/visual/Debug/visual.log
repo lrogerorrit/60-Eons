@@ -4,5 +4,61 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
-characterHandler.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-  visual.vcxproj -> C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\Game.exe
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2143: syntax error: missing '}' before ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2059: syntax error: ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,11): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(11,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(12,8): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(13,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(14,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(15,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(16,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2059: syntax error: '}'
+  main.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2143: syntax error: missing '}' before ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2059: syntax error: ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,11): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(11,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(12,8): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(13,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(14,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(15,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(16,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2059: syntax error: '}'
+  utils.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2143: syntax error: missing '}' before ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2059: syntax error: ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,11): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(11,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(12,8): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(13,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(14,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(15,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(16,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2059: syntax error: '}'
+  mapHandler.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2143: syntax error: missing '}' before ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,10): error C2059: syntax error: ':'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(10,11): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(11,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(12,8): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(13,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(14,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(15,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(16,7): error C2059: syntax error: 'constant'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(18,1): error C2059: syntax error: '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.cpp(18,42): error C2572: 'gameMap::gameMap': redefinition of default argument: parameter 1
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.h(49): message : see declaration of 'gameMap::gameMap'
+  Generating Code...

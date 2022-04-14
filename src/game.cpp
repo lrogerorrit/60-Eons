@@ -26,6 +26,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	frame = 0;
 	time = 0.0f;
 	elapsed_time = 0.0f;
+	tilePos = Vector2ub(1, 2);
 
 	font.loadTGA("data/bitmap-font-white.tga"); //load bitmap-font image
 	minifont.loadTGA("data/mini-font-white-4x6.tga"); //load bitmap-font image
@@ -35,6 +36,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->charHandler.makeCharacters(this->astronautNum);
 	Game::startMap.loadGameMap("data/mymap.map");
 	this->localChar = charHandler.getCharacter(0);
+	cellSize = testTileset.width / 16;
+	this->localChar.setPosition(tilePos*cellSize);
 	
 
 	//enableAudio(); //enable this line if you plan to add audio to your application
@@ -43,26 +46,30 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 }
 
 
+void Game::updateTilePosition() {
+	Vector2 pos= localChar.getPosition();
+	tilePos = Vector2ub(pos.x / cellSize, (pos.y + 13) / cellSize);
+}
+
 
 
 void Game::renderMapTest(Image& framebuffer,float dx, float dy) {
 	int cs = testTileset.width / 16;
-	float ogDx = dx;
-	float ogDy = dy;
 	
-	int cellX = (ogDx) / cs;
+	
+	/*int cellX = (ogDx) / cs;
 	int cellY = (ogDy+13) / cs;
 
-	std::cout << cellX << ", " << cellY << std::endl;
+	std::cout << cellX << ", " << cellY << std::endl;*/
 	
 	dx -= (framebuffer.width / 2);
 	dy -= (framebuffer.height / 2);
 
-	
-	int startX = max(0, cellX - RENDER_X_CELLS);
-	int startY = max(0, cellY - RENDER_Y_CELLS);
-	int endX = min(cellX + RENDER_X_CELLS, Game::startMap.width);
-	int endY = min(cellY + RENDER_Y_CELLS, Game::startMap.height);
+	Vector2ub tilePos= getTilePosition();
+	int startX = max(0, tilePos.x - RENDER_X_CELLS);
+	int startY = max(0, tilePos.y- RENDER_Y_CELLS);
+	int endX = min(tilePos.x + RENDER_X_CELLS, Game::startMap.width-1);
+	int endY = min(tilePos.y + RENDER_Y_CELLS, Game::startMap.height-1);
 	//for every cell
 	for (int x = startX;x<=endX; ++x)
 		for (int y = startY;y<=endY; ++y)
@@ -88,7 +95,7 @@ void Game::renderMapTest(Image& framebuffer,float dx, float dy) {
 			//	continue;
 			//}
 
-			if (x == cellX && y == cellY)
+			if (tilePos.x==x && tilePos.y==y)
 				framebuffer.drawRectangle(screenx, screeny, cs, cs, Color::BLUE); 	//pos in screen
 			else
 			//draw region of tileset inside framebuffer
@@ -120,7 +127,7 @@ void Game::render(void)
 		//framebuffer.drawImage( sprite, 0, 0 );					//draws full image
 		//framebuffer.drawImage( sprite, 0, 0, 18, 27,18,27 );			//draws a scaled image
 		//framebuffer.drawImage( sprite, 0, 0, Area(0,0,14,18) );	//draws only a part of an image
-		framebuffer.drawText( "Hello World", 0, 0, font );				//draws some text using a bitmap font in an image (assuming every char is 7x9)
+				//draws some text using a bitmap font in an image (assuming every char is 7x9)
 		//framebuffer.drawText( toString(time), 1, 10, minifont,4,6);	//draws some text using a bitmap font in an image (assuming every char is 4x6)
 		renderMapTest(framebuffer, charPos.x, charPos.y);
 		//std::cout << totalTime << "\n";
@@ -196,6 +203,8 @@ void Game::update(double seconds_elapsed)
 	{
 		bgcolor.set(0, 255, 0);
 	}
+	
+	updateTilePosition();
 }
 
 //Keyboard event handler (sync input)

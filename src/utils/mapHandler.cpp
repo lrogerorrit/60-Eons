@@ -15,14 +15,18 @@ gameMap::gameMap() {
 	this->data = NULL;
 }
 
-gameMap::gameMap(int w, int h) {
+gameMap::gameMap(int w, int h,int layers=1) {
 	this->width = w;
 	this->height = h;
 	this->data = new sCell[w * h];
 }
 
-void gameMap::setCellType(int x, int y, eCellType type) {
+void gameMap::setCellType(int x, int y, int type) {
 	this->data[x + y * width].type = type;
+}
+
+void gameMap::setDataType(int x, int y, int dataType) {
+	this->data[x + y * width].dataType = (eDataType) dataType;
 }
 
 gameMap* gameMap::loadGameMap(const char* filename)
@@ -37,7 +41,7 @@ gameMap* gameMap::loadGameMap(const char* filename)
 
 
 	//allocate memory for the cells data and read it
-	unsigned char* cells = new unsigned char[header.w * header.h];
+	unsigned char* cells = new unsigned char[header.w * header.h*header.bytes];
 	fread(cells, header.bytes, header.w * header.h, file);
 	fclose(file); //always close open files
 	//create the map where we will store it
@@ -51,7 +55,8 @@ gameMap* gameMap::loadGameMap(const char* filename)
 	for (int x = 0; x < map->width; x++)
 		for (int y = 0; y < map->height; y++) {
 			std::cout << x << " " << y << "\n";
-			map->setCellType(x, y, (eCellType)cells[x + y * map->width]);
+			map->setCellType(x, y, (int) cells[(x*header.bytes) + y * map->width]);
+			map->setDataType(x, y, (int)cells[(x * header.bytes) + y * map->width+1]);
 		}
 
 	delete[] cells; //always free any memory allocated!

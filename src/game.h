@@ -44,6 +44,8 @@ public:
 
 	characterHandler charHandler;
 	gameMap startMap;
+	Vector2ub tilePos;
+	int cellSize;
 
 	bool is_countdownLevel=false;
 
@@ -82,6 +84,9 @@ public:
 	};
 	
 	void renderMapTest(Image& framebuffer, float dx, float dy);
+	void updateTilePosition();	
+	Vector2ub getTilePosition() { return tilePos; };
+	
 	
 
 	
