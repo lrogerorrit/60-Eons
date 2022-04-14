@@ -5,6 +5,7 @@
 
 #include <cmath>
 
+
 Game* Game::instance = NULL;
 
 Image font;
@@ -44,15 +45,30 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 
 
 
-void renderMapTest(gameMap& map, Image& framebuffer) {
+void Game::renderMapTest(Image& framebuffer,float dx, float dy) {
 	int cs = testTileset.width / 16;
+	float ogDx = dx;
+	float ogDy = dy;
 	
+	int cellX = (ogDx) / cs;
+	int cellY = (ogDy+13) / cs;
+
+	std::cout << cellX << ", " << cellY << std::endl;
+	
+	dx -= (framebuffer.width / 2);
+	dy -= (framebuffer.height / 2);
+
+	
+	int startX = max(0, cellX - RENDER_X_CELLS);
+	int startY = max(0, cellY - RENDER_Y_CELLS);
+	int endX = min(cellX + RENDER_X_CELLS, Game::startMap.width);
+	int endY = min(cellY + RENDER_Y_CELLS, Game::startMap.height);
 	//for every cell
-	for (int x = 0; x < map.width; ++x)
-		for (int y = 0; y < map.height; ++y)
+	for (int x = startX;x<=endX; ++x)
+		for (int y = startY;y<=endY; ++y)
 		{
 			//get cell info
-			sCell& cell = map.getCell(x, y);
+			sCell& cell = startMap.getCell(x, y);
 			if (cell.type == 0) //skip empty
 				continue;
 			int type = (int)cell.type;
@@ -62,17 +78,30 @@ void renderMapTest(gameMap& map, Image& framebuffer) {
 			Area area(tilex, tiley, cs, cs); //tile area
 			int screenx = x * cs; //place offset here if you want
 			int screeny = y * cs;
+			screenx -= dx;
+			screeny -= dy;
 			//avoid rendering out of screen stuff
-			if (screenx < -cs || screenx > framebuffer.width ||
-				screeny < -cs || screeny > framebuffer.height)
-				continue;
+			
+			//if (screenx < -cs || (screenx + cs) > framebuffer.width ||
+			//	screeny < -cs || (screeny) > framebuffer.height) {
+			//	//std::cout << screenx << ", " << screeny << ", " << -cs << std::endl;
+			//	continue;
+			//}
 
+			if (x == cellX && y == cellY)
+				framebuffer.drawRectangle(screenx, screeny, cs, cs, Color::BLUE); 	//pos in screen
+			else
 			//draw region of tileset inside framebuffer
 			framebuffer.drawImage(testTileset, 		//image
 				screenx, screeny, 	//pos in screen
 				area); 		//area
 		}
 
+}
+
+void renderDebugGrid(Image& framebuffer) {
+	framebuffer.drawLine(framebuffer.width / 2, 0, framebuffer.width / 2, framebuffer.height, Color::RED);
+	framebuffer.drawLine(0, framebuffer.height / 2, framebuffer.width, framebuffer.height/2, Color::RED);
 }
 
 //what to do when the image has to be draw
@@ -93,9 +122,10 @@ void Game::render(void)
 		//framebuffer.drawImage( sprite, 0, 0, Area(0,0,14,18) );	//draws only a part of an image
 		framebuffer.drawText( "Hello World", 0, 0, font );				//draws some text using a bitmap font in an image (assuming every char is 7x9)
 		//framebuffer.drawText( toString(time), 1, 10, minifont,4,6);	//draws some text using a bitmap font in an image (assuming every char is 4x6)
-		renderMapTest(Game::startMap, framebuffer);
-		std::cout << totalTime << "\n";
-		framebuffer.drawImage(sprite, charPos.x, charPos.y, ((int)std::round(totalTime*localChar.getSpeed()*.4)%4) * 18, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
+		renderMapTest(framebuffer, charPos.x, charPos.y);
+		//std::cout << totalTime << "\n";
+		framebuffer.drawImage(sprite, (framebuffer.width/2)-9,(framebuffer.height/2)-13, localChar.isMoving?((int)std::round(totalTime*localChar.getSpeed()*.4)%4) * 18:0, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
+		renderDebugGrid(framebuffer);
 	//send image to screen
 	showFramebuffer(&framebuffer);
 }
@@ -116,7 +146,8 @@ void Game::update(double seconds_elapsed)
 	totalTime+= seconds_elapsed;
 	Vector2& charPos = this->localChar.getPositionRef();
 	float speed = this->localChar.getSpeed();
-	std::cout <<charPos.x<< " "<<charPos.y<<"\n";
+	//std::cout <<charPos.x<< " "<<charPos.y<<"\n";
+	localChar.isMoving = true;
 	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
 	if (Input::isKeyPressed(SDL_SCANCODE_UP)){ //if key up
 
@@ -143,6 +174,7 @@ void Game::update(double seconds_elapsed)
 		localChar.dir = RIGHT;
 	}
 	else {
+		localChar.isMoving = false;
 		localChar.dir = DOWN;
 	}
 

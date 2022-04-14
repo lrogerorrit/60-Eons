@@ -35,6 +35,10 @@ public:
 	Synth synth;
 
 	//custom stuff
+	const int RENDER_X_CELLS = 3;
+	const int RENDER_Y_CELLS = 3;
+
+
 	const int astronautNum = 1;
 	character localChar;
 
@@ -76,6 +80,8 @@ public:
 	void setLocalChar(character& plChar) {
 		this->localChar = plChar;
 	};
+	
+	void renderMapTest(Image& framebuffer, float dx, float dy);
 	
 
 	

@@ -53,8 +53,11 @@ class character {
         characterStatus status;
 		bool isPlayerChar;
         bool isAlive = true;
-		float movementSpeed = 15.0f;
+		bool isMoving = true;
+		
+		float movementSpeed = 50.0f;
 		facingDirection dir = DOWN;
+		
 		
 		std::string name = names[rand() % 15];
 		character(bool isPlayerChar = false, CHAR_COLOR characterColor = WHITE, Vector2 position = Vector2(0, 0)){
