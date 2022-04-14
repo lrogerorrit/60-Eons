@@ -37,6 +37,12 @@ public:
 	//custom stuff
 	const int RENDER_X_CELLS = 3;
 	const int RENDER_Y_CELLS = 3;
+	const float y_displ= 13.0f;
+	
+	const float x_collisionDist = 8.0f;
+	const float y_collisionDist = 5.0f;
+	
+
 
 
 	const int astronautNum = 1;
@@ -86,6 +92,22 @@ public:
 	void renderMapTest(Image& framebuffer, float dx, float dy);
 	void updateTilePosition();	
 	Vector2ub getTilePosition() { return tilePos; };
+	Vector2ub getTileAtPos(float x, float y) {
+		return Vector2ub(x / cellSize, (y + y_displ) / cellSize);
+	}
+	Vector2ub getTileAtPos(Vector2 pos) {
+		return Vector2ub(pos.x / cellSize, (pos.y + y_displ) / cellSize);
+	}
+	
+	sCell& getCellAtPos(Vector2 pos) {
+		Vector2ub tile= getTileAtPos(pos);
+		return startMap.getCell(tile.x, tile.y);
+	}
+	
+	sCell& getCellAtPos(float x, float y) {
+		Vector2ub tile = getTileAtPos(x,y);
+		return startMap.getCell(tile.x, tile.y);
+	}
 	
 	
 

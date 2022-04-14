@@ -34,7 +34,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	testTileset.loadTGA("data/tileset.tga");
 
 	this->charHandler.makeCharacters(this->astronautNum);
-	Game::startMap.loadGameMap("data/mymap.map");
+	Game::startMap.loadGameMap("data/mymapNew.map");
 	this->localChar = charHandler.getCharacter(0);
 	cellSize = testTileset.width / 16;
 	this->localChar.setPosition(tilePos*cellSize);
@@ -48,7 +48,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 
 void Game::updateTilePosition() {
 	Vector2 pos= localChar.getPosition();
-	tilePos = Vector2ub(pos.x / cellSize, (pos.y + 13) / cellSize);
+	tilePos = Vector2ub(pos.x / cellSize, (pos.y + y_displ) / cellSize);
 }
 
 
@@ -154,34 +154,46 @@ void Game::update(double seconds_elapsed)
 	Vector2& charPos = this->localChar.getPositionRef();
 	float speed = this->localChar.getSpeed();
 	//std::cout <<charPos.x<< " "<<charPos.y<<"\n";
-	localChar.isMoving = true;
+	localChar.isMoving = false;
+	
 	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
 	if (Input::isKeyPressed(SDL_SCANCODE_UP)){ //if key up
-
-		charPos.y -= speed*seconds_elapsed;
-		localChar.dir = UP;
+		sCell cell = getCellAtPos(charPos.x, charPos.y - max(y_collisionDist, (speed * seconds_elapsed)));
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.y -= speed * seconds_elapsed;
+			localChar.dir = UP;
+		}			
 	
 	}
 	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
 	{
-		
-		charPos.y += speed *seconds_elapsed;
-		localChar.dir = DOWN;
+		sCell cell = getCellAtPos(charPos.x, charPos.y + max(y_collisionDist, (speed * seconds_elapsed)));
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.y += speed * seconds_elapsed;
+			localChar.dir = DOWN;
+		}
 	}
 	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
-
-		charPos.x -= speed *seconds_elapsed;
-		localChar.dir = LEFT;
-
+		sCell cell = getCellAtPos(charPos.x - max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.x -= speed * seconds_elapsed;
+			localChar.dir = LEFT;
+		}
 	}
 	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
 	{
-
-		charPos.x += speed *seconds_elapsed;
-		localChar.dir = RIGHT;
+		sCell cell = getCellAtPos(charPos.x + max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.x += speed * seconds_elapsed;
+			localChar.dir = RIGHT;
+		}		
 	}
 	else {
-		localChar.isMoving = false;
+		
 		localChar.dir = DOWN;
 	}
 

@@ -15,7 +15,7 @@ gameMap::gameMap() {
 	this->data = NULL;
 }
 
-gameMap::gameMap(int w, int h,int layers=1) {
+gameMap::gameMap(int w, int h,int layers) {
 	this->width = w;
 	this->height = h;
 	this->data = new sCell[w * h];
@@ -37,7 +37,7 @@ gameMap* gameMap::loadGameMap(const char* filename)
 
 	sMapHeader header; //read header and store it in the struct
 	fread(&header, sizeof(sMapHeader), 1, file);
-	assert(header.bytes == 1); //always control bad cases!!
+	//assert(header.bytes == 1); //always control bad cases!!
 
 
 	//allocate memory for the cells data and read it
@@ -54,9 +54,9 @@ gameMap* gameMap::loadGameMap(const char* filename)
 
 	for (int x = 0; x < map->width; x++)
 		for (int y = 0; y < map->height; y++) {
-			std::cout << x << " " << y << "\n";
-			map->setCellType(x, y, (int) cells[(x*header.bytes) + y * map->width]);
-			map->setDataType(x, y, (int)cells[(x * header.bytes) + y * map->width+1]);
+			
+			map->setCellType(x, y, (int) cells[(x*header.bytes) + y * map->width*header.bytes]);
+			map->setDataType(x, y, (int) cells[((x * header.bytes) + y * map->width* header.bytes)+1]);
 		}
 
 	delete[] cells; //always free any memory allocated!
