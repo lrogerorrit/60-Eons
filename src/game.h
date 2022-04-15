@@ -53,7 +53,7 @@ public:
 	Vector2ub tilePos;
 	int cellSize;
 
-	bool is_countdownLevel=false;
+	bool is_countdownLevel=true;
 
 	// make a list of ints of size astronautNum
 	
@@ -83,6 +83,13 @@ public:
 	void onAudio(float* buffer, unsigned int len, double time, SDL_AudioSpec &audio_spec); //called constantly to fill the audio buffer
 
 	//custom functions
+
+	void renderCountdown(Image& framebuffer);
+	void renderSurvival(Image& framebuffer);
+
+	void updateCountdownLevel(double seconds_elapsed);
+	void updateSurvivalLevel(double seconds_elapsed);
+
 	inline bool getIsCountdownLevel() { return is_countdownLevel; }
 	inline void setIsCountdownLevel(bool value) { is_countdownLevel = value; }
 	void setLocalChar(character& plChar) {

@@ -12,6 +12,7 @@ Image font;
 Image minifont;
 Image sprite;
 Image testTileset;
+Image testIcon;
 Color bgcolor(130, 80, 100);
 
 Game::Game(int window_width, int window_height, SDL_Window* window)
@@ -26,12 +27,13 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	frame = 0;
 	time = 0.0f;
 	elapsed_time = 0.0f;
-	tilePos = Vector2ub(1, 2);
+	tilePos = Vector2ub(2, 2);
 
 	font.loadTGA("data/bitmap-font-white.tga"); //load bitmap-font image
 	minifont.loadTGA("data/mini-font-white-4x6.tga"); //load bitmap-font image
 	sprite.loadTGA("data/spritesheet.tga"); //example to load an sprite
 	testTileset.loadTGA("data/tileset.tga");
+	testIcon.loadTGA("data/items/guns.tga");
 
 	this->charHandler.makeCharacters(this->astronautNum);
 	Game::startMap.loadGameMap("data/mymapNew.map");
@@ -111,8 +113,26 @@ void renderDebugGrid(Image& framebuffer) {
 	framebuffer.drawLine(0, framebuffer.height / 2, framebuffer.width, framebuffer.height/2, Color::RED);
 }
 
+
+void Game::renderCountdown(Image &framebuffer) {
+	Vector2 charPos = this->localChar.getPosition();
+	framebuffer.fill(bgcolor);
+	renderMapTest(framebuffer, charPos.x, charPos.y);
+	framebuffer.drawImage(sprite, (framebuffer.width / 2) - 9, (framebuffer.height / 2) - 13, localChar.isMoving ? ((int)std::round(totalTime * localChar.getSpeed() * .4) % 4) * 18 : 0, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
+	renderDebugGrid(framebuffer);
+	framebuffer.drawImage(testIcon, (framebuffer.width/8) - (testIcon.width / 2), framebuffer.height-(testIcon.height*1.2));
+	framebuffer.drawImage(testIcon, (framebuffer.width / 2) - (testIcon.width / 2), framebuffer.height - (testIcon.height * 1.2));
+	framebuffer.drawImage(testIcon, (7*framebuffer.width / 8) - (testIcon.width / 2), framebuffer.height - (testIcon.height * 1.2));
+
+	showFramebuffer(&framebuffer);
+}
+
+void Game::renderSurvival(Image& framebuffer) {
+
+}
+
 //what to do when the image has to be draw
-void Game::render(void)
+void Game::render()
 {
 	//Create a new Image (or we could create a global one if we want to keep the previous frame)
 	Image framebuffer(160, 120); //do not change framebuffer size
@@ -120,8 +140,10 @@ void Game::render(void)
 	//add your code here to fill the framebuffer
 	//...
 
+	getIsCountdownLevel() ? renderCountdown(framebuffer) : renderSurvival(framebuffer);
+	
 	//some new useful functions
-	Vector2 charPos = this->localChar.getPosition();
+	/*Vector2 charPos = this->localChar.getPosition();
 		framebuffer.fill( bgcolor );								//fills the image with one color
 		//framebuffer.drawLine( 0, 0, 100,100, Color::RED );		//draws a line
 		//framebuffer.drawImage( sprite, 0, 0 );					//draws full image
@@ -135,13 +157,64 @@ void Game::render(void)
 		renderDebugGrid(framebuffer);
 	//send image to screen
 	showFramebuffer(&framebuffer);
+	*/
 }
 
 
 
-void updateCountdownLevel(double seconds_elapsed, Game game) {
-	
+void Game::updateCountdownLevel(double seconds_elapsed) {
+	Vector2& charPos = this->localChar.getPositionRef();
+	float speed = this->localChar.getSpeed();
+	//std::cout <<charPos.x<< " "<<charPos.y<<"\n";
+	localChar.isMoving = false;
+
+	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
+	if (Input::isKeyPressed(SDL_SCANCODE_UP)) { //if key up
+		sCell cell = getCellAtPos(charPos.x, charPos.y - max(y_collisionDist, (speed * seconds_elapsed)));
+		
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.y -= speed * seconds_elapsed;
+		}
+			localChar.dir = UP;
+
+	}
+	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
+	{
+		sCell cell = getCellAtPos(charPos.x, charPos.y + max(y_collisionDist, (speed * seconds_elapsed)));
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.y += speed * seconds_elapsed;
+		}
+			localChar.dir = DOWN;
+	}
+	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
+		sCell cell = getCellAtPos(charPos.x - max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.x -= speed * seconds_elapsed;
+		}
+			localChar.dir = LEFT;
+	}
+	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
+	{
+		sCell cell = getCellAtPos(charPos.x + max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
+		if (cell.canEnter()) {
+			localChar.isMoving = true;
+			charPos.x += speed * seconds_elapsed;
+		}
+			localChar.dir = RIGHT;
+	}
+	else {
+
+		localChar.dir = DOWN;
+	}
+	updateTilePosition();
 }
+
+void Game::updateSurvivalLevel(double seconds_elapsed) {
+
+};
 
 void Game::update(double seconds_elapsed)
 {
@@ -151,52 +224,8 @@ void Game::update(double seconds_elapsed)
 	//...
 	
 	totalTime+= seconds_elapsed;
-	Vector2& charPos = this->localChar.getPositionRef();
-	float speed = this->localChar.getSpeed();
-	//std::cout <<charPos.x<< " "<<charPos.y<<"\n";
-	localChar.isMoving = false;
 	
-	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
-	if (Input::isKeyPressed(SDL_SCANCODE_UP)){ //if key up
-		sCell cell = getCellAtPos(charPos.x, charPos.y - max(y_collisionDist, (speed * seconds_elapsed)));
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.y -= speed * seconds_elapsed;
-			localChar.dir = UP;
-		}			
-	
-	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
-	{
-		sCell cell = getCellAtPos(charPos.x, charPos.y + max(y_collisionDist, (speed * seconds_elapsed)));
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.y += speed * seconds_elapsed;
-			localChar.dir = DOWN;
-		}
-	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
-		sCell cell = getCellAtPos(charPos.x - max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.x -= speed * seconds_elapsed;
-			localChar.dir = LEFT;
-		}
-	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
-	{
-		sCell cell = getCellAtPos(charPos.x + max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.x += speed * seconds_elapsed;
-			localChar.dir = RIGHT;
-		}		
-	}
-	else {
-		
-		localChar.dir = DOWN;
-	}
-
+	getIsCountdownLevel() ? updateCountdownLevel(seconds_elapsed) : updateSurvivalLevel(seconds_elapsed);
 	//example of 'was pressed'
 	if (Input::wasKeyPressed(SDL_SCANCODE_A)) //if key A was pressed
 	{
@@ -216,7 +245,7 @@ void Game::update(double seconds_elapsed)
 		bgcolor.set(0, 255, 0);
 	}
 	
-	updateTilePosition();
+	
 }
 
 //Keyboard event handler (sync input)
