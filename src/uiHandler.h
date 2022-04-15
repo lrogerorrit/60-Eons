@@ -1,9 +1,26 @@
 #pragma once
 
+#include "image.h"
+
 enum eUiRender {
 	NONE,
 	COUNTDOWN,
 	SURVIVAL,
+};
+
+class iconStorage {
+public:
+	std::vector<Image> icons;
+
+	iconStorage();
+	~iconStorage() {
+		icons.clear();
+	};
+
+	Image& getIcon(String iconName);
+	std::vector<Image>& getIcons() {
+		return icons;
+	};
 };
 
 
@@ -12,15 +29,25 @@ enum eUiRender {
 class countdownUI {
 	public:
 		countdownUI();
+		int time = 60;
 		
 		
 		void updateUI();
+		void renderUI(Image &framebuffer);
+		
+		void updateCountdown(float totalTime);
+		
 	
 	
 };
 
 class survivalUI {
-public: countdown
+public: 
+	survivalUI();
+	
+	void updateUI();
+	
+	void renderUI(Image& framebuffer);
 };
 
 
