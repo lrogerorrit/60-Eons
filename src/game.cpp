@@ -33,7 +33,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	minifont.loadTGA("data/mini-font-white-4x6.tga"); //load bitmap-font image
 	sprite.loadTGA("data/spritesheet.tga"); //example to load an sprite
 	testTileset.loadTGA("data/tileset.tga");
-	testIcon.loadTGA("data/items/guns.tga");
+	testIcon.loadTGA("data/icons/guns.tga");
 
 	this->charHandler.makeCharacters(this->astronautNum);
 	Game::startMap.loadGameMap("data/mymapNew.map");
