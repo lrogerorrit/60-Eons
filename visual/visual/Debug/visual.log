@@ -46,7 +46,7 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(71): warning C4715: 'iconStorage::getIcon': not all control paths return a value
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(80): warning C4715: 'iconStorage::getIconFromHoldingIcon': not all control paths return a value
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(71): warning C4715: 'iconStorage::getIcon': not all control paths return a value
 characterHandler.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
   visual.vcxproj -> C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\Game.exe

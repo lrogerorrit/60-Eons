@@ -4,6 +4,8 @@
 #include <String>
 
 
+
+
 enum class eUiRender {
 	NONE,
 	COUNTDOWN,
@@ -86,7 +88,8 @@ class countdownUI {
 		void renderUI(Image &framebuffer, Image& font);
 		
 		void updateCountdown(float totalTime) {
-			time = (int)(60 - (totalTime - startTime));
+			int calcTime= ((int)(60 - (totalTime - startTime)));
+			time = calcTime >= 0 ? calcTime : 0;
 		};
 		int getCountdownTime() {
 			return this->time;
