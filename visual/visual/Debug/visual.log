@@ -2,13 +2,43 @@
   game.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(108,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(109,21): warning C4018: '<': signed/unsigned mismatch
+  image.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(257,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(257,113): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(257,152): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(259,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(259,79): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(259,61): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(275,68): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(278,177): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(278,140): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(278,103): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(53,38): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(53,27): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(53,12): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(54,39): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(54,27): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(54,12): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,111): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,103): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,95): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,87): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(108,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(109,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(167,31): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(167,50): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(171,34): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(171,50): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(204,20): warning C4018: '<': signed/unsigned mismatch
   main.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(108,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(109,21): warning C4018: '<': signed/unsigned mismatch
   uiHandler.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(257,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(257,113): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -32,8 +62,8 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,111): warning C4244: 'a
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,103): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,95): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,87): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(108,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(109,21): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(23,95): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(23,70): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(27,170): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
@@ -43,8 +73,8 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(75,20): warning C401
   utils.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(108,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(109,21): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(80): warning C4715: 'iconStorage::getIconFromHoldingIcon': not all control paths return a value
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(71): warning C4715: 'iconStorage::getIcon': not all control paths return a value
