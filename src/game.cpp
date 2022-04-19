@@ -17,6 +17,7 @@ Color bgcolor(130, 80, 100);
 
 Game::Game(int window_width, int window_height, SDL_Window* window)
 {
+	
 	this->window_width = window_width;
 	this->window_height = window_height;
 	this->window = window;
@@ -33,17 +34,19 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	minifont.loadTGA("data/mini-font-white-4x6.tga"); //load bitmap-font image
 	sprite.loadTGA("data/spritesheet.tga"); //example to load an sprite
 	testTileset.loadTGA("data/tileset.tga");
-	testIcon.loadTGA("data/icons/guns.tga");
+	//testIcon.loadTGA("data/icons/guns.tga");
 
 	this->charHandler.makeCharacters(this->astronautNum);
 	Game::startMap.loadGameMap("data/mymapNew.map");
 	this->localChar = charHandler.getCharacter(0);
 	cellSize = testTileset.width / 16;
 	this->localChar.setPosition(tilePos*cellSize);
+
+	this->uihandler.countdownUIObj.setStartTime(totalTime);
 	
 
-	//enableAudio(); //enable this line if you plan to add audio to your application
-	//synth.playSample("data/music/countdownMusic.wav",.5,true);
+	enableAudio(); //enable this line if you plan to add audio to your application
+	synth.playSample("data/music/countdownMusic.wav",1,false);
 	//synth.osc1.amplitude = 0.5;
 }
 
@@ -123,7 +126,7 @@ void Game::renderCountdown(Image &framebuffer) {
 	framebuffer.drawImage(testIcon, (framebuffer.width/8) - (testIcon.width / 2), framebuffer.height-(testIcon.height*1.2));
 	framebuffer.drawImage(testIcon, (framebuffer.width / 2) - (testIcon.width / 2), framebuffer.height - (testIcon.height * 1.2));
 	framebuffer.drawImage(testIcon, (7*framebuffer.width / 8) - (testIcon.width / 2), framebuffer.height - (testIcon.height * 1.2));
-
+	this->uihandler.countdownUIObj.renderUI(framebuffer, font);
 	showFramebuffer(&framebuffer);
 }
 
@@ -210,6 +213,7 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 		localChar.dir = DOWN;
 	}
 	updateTilePosition();
+	this->uihandler.countdownUIObj.updateCountdown(totalTime);
 }
 
 void Game::updateSurvivalLevel(double seconds_elapsed) {

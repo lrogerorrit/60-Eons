@@ -6,12 +6,14 @@
 #define GAME_H
 
 #include "includes.h"
+#include "uiHandler.h"
 #include "image.h"
 #include "utils.h"
 #include "synth.h"
 #include "characterHandler.h"
 #include "utils/mapHandler.h"
 #include <cmath>
+
 
 class Game
 {
@@ -55,6 +57,7 @@ public:
 
 	bool is_countdownLevel=true;
 
+	uiHandler uihandler;
 	// make a list of ints of size astronautNum
 	
 

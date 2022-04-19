@@ -2,37 +2,63 @@
 
 
 std::vector<std::string> iconNames{ "drink","emptySlot","food","guns","meds"};
+std::vector<holdingIcon> iconTypes {holdingIcon::WATER,holdingIcon::EMPTY,holdingIcon::FOOD,holdingIcon::GUN,holdingIcon::MEDS}; //Would use a switch, but cant do switch of types :(
 
-countdownUI::countdownUI(iconStorage& storage)
+/*countdownUI::countdownUI(iconStorage& storage)
 {
-	this->iconStore = storage;	
-};
+	
+	this->iconStore = storage;
+
+	//set all values of iconslots to empty
+	for (int i = 0; i < 3; i++)
+	{
+		iconSlots[i] = holdingIcon::WATER;
+	}
+
+	
+};*/
 
 
 void countdownUI::renderUI(Image& framebuffer, Image& font) {
 	framebuffer.drawText( std::to_string(this->time), framebuffer.width * .8, framebuffer.height * .05, font );
-	
+	//std::cout << "icons id second check " << this << std::endl;
 	for (int i = 0; i < 3; i++) {
 		Image& img = iconStore.getIconFromHoldingIcon(this->iconSlots[i]);
 		framebuffer.drawImage(img, (i == 0 ? (framebuffer.width / 8) : (i == 1 ? (framebuffer.width / 2) : (7 * framebuffer.width / 8))) - (img.width / 2), framebuffer.height - (img.height * 1.2));
 	}
 }
 
+
+
+
 iconStorage::iconStorage() {
 	
+	
+}
+
+void iconStorage::loadIcons() {
+	std::cout << "loading icons\n";
 	for (int i = 0; i < iconNames.size(); i++) { //loads icons;
 		//load the icon
-		icon iconData;
-		iconData.img= Image();
-		
-		std::string path = "data/icons/" + iconNames[i] + ".tga";
 
+		//make new icon obj named iconDat;
 		
-		iconData.img.loadTGA(path.c_str());
+		
+		icon iconData;
+		iconData.typ = iconTypes[i];
+		//iconData.img = Image();
 		iconData.name = iconNames[i];
+		std::string path = "data/icons/" + iconData.name + ".tga";
+
+
+		iconData.img.loadTGA(path.c_str());
+
+
 		//add it to the map
-		icons.push_back(iconData);
-	}
+		this->icons.push_back(iconData);
+
+
+	}	
 }
 
 Image& iconStorage::getIcon(std::string iconName) {
@@ -44,7 +70,7 @@ Image& iconStorage::getIcon(std::string iconName) {
 	
 }
 
-Image& iconStorage::getIconFromHoldingIcon(holdingIcon& icon) {
+Image& iconStorage::getIconFromHoldingIcon(holdingIcon icon) {
 	//if (icon == NA) return; //TODO: change so only returns if not na
 	for (int i = 0; i < icons.size(); i++) {
 		if (icons[i].typ == icon) {
@@ -52,3 +78,5 @@ Image& iconStorage::getIconFromHoldingIcon(holdingIcon& icon) {
 		}
 	}
 }
+
+

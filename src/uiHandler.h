@@ -4,13 +4,13 @@
 #include <String>
 
 
-enum eUiRender {
+enum class eUiRender {
 	NONE,
 	COUNTDOWN,
 	SURVIVAL,
 };
 
-enum holdingIcon {
+enum class holdingIcon {
 	EMPTY,
 	FOOD,
 	WATER,
@@ -23,8 +23,9 @@ enum holdingIcon {
 
 struct icon {
 	std::string name;
-	holdingIcon typ=NA;
+	holdingIcon typ= holdingIcon::EMPTY;
 	Image img;
+	
 };
 
 class iconStorage {
@@ -36,8 +37,10 @@ public:
 		icons.clear();
 	};
 
+	void loadIcons();
+
 	Image& getIcon(std::string iconName);
-	Image& getIconFromHoldingIcon(holdingIcon& icon);
+	Image& getIconFromHoldingIcon(holdingIcon icon);
 		
 	
 	std::vector<icon>& getIcons() {
@@ -47,7 +50,7 @@ public:
 
 
 
-
+//TODO: set base class for all ui types;
 
 
 class countdownUI {
@@ -58,15 +61,27 @@ class countdownUI {
 		iconStorage iconStore;
 
 		
-
-		countdownUI(iconStorage& storage);
-	
+		countdownUI() {
+			for (int i = 0; i < 3; i++)
+			{
+				iconSlots[i] = holdingIcon::EMPTY;
+			}
+		}
 		
+		//countdownUI(iconStorage& storage);
+	
+		void assignIconStore(iconStorage& storage) {
+			this->iconStore = storage;
+		}
 
 		void setStartTime(float time) {
 			startTime = time;
 		};
-		void updateIconSlot(int slot, holdingIcon newItem);
+		
+		
+		void updateIconSlot(int slot, holdingIcon& newItem) {
+			this->iconSlots[slot] = newItem;
+		}
 		
 		void renderUI(Image &framebuffer, Image& font);
 		
@@ -94,12 +109,21 @@ public:
 
 class uiHandler
 {
+public:
 	
-	eUiRender uiToRender = NONE;
+	eUiRender uiToRender = eUiRender::NONE;
+	
+	iconStorage icons;
+	
+	
 	countdownUI countdownUIObj;
-	survivalUI survivalUIObj;
+	//survivalUI survivalUIObj;
 	
-	uiHandler();
+	uiHandler() {
+		this->icons.loadIcons();
+		countdownUIObj.assignIconStore(this->icons);
+		std::cout << "icons id " << this<<std::endl;
+	};
 	
 	eUiRender getUiToRender() {
 		return uiToRender;
@@ -109,9 +133,9 @@ class uiHandler
 		return countdownUIObj;
 	};
 	
-	survivalUI getSurvivalUI() {
+	/*survivalUI getSurvivalUI() {
 		return survivalUIObj;
-	};
+	};*/
 
 	void setUiToRender(eUiRender uiToRender) {
 		this->uiToRender = uiToRender;
