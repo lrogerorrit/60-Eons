@@ -40,6 +40,7 @@ public:
 	const int RENDER_X_CELLS = 3;
 	const int RENDER_Y_CELLS = 3;
 	const float y_displ= 13.0f;
+	const float x_displ = 0.0f;
 	
 	const float x_collisionDist = 8.0f;
 	const float y_collisionDist = 5.0f;
@@ -53,6 +54,7 @@ public:
 	characterHandler charHandler;
 	gameMap startMap;
 	Vector2ub tilePos;
+	Vector2 localTilePos;
 	int cellSize;
 
 	bool is_countdownLevel=true;

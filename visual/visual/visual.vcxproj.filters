@@ -11,6 +11,7 @@
     <ClCompile Include="..\..\src\utils\mapHandler.cpp" />
     <ClCompile Include="..\..\src\characterHandler.cpp" />
     <ClCompile Include="..\..\src\uiHandler.cpp" />
+    <ClCompile Include="..\..\src\inventoryHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\framework.h" />
@@ -23,5 +24,6 @@
     <ClInclude Include="..\..\src\utils\mapHandler.h" />
     <ClInclude Include="..\..\src\characterHandler.h" />
     <ClInclude Include="..\..\src\uiHandler.h" />
+    <ClInclude Include="..\..\src\inventoryHandler.h" />
   </ItemGroup>
 </Project>

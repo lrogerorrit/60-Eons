@@ -7,12 +7,12 @@
 typedef unsigned char uint8;
 
 enum eDataType {
+	WALL=3,
+	GUNS=4,
 	WALKABLE=5,
 	FOOD=6,
 	WATER=7,
-	WALL=3,
 	MEDS=8,
-	GUNS=4,
 	EXIT=9,
 
 };
@@ -34,7 +34,7 @@ struct sCell {
 	eItemType item;
 	
 	bool canEnter() {
-		return dataType == WALKABLE;
+		return dataType != eDataType::WALL;
 	};
 	
 };
@@ -60,6 +60,13 @@ class gameMap{
 		eDataType& getCellDataType(int x, int y) {
 			return data[y*width+x].dataType;
 		};
+		bool isCellItemType(int x, int y) {
+			eDataType& cellData = this->getCellDataType(x, y);
+			return cellData== eDataType::GUNS || cellData>=6 && cellData<9; 
+		}
+		bool isCellExitType(int x, int y) {
+			return this->getCellDataType(x, y) == eDataType::EXIT;
+		}
 		
 		void setCellType(int x, int y, int type);
 		void setDataType(int x, int y, int dataType);

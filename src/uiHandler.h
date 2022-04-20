@@ -61,7 +61,8 @@ class countdownUI {
 		float startTime=0.0f;
 		holdingIcon iconSlots[3];
 		iconStorage iconStore;
-
+		std::string promptMsg="";
+		bool promptVisible=false;
 		
 		countdownUI() {
 			for (int i = 0; i < 3; i++)
@@ -95,6 +96,13 @@ class countdownUI {
 			return this->time;
 		}
 	
+		void showPrompt(std::string msg) {
+			this->promptMsg = msg;
+			this->promptVisible = true;
+		}
+		void hidePrompt() {
+			this->promptVisible = false;
+		}
 	
 };
 

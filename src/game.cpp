@@ -29,6 +29,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	time = 0.0f;
 	elapsed_time = 0.0f;
 	tilePos = Vector2ub(2, 2);
+	localTilePos = Vector2(0.0f, 0.0f);
 
 	font.loadTGA("data/bitmap-font-white.tga"); //load bitmap-font image
 	minifont.loadTGA("data/mini-font-white-4x6.tga"); //load bitmap-font image
@@ -37,7 +38,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	//testIcon.loadTGA("data/icons/guns.tga");
 
 	this->charHandler.makeCharacters(this->astronautNum);
-	Game::startMap.loadGameMap("data/mymapNew.map");
+	Game::startMap.loadGameMap("data/mymapV2.map");
 	this->localChar = charHandler.getCharacter(0);
 	cellSize = testTileset.width / 16;
 	this->localChar.setPosition(tilePos*cellSize);
@@ -45,8 +46,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->uihandler.countdownUIObj.setStartTime(totalTime);
 	
 
-	enableAudio(); //enable this line if you plan to add audio to your application
-	synth.playSample("data/music/countdownMusic.wav",1,false);
+	//enableAudio(); //enable this line if you plan to add audio to your application
+	//synth.playSample("data/music/countdownMusic.wav",1,false);
 	//synth.osc1.amplitude = 0.5;
 }
 
@@ -54,6 +55,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 void Game::updateTilePosition() {
 	Vector2 pos= localChar.getPosition();
 	tilePos = Vector2ub(pos.x / cellSize, (pos.y + y_displ) / cellSize);
+	//calculate position in local tile
+	localTilePos = Vector2((((pos.x + x_displ)) - tilePos.x * cellSize) / cellSize, ((pos.y + y_displ) - tilePos.y * cellSize) / cellSize);
 }
 
 
@@ -100,8 +103,12 @@ void Game::renderMapTest(Image& framebuffer,float dx, float dy) {
 			//	continue;
 			//}
 
-			if (tilePos.x==x && tilePos.y==y)
+			if (tilePos.x == x && tilePos.y == y) {
 				framebuffer.drawRectangle(screenx, screeny, cs, cs, Color::BLUE); 	//pos in screen
+				//print localTilePos to console
+				//std::cout << localTilePos.x << ", " << localTilePos.y << std::endl;
+				
+			}
 			else
 			//draw region of tileset inside framebuffer
 			framebuffer.drawImage(testTileset, 		//image
@@ -110,6 +117,8 @@ void Game::renderMapTest(Image& framebuffer,float dx, float dy) {
 		}
 
 }
+
+
 
 void renderDebugGrid(Image& framebuffer) {
 	framebuffer.drawLine(framebuffer.width / 2, 0, framebuffer.width / 2, framebuffer.height, Color::RED);
@@ -213,6 +222,20 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 		localChar.dir = DOWN;
 	}
 	updateTilePosition();
+	if (this->localTilePos.y <= .4) { //if player is close enough
+		if (this->startMap.isCellItemType(this->tilePos.x, this->tilePos.y)) {
+			this->uihandler.countdownUIObj.showPrompt("Space - Pick Item");
+		}
+		else if (this->startMap.isCellExitType(this->tilePos.x, this->tilePos.y)) {
+			this->uihandler.countdownUIObj.showPrompt("Space - Save Item");
+		}
+		else {
+			this->uihandler.countdownUIObj.hidePrompt();
+		}
+	}
+	else {
+		this->uihandler.countdownUIObj.hidePrompt();
+	}
 	this->uihandler.countdownUIObj.updateCountdown(totalTime);
 }
 

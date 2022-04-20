@@ -16,6 +16,7 @@
     <ClCompile Include="..\..\src\game.cpp" />
     <ClCompile Include="..\..\src\image.cpp" />
     <ClCompile Include="..\..\src\input.cpp" />
+    <ClCompile Include="..\..\src\inventoryHandler.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\synth.cpp" />
     <ClCompile Include="..\..\src\uiHandler.cpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\..\src\image.h" />
     <ClInclude Include="..\..\src\includes.h" />
     <ClInclude Include="..\..\src\input.h" />
+    <ClInclude Include="..\..\src\inventoryHandler.h" />
     <ClInclude Include="..\..\src\synth.h" />
     <ClInclude Include="..\..\src\uiHandler.h" />
     <ClInclude Include="..\..\src\utils.h" />

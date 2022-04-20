@@ -26,6 +26,9 @@ void countdownUI::renderUI(Image& framebuffer, Image& font) {
 		Image& img = iconStore.getIconFromHoldingIcon(this->iconSlots[i]);
 		framebuffer.drawImage(img, (i == 0 ? (framebuffer.width / 8) : (i == 1 ? (framebuffer.width / 2) : (7 * framebuffer.width / 8))) - (img.width / 2), framebuffer.height - (img.height * 1.2));
 	}
+	if (this->promptVisible) {
+		framebuffer.drawText(this->promptMsg, framebuffer.width *.01, framebuffer.height *.01, font);
+	}
 }
 
 
