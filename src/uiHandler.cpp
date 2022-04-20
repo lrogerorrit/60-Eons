@@ -19,6 +19,14 @@ std::vector<holdingIcon> iconTypes {holdingIcon::WATER,holdingIcon::EMPTY,holdin
 };*/
 
 
+void countdownUI::setIconSlotsFromVector(std::vector<holdingIcon> newIcons)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		iconSlots[i] = newIcons[i];
+	}
+}
+
 void countdownUI::renderUI(Image& framebuffer, Image& font) {
 	framebuffer.drawText( std::to_string(this->time), framebuffer.width * .8, framebuffer.height * .05, font );
 	//std::cout << "icons id second check " << this << std::endl;

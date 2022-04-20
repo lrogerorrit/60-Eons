@@ -13,6 +13,7 @@
 #include "characterHandler.h"
 #include "utils/mapHandler.h"
 #include <cmath>
+#include "inventoryHandler.h"
 
 
 class Game
@@ -60,6 +61,7 @@ public:
 	bool is_countdownLevel=true;
 
 	uiHandler uihandler;
+	inventoryHandler invHandler;
 	// make a list of ints of size astronautNum
 	
 

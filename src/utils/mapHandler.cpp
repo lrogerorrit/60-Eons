@@ -21,6 +21,23 @@ gameMap::gameMap(int w, int h,int layers) {
 	this->data = new sCell[w * h];
 }
 
+eItemType gameMap::getCellItemType(int x, int y)
+{
+	{
+		switch (this->getCellDataType(x, y)) {
+		case eDataType::GUNS:
+			return eItemType::WEAPON;
+		case eDataType::FOOD:
+			return eItemType::FOOD;
+		case eDataType::WATER:
+			return eItemType::WATER;
+		case eDataType::MEDS:
+			return eItemType::MEDS;
+
+		}
+	}
+}
+
 void gameMap::setCellType(int x, int y, int type) {
 	this->data[x + y * width].type = type;
 }

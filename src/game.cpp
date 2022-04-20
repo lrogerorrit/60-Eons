@@ -46,8 +46,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->uihandler.countdownUIObj.setStartTime(totalTime);
 	
 
-	//enableAudio(); //enable this line if you plan to add audio to your application
-	//synth.playSample("data/music/countdownMusic.wav",1,false);
+	enableAudio(); //enable this line if you plan to add audio to your application
+	synth.playSample("data/music/countdownMusic.wav",1,false);
 	//synth.osc1.amplitude = 0.5;
 }
 
@@ -183,12 +183,12 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
 	if (Input::isKeyPressed(SDL_SCANCODE_UP)) { //if key up
 		sCell cell = getCellAtPos(charPos.x, charPos.y - max(y_collisionDist, (speed * seconds_elapsed)));
-		
+
 		if (cell.canEnter()) {
 			localChar.isMoving = true;
 			charPos.y -= speed * seconds_elapsed;
 		}
-			localChar.dir = UP;
+		localChar.dir = UP;
 
 	}
 	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
@@ -198,7 +198,7 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 			localChar.isMoving = true;
 			charPos.y += speed * seconds_elapsed;
 		}
-			localChar.dir = DOWN;
+		localChar.dir = DOWN;
 	}
 	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
 		sCell cell = getCellAtPos(charPos.x - max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
@@ -206,7 +206,7 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 			localChar.isMoving = true;
 			charPos.x -= speed * seconds_elapsed;
 		}
-			localChar.dir = LEFT;
+		localChar.dir = LEFT;
 	}
 	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
 	{
@@ -215,7 +215,7 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 			localChar.isMoving = true;
 			charPos.x += speed * seconds_elapsed;
 		}
-			localChar.dir = RIGHT;
+		localChar.dir = RIGHT;
 	}
 	else {
 
@@ -225,9 +225,16 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 	if (this->localTilePos.y <= .4) { //if player is close enough
 		if (this->startMap.isCellItemType(this->tilePos.x, this->tilePos.y)) {
 			this->uihandler.countdownUIObj.showPrompt("Space - Pick Item");
+			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+				this->invHandler.handInv.addItem(this->startMap.getCellItemType(this->tilePos.x, this->tilePos.y));
+			}
+
 		}
 		else if (this->startMap.isCellExitType(this->tilePos.x, this->tilePos.y)) {
 			this->uihandler.countdownUIObj.showPrompt("Space - Save Item");
+			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+				this->invHandler.handInv.dumpItemsToShip(this->invHandler.shipInv);
+			}
 		}
 		else {
 			this->uihandler.countdownUIObj.hidePrompt();
@@ -237,6 +244,8 @@ void Game::updateCountdownLevel(double seconds_elapsed) {
 		this->uihandler.countdownUIObj.hidePrompt();
 	}
 	this->uihandler.countdownUIObj.updateCountdown(totalTime);
+	this->uihandler.countdownUIObj.setIconSlotsFromVector(this->invHandler.handInv.getIconsToRender());
+
 }
 
 void Game::updateSurvivalLevel(double seconds_elapsed) {

@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\src\synth.h" />
     <ClInclude Include="..\..\src\uiHandler.h" />
     <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\src\utils\commonItems.h" />
     <ClInclude Include="..\..\src\utils\mapHandler.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

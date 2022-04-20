@@ -2,7 +2,7 @@
 
 #include "image.h"
 #include <String>
-
+#include "utils/commonItems.h"
 
 
 
@@ -12,15 +12,7 @@ enum class eUiRender {
 	SURVIVAL,
 };
 
-enum class holdingIcon {
-	EMPTY,
-	FOOD,
-	WATER,
-	MEDS,
-	GUN,
-	NA,
 
-};
 
 
 struct icon {
@@ -85,6 +77,8 @@ class countdownUI {
 		void updateIconSlot(int slot, holdingIcon& newItem) {
 			this->iconSlots[slot] = newItem;
 		}
+
+		void setIconSlotsFromVector(std::vector<holdingIcon> newIcons);
 		
 		void renderUI(Image &framebuffer, Image& font);
 		

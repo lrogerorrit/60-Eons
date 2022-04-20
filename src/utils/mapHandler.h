@@ -2,6 +2,7 @@
 
 #include "../includes.h"
 #include <cassert>
+#include "commonItems.h"
 
 //make an enum of itemtypes
 typedef unsigned char uint8;
@@ -19,11 +20,7 @@ enum eDataType {
 
 
 
-enum eItemType:uint8 {
-	NOTHING,
-	SWORD,
-	POTION
-};
+
 
 
 
@@ -31,9 +28,9 @@ enum eItemType:uint8 {
 struct sCell {
 	int type;
 	eDataType dataType;
-	eItemType item;
 	
-	bool canEnter() {
+	
+	bool canEnter() { 
 		return dataType != eDataType::WALL;
 	};
 	
@@ -67,6 +64,7 @@ class gameMap{
 		bool isCellExitType(int x, int y) {
 			return this->getCellDataType(x, y) == eDataType::EXIT;
 		}
+		eItemType getCellItemType(int x, int y);
 		
 		void setCellType(int x, int y, int type);
 		void setDataType(int x, int y, int dataType);

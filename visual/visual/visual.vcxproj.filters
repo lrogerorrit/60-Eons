@@ -25,5 +25,6 @@
     <ClInclude Include="..\..\src\characterHandler.h" />
     <ClInclude Include="..\..\src\uiHandler.h" />
     <ClInclude Include="..\..\src\inventoryHandler.h" />
+    <ClInclude Include="..\..\src\utils\commonItems.h" />
   </ItemGroup>
 </Project>
