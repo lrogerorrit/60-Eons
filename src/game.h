@@ -16,6 +16,7 @@
 #include "inventoryHandler.h"
 
 
+
 class Game
 {
 public:
@@ -38,6 +39,8 @@ public:
 	Synth synth;
 
 	//custom stuff
+	Color bgcolor= Color(130.0f, 80.0f, 100.0f);
+	
 	const int RENDER_X_CELLS = 3;
 	const int RENDER_Y_CELLS = 3;
 	const float y_displ= 13.0f;

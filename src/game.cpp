@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "input.h"
 #include "image.h"
-
+#include "stage.h"
 #include <cmath>
 
 
@@ -13,7 +13,7 @@ Image minifont;
 Image sprite;
 Image testTileset;
 Image testIcon;
-Color bgcolor(130, 80, 100);
+
 
 Game::Game(int window_width, int window_height, SDL_Window* window)
 {
