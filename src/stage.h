@@ -4,7 +4,19 @@
 #include "includes.h"
 #include "image.h"
 #include "utils/mapHandler.h"
+
+
 class Game;
+
+
+enum class stageType {
+	MENU,
+	TUTORIAL,
+	COUNTDOWN,
+	SURVIVAL,
+	END
+};
+
 
 class stage
 {
@@ -13,6 +25,7 @@ protected:
 	Image& font;
 	
 public:
+	stage(Image& font);
 	virtual void render(Image& framebuffer) {};
 	virtual void update(double seconds_elapsed) {};
 	virtual void initStage() {};
@@ -34,6 +47,7 @@ private:
 	const float y_collisionDist = 5.0f;
 	Image& tileset;
 	Image& sprite;
+	character& localChar;
 	
 	
 	void updateTilePosition();
@@ -46,10 +60,19 @@ private:
 	sCell& getCellAtPos(float x, float y);
 	void renderMap(Image& framebuffer, float dx, float dy);
 public:
+	
+	countdownStage(Image& tileset, Image& sprite, Image& font, character& localChar) :stage(font) {
+		this->tileset = tileset;
+		this->sprite = sprite;
+		this->localChar = localChar;
+	}
+	
+	stageType type = stageType::COUNTDOWN;
+
 	void render(Image& framebuffer, float dx, float dy);
 	void update(double seconds_elapsed);
-	void initStage();
-	countdownStage();
+	void initStage(int cellSize);
+	
 
 
 };

@@ -3,12 +3,21 @@
 #include "input.h"
 
 
-countdownStage::countdownStage() {
+stage::stage(Image &font) {
 	this->gameInstance = Game::instance;
+	this->font= font;
+}
+
+//make constructor for countdownStage
+
+countdownStage::countdownStage(Image& tileset, Image& sprite, Image& font, character& localChar):stage(font){
+this->tileset = tileset;
+this->sprite = sprite;
+this->localChar = localChar;
 }
 
 void countdownStage::updateTilePosition() {
-	Vector2 pos = gameInstance->localChar.getPosition();
+	Vector2 pos = localChar.getPosition();
 	tilePos = Vector2ub(pos.x / cellSize, (pos.y + gameInstance->y_displ) / cellSize);
 	//calculate position in local tile
 	localTilePos = Vector2((((pos.x + gameInstance->x_displ)) - tilePos.x * cellSize) / cellSize, ((pos.y + gameInstance->y_displ) - tilePos.y * cellSize) / cellSize);
@@ -86,10 +95,10 @@ void countdownStage::renderMap(Image& framebuffer, float dx, float dy) {
 
 
 void countdownStage::render(Image& framebuffer, float dx, float dy) {
-	Vector2 charPos = gameInstance->localChar.getPosition();
+	Vector2 charPos = localChar.getPosition();
 	framebuffer.fill(gameInstance->bgcolor);
 	renderMap(framebuffer, charPos.x, charPos.y);
-	framebuffer.drawImage(sprite, (framebuffer.width / 2) - 9, (framebuffer.height / 2) - 13, gameInstance->localChar.isMoving ? ((int)std::round(gameInstance->totalTime * gameInstance->localChar.getSpeed() * .4) % 4) * 18 : 0, 27 * gameInstance->localChar.getDirection(), 18, 27);			//draws a scaled image
+	framebuffer.drawImage(sprite, (framebuffer.width / 2) - 9, (framebuffer.height / 2) - 13, localChar.isMoving ? ((int)std::round(gameInstance->totalTime * localChar.getSpeed() * .4) % 4) * 18 : 0, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
 	//gameInstance->renderDebugGrid(framebuffer);
 
 	gameInstance->uihandler.countdownUIObj.renderUI(framebuffer, font);
@@ -97,8 +106,8 @@ void countdownStage::render(Image& framebuffer, float dx, float dy) {
 }
 
 void countdownStage::update(double seconds_elapsed) {
-	Vector2& charPos = gameInstance->localChar.getPositionRef();
-	float speed = gameInstance->localChar.getSpeed();
+	Vector2& charPos = localChar.getPositionRef();
+	float speed = localChar.getSpeed();
 	//std::cout <<charPos.x<< " "<<charPos.y<<"\n";
 	localChar.isMoving = false;
 
@@ -165,6 +174,8 @@ void countdownStage::update(double seconds_elapsed) {
 	else {
 		gameInstance->uihandler.countdownUIObj.hidePrompt();
 	}
-	gameInstance->uihandler.countdownUIObj.updateCountdown(totalTime);
+	gameInstance->uihandler.countdownUIObj.updateCountdown(gameInstance->totalTime);
 	gameInstance->uihandler.countdownUIObj.setIconSlotsFromVector(gameInstance->invHandler.handInv.getIconsToRender());
 }
+
+
