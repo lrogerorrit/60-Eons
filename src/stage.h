@@ -5,6 +5,7 @@
 #include "image.h"
 #include "utils/mapHandler.h"
 #include "characterHandler.h"
+#include "utils/assetManager.h"
 
 class Game;
 
@@ -24,6 +25,8 @@ class stage
 protected:
 	Image& font;
 	Game* gameInstance;
+	assetManager* assetManagerInstance;
+	
 	
 public:
 	
@@ -85,9 +88,9 @@ public:
 class survivalStage :public stage
 {
 private:
-
-
-
+	
+	void renderSpaceShip(Image& framebuffer);
+	void renderBackground(Image& framebuffer);
 
 public:
 

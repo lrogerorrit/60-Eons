@@ -66,6 +66,10 @@ public:
 
 	uiHandler uihandler;
 	inventoryHandler invHandler;
+
+	
+	std::vector<stage*> stages;
+	stageType activeStage=stageType::SURVIVAL;
 	// make a list of ints of size astronautNum
 	
 

@@ -1,4 +1,5 @@
 #include "characterHandler.h"
+#include "utils/commonItems.h"
 
 
 //characterHandler constructor
@@ -23,14 +24,14 @@ void character::updateResources()
 	if (!this->isAlive) return;
 	
 	if (this->daysWithoutDrinking > 2) {
-		if ((rand() % 10) >= randChance) {
+		if (randomInt() >= randChance) {
 			this->daysWithoutDrinking = 0;
 			this->status.waterStat--;
 		}
 	}
 	
 	if (this->daysWithoutEating > 3) {
-		if ((rand() % 10) >= randChance) {
+		if (randomInt() >= randChance) {
 			this->daysWithoutEating = 0;
 			this->status.foodStat--;
 		}
@@ -38,7 +39,7 @@ void character::updateResources()
 	}
 
 	if (this->daysWithoutHealing > 5) {
-		if ((rand() % 10) >= randChance) {
+		if (randomInt() >= randChance) {
 			this->daysWithoutHealing = 0;
 			this->status.healthStat--;
 		}

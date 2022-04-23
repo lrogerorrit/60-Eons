@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\src\synth.cpp" />
     <ClCompile Include="..\..\src\uiHandler.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
+    <ClCompile Include="..\..\src\utils\assetManager.cpp" />
     <ClCompile Include="..\..\src\utils\mapHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +39,7 @@
     <ClInclude Include="..\..\src\synth.h" />
     <ClInclude Include="..\..\src\uiHandler.h" />
     <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\src\utils\assetManager.h" />
     <ClInclude Include="..\..\src\utils\commonItems.h" />
     <ClInclude Include="..\..\src\utils\mapHandler.h" />
   </ItemGroup>

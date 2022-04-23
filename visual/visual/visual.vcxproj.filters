@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\src\inventoryHandler.cpp" />
     <ClCompile Include="..\..\src\stage.cpp" />
     <ClCompile Include="..\..\src\survivalActions.cpp" />
+    <ClCompile Include="..\..\src\utils\assetManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\framework.h" />
@@ -30,5 +31,6 @@
     <ClInclude Include="..\..\src\utils\commonItems.h" />
     <ClInclude Include="..\..\src\stage.h" />
     <ClInclude Include="..\..\src\survivalActions.h" />
+    <ClInclude Include="..\..\src\utils\assetManager.h" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
 stage::stage(Image& font):font(font)
 {
 	this->gameInstance = Game::instance;
+	this->assetManagerInstance = assetManager::instance;
 }
 
 
@@ -185,3 +186,34 @@ void countdownStage::update(double seconds_elapsed) {
 }
 
 /*==============================================survival===================================================*/
+
+
+
+void survivalStage::update(double seconds_elapsed) {
+	
+}
+
+
+void survivalStage::renderBackground(Image& framebuffer) {
+	
+}
+
+
+void survivalStage::renderSpaceShip(Image& framebuffer) {
+	float shipYdispl = sin(gameInstance->totalTime)*10;
+	float shipXdispl = cos(gameInstance->totalTime)*10;
+	Image& shipBody = assetManagerInstance->getImage("data/shipBody.tga");
+	Image& shipTail = assetManagerInstance->getImage("data/shipTail.tga");
+	int posX = ((framebuffer.width / 2) - shipBody.width / 2)+shipXdispl;
+	int posY = ((framebuffer.height/ 2) - shipBody.height/2) + shipYdispl;
+	
+	framebuffer.drawImage(shipBody,posX,posY);
+}
+
+void survivalStage::render(Image& framebuffer) {
+	framebuffer.fill(gameInstance->bgcolor);
+	
+	
+	
+	gameInstance->showFramebuffer(&framebuffer);
+}

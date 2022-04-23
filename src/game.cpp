@@ -48,6 +48,10 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->uihandler.countdownUIObj.setStartTime(totalTime);
 	
 
+	this->stages.reserve(6);
+	
+	
+
 	enableAudio(); //enable this line if you plan to add audio to your application
 	synth.playSample("data/music/countdownMusic.wav",1,false);
 	//synth.osc1.amplitude = 0.5;

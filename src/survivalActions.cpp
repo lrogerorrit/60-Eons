@@ -112,5 +112,4 @@ void survivalActions::explorePlanet(int plNum, planetData& pData, bool hasGun)
 		for (int i = 0; i < planetInfo.medLevel; i++) {
 			this->invHandler.shipInv.addItem(eItemType::MEDS);
 		}
-	
 }
