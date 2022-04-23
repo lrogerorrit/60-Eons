@@ -1,4 +1,6 @@
 #pragma once
+
+#define randomInt() (rand()%10)
 enum class holdingIcon { //Mainly used in uiHandler
 	EMPTY,
 	FOOD,

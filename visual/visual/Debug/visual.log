@@ -1,12 +1,5 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   characterHandler.cpp
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(26,2): error C2059: syntax error: '}'
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(26,2): error C2143: syntax error: missing ';' before '}'
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(26,1): error C2429: language feature 'init-statements in if/switch' requires compiler flag '/std:c++17'
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(28,2): error C2059: syntax error: 'if'
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(28,1): error C2143: syntax error: missing ';' before '{'
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(39,17): error C2601: 'character::consumeItem': local function definitions are illegal
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(53,1): fatal error C1004: unexpected end-of-file found
   framework.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(29,56): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
@@ -21,7 +14,6 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\game.cpp(22,8): error C2064: term does not evaluate to a function taking 1 arguments
   image.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(29,56): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
@@ -46,7 +38,7 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(167,50): warning C4018: 
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(171,34): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(171,50): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(204,20): warning C4018: '<': signed/unsigned mismatch
-  input.cpp
+  inventoryHandler.cpp
   main.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
@@ -62,7 +54,7 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
-  synth.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\survivalActions.cpp(105,1): error C2059: syntax error: '}'
   uiHandler.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(29,56): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
@@ -95,6 +87,8 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+  mapHandler.cpp
   Generating Code...
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\utils\mapHandler.cpp(39): warning C4715: 'gameMap::getCellItemType': not all control paths return a value
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(91): warning C4715: 'iconStorage::getIconFromHoldingIcon': not all control paths return a value
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(82): warning C4715: 'iconStorage::getIcon': not all control paths return a value

@@ -1,23 +1,31 @@
 #pragma once
 #include "game.h"
 
-enum class planetType {
+enum class eplanetType {
 	EARTHLIKE,
 	DESERT,
 };
 
+enum class eViolenceLevel
+{
+	LOW,
+	MID,
+	HIGH,
+};
 
 struct planetStats {
 	int waterLevel;
 	int foodLevel;
 	int medLevel;
-	int violenceLevel;
+	eViolenceLevel violenceLevel;
+	
 
 	planetStats();
 };
 
 struct planetData {
 	std::string name;
+	eplanetType type;
 	int travelDays;
 	planetStats stats;
 	int maxDaysInPlanet;
@@ -50,7 +58,7 @@ public:
 	void choosePlanet(int planetPos);
 	void generatePossibleTargets();
 	void consumeItem(int plNum, eItemType type);
-	void explorePlanet(int plNum, planetData& pData, int gunNum);
+	void explorePlanet(int plNum, planetData& pData, bool hasGun);
 	
 	survivalActions(characterHandler& charHandler, inventoryHandler& invHandler):charHandler(charHandler), invHandler(invHandler) {
 		this->gameInstance = Game::instance;
