@@ -1,20 +1,22 @@
 #include "stage.h"
 #include "game.h"
 #include "input.h"
+//#include "survivalActions.h"
 
 
-stage::stage(Image &font) {
+
+
+
+
+
+stage::stage(Image& font):font(font)
+{
 	this->gameInstance = Game::instance;
-	this->font= font;
 }
 
-//make constructor for countdownStage
 
-countdownStage::countdownStage(Image& tileset, Image& sprite, Image& font, character& localChar):stage(font){
-this->tileset = tileset;
-this->sprite = sprite;
-this->localChar = localChar;
-}
+/*==============================================countdown===================================================*/
+
 
 void countdownStage::updateTilePosition() {
 	Vector2 pos = localChar.getPosition();
@@ -90,6 +92,10 @@ void countdownStage::renderMap(Image& framebuffer, float dx, float dy) {
 		}
 
 }
+
+
+
+
 
 
 
@@ -178,4 +184,4 @@ void countdownStage::update(double seconds_elapsed) {
 	gameInstance->uihandler.countdownUIObj.setIconSlotsFromVector(gameInstance->invHandler.handInv.getIconsToRender());
 }
 
-
+/*==============================================survival===================================================*/

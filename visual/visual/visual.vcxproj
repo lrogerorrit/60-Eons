@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\src\inventoryHandler.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\stage.cpp" />
+    <ClCompile Include="..\..\src\survivalActions.cpp" />
     <ClCompile Include="..\..\src\synth.cpp" />
     <ClCompile Include="..\..\src\uiHandler.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\..\src\input.h" />
     <ClInclude Include="..\..\src\inventoryHandler.h" />
     <ClInclude Include="..\..\src\stage.h" />
+    <ClInclude Include="..\..\src\survivalActions.h" />
     <ClInclude Include="..\..\src\synth.h" />
     <ClInclude Include="..\..\src\uiHandler.h" />
     <ClInclude Include="..\..\src\utils.h" />

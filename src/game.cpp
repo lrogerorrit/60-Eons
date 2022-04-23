@@ -4,9 +4,11 @@
 #include "image.h"
 #include "stage.h"
 #include <cmath>
-
+#include <time.h>
+#include <stdlib.h>
 
 Game* Game::instance = NULL;
+
 
 Image font;
 Image minifont;

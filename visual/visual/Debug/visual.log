@@ -1,57 +1,100 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: El directorio Output no termina con una barra diagonal final. Esta instancia de compilación agregará la barra diagonal porque es necesaria para que se pueda evaluar correctamente el directorio Output.
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  characterHandler.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(26,2): error C2059: syntax error: '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(26,2): error C2143: syntax error: missing ';' before '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(26,1): error C2429: language feature 'init-statements in if/switch' requires compiler flag '/std:c++17'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(28,2): error C2059: syntax error: 'if'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(28,1): error C2143: syntax error: missing ';' before '{'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(39,17): error C2601: 'character::consumeItem': local function definitions are illegal
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\characterHandler.cpp(53,1): fatal error C1004: unexpected end-of-file found
+  framework.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(29,56): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,79): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,61): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(276,68): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,177): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,140): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,103): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
   game.cpp
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,89): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,103): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(104,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(105,21): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\game.cpp(22,8): error C2064: term does not evaluate to a function taking 1 arguments
+  image.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(29,56): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,79): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,61): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(276,68): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,177): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,140): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,103): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(53,12): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(54,12): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,111): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,103): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,95): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,87): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(167,31): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(167,50): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(171,34): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(171,50): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.cpp(204,20): warning C4018: '<': signed/unsigned mismatch
+  input.cpp
   main.cpp
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,89): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,103): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(104,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(105,21): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
   stage.cpp
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,89): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,103): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(104,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(105,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(50,11): error C2143: error de sintaxis: falta ';' delante de '&'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(50,11): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(50,22): error C2238: símbolos (token) inesperados delante de ';'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(68,75): error C2061: error de sintaxis: identificador 'character'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(6): error C2280: 'stage::stage(void)': se está intentando hacer referencia a una función eliminada.
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(32): message : el compilador generó 'stage::stage' aquí
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(32,1): message : "stage::stage(void)": la función se eliminó implícitamente porque "stage" tiene un miembro de datos "stage::font" sin inicializar del tipo de referencia.
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(25): message : vea la declaración de 'stage::font'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(6,34): error C2530: 'countdownStage::tileset': se deben inicializar las referencias
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(6,34): error C2530: 'countdownStage::sprite': se deben inicializar las referencias
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(11,16): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(89,20): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(92,92): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(92,156): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(92,203): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(100,21): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(100,19): error C2530: 'charPos': se deben inicializar las referencias
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(101,16): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(103,2): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(110,4): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(113,3): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(120,4): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(123,3): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(128,4): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(131,3): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(137,4): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(140,3): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(144,3): error C2065: 'localChar': identificador no declarado
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(172,111): error C2511: 'void countdownStage::initStage(int,Image &,Image &,Image &,character &)': la función miembro sobrecargada no se ha encontrado en 'countdownStage'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.h(37): message : vea la declaración de 'countdownStage'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(173,2): error C2671: 'countdownStage::initStage': las funciones miembro static no tienen punteros 'this'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(174,2): error C2671: 'countdownStage::initStage': las funciones miembro static no tienen punteros 'this'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(175,2): error C2671: 'countdownStage::initStage': las funciones miembro static no tienen punteros 'this'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(176,2): error C2671: 'countdownStage::initStage': las funciones miembro static no tienen punteros 'this'
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\stage.cpp(177,2): error C2671: 'countdownStage::initStage': las funciones miembro static no tienen punteros 'this'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+  survivalActions.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+  synth.cpp
+  uiHandler.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(29,56): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,97): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,79): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(260,61): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(276,68): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,177): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,140): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\framework.h(279,103): warning C4244: 'argument': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(53,12): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(54,12): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,111): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,103): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,95): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(74,87): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(31,95): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(31,70): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(35,170): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(38,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(38,59): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(52,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(76,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(86,20): warning C4018: '<': signed/unsigned mismatch
   utils.cpp
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,89): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(61,103): warning C4018: '>=': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(104,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\roger\Documents\3r\T3\tje\2d\TJE-2d\src\image.h(105,21): warning C4018: '<': no coinciden signed/unsigned
-  Generando código...
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(91): warning C4715: 'iconStorage::getIconFromHoldingIcon': not all control paths return a value
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\uiHandler.cpp(82): warning C4715: 'iconStorage::getIcon': not all control paths return a value

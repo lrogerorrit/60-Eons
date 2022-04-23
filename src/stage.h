@@ -4,7 +4,7 @@
 #include "includes.h"
 #include "image.h"
 #include "utils/mapHandler.h"
-
+#include "characterHandler.h"
 
 class Game;
 
@@ -14,18 +14,21 @@ enum class stageType {
 	TUTORIAL,
 	COUNTDOWN,
 	SURVIVAL,
-	END
+	END,
+	MESSAGE,
 };
 
 
 class stage
 {
 protected:
-	Game* gameInstance;
 	Image& font;
+	Game* gameInstance;
 	
 public:
+	
 	stage(Image& font);
+	
 	virtual void render(Image& framebuffer) {};
 	virtual void update(double seconds_elapsed) {};
 	virtual void initStage() {};
@@ -36,7 +39,10 @@ public:
 
 class countdownStage :public stage
 {
+	
 private:
+	
+	
 	int cellSize;
 	Vector2ub tilePos = Vector2ub(2, 2);
 	Vector2 localTilePos = Vector2(0.0f, 0.0f);
@@ -50,6 +56,7 @@ private:
 	character& localChar;
 	
 	
+	
 	void updateTilePosition();
 	Vector2ub getTilePosition() { return tilePos; };
 	Vector2ub getTileAtPos(float x, float y);
@@ -59,21 +66,36 @@ private:
 
 	sCell& getCellAtPos(float x, float y);
 	void renderMap(Image& framebuffer, float dx, float dy);
+
 public:
-	
-	countdownStage(Image& tileset, Image& sprite, Image& font, character& localChar) :stage(font) {
-		this->tileset = tileset;
-		this->sprite = sprite;
-		this->localChar = localChar;
-	}
-	
+	countdownStage(Image& tileset, Image& sprite, Image& font, character& localChar) : stage(font), tileset(tileset), sprite(sprite), localChar(localChar) {
+		this->cellSize = tileset.width / 2;
+	};
+
 	stageType type = stageType::COUNTDOWN;
 
 	void render(Image& framebuffer, float dx, float dy);
 	void update(double seconds_elapsed);
-	void initStage(int cellSize);
+	void initStage() {};
 	
+};
 
+
+
+class survivalStage :public stage
+{
+private:
+
+
+
+
+public:
+
+
+
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage() {};
 
 };
 

@@ -2,7 +2,11 @@
 #include "includes.h"
 #include "framework.h"
 
-
+enum class statusType {
+	FOOD,
+	WATER,
+	HEALTH
+};
 
 enum CHAR_COLOR:int {
     WHITE,
@@ -12,8 +16,9 @@ enum CHAR_COLOR:int {
 };
 
 struct characterStatus {
-    float foodStat = 1;
-    float waterStat = 1;
+    int foodStat = 5;
+    int waterStat = 5;
+	int healthStat = 5;
 };
 
 
@@ -45,6 +50,13 @@ enum facingDirection :int
 	
 
 class character {
+
+private:
+		int daysWithoutEating = 0;
+		int daysWithoutDrinking = 0;
+		int daysWithoutHealing = 0;
+		int randChance = 7;
+	
     public:
 		
 		
@@ -83,8 +95,8 @@ class character {
 			return dir;
 		};
 		
-		
-        
+		void updateResources();
+        void consumeItem(statusType type);
 
         
         
@@ -95,11 +107,17 @@ class character {
 //TODO: Make constructor to load characters from savefile
 
 class characterHandler {
-	public:
+
+	
+
+public:
 		std::vector<character> characters;
-		int numCharacters;
+		int numCharacters=0;
 		
-		characterHandler() {};
+		
+		characterHandler() {
+			srand(time(NULL));
+		};
 		
 		
 		
