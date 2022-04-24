@@ -47,21 +47,28 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->localChar.setPosition(tilePos*cellSize);
 	
 	this->uihandler.countdownUIObj.setStartTime(totalTime);
-	Image& smallFont = assetMan->getImage("data/mini-font-white-4x6.tga");
+	
+	assetMan->cacheImage("data/mini-font-black-4x6.tga");
+	assetMan->cacheImage("data/bitmap-font-black.tga");
 	assetMan->cacheImage("data/icons/advanceDay.tga");
 	assetMan->cacheImage("data/icons/pc.tga");
 	assetMan->cacheImage("data/icons/inventory.tga");
 	assetMan->cacheImage("data/icons/close.tga");
+	assetMan->cacheImage("data/pcLayout.tga");
+	assetMan->cacheImage("data/pcTabText.tga");
+	assetMan->cacheImage("data/playerCard.tga");
+	assetMan->cacheImage("data/astronautBusts.tga");
 	
 	//this->stages.reserve(6);
 	this->stages.push_back(new countdownStage(testTileset,sprite,font,this->localChar));
-	this->stages.push_back(new survivalStage(font,minifont));
+	this->stages.push_back(new survivalStage(font, minifont));
 	this->stages.push_back(new planetChoosingStage(minifont,font));
+	this->stages.push_back(new pcStage(font, minifont));
 	
 	
 
 	enableAudio(); //enable this line if you plan to add audio to your application
-	synth.playSample("data/music/countdownMusic.wav",1,false);
+	//synth.playSample("data/music/countdownMusic.wav",1,false);
 	//synth.osc1.amplitude = 0.5;
 }
 

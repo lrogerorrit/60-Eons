@@ -402,17 +402,22 @@ void planetChoosingStage::initStage(std::vector<planetData>& newData, int fallba
 }
 
 
+/*==============================================pc===================================================*/
+
+
+void pcStage::openPage(ePcPage page)
+{
+	this->activePage = page;
+}
 void pcStage::render(Image& framebuffer)
 {
 	switch (this->activePage) {
 	case ePcPage::INVENTORY:
 		this->renderInventoryPage(framebuffer);
 		break;
-	case ePcPage::CONSUME:
-		this->renderConsumePage(framebuffer);
-		break;
-	case ePcPage::INFO:
-		this->renderInfoPage(framebuffer);
+	
+	case ePcPage::CREW:
+		this->renderCrewPage(framebuffer);
 	case ePcPage::PLANET:
 		if (this->atPlanet) {
 			this->renderPlanetPlanetPage(framebuffer);
@@ -421,10 +426,70 @@ void pcStage::render(Image& framebuffer)
 			this->renderPlanetSpacePage(framebuffer);
 		break;
 	}
-
-	framebuffer.drawImage(this->assetManagerInstance->getImage("data/icons/close.tga"),framebuffer.width*.8,5);
+	Image& tabText = this->assetManagerInstance->getImage("data/pcTabText.tga");
+	for (int i=0; i < MAX_PC_MENU; i++) 
+		framebuffer.drawRectangle(3 + (27 * i), 9, 27, 10, (ePcPage)i == this->activePage?Color::GREEN:Color::WHITE);
+	
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/icons/close.tga"),framebuffer.width-15,2);
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/pcLayout.tga"), 0, 0);
+	for (int i = 0; i < MAX_PC_MENU; i++)
+		framebuffer.drawImage(tabText,4+(27*i),10,(i*25), ((ePcPage)i == this->activePage)?8:0,25,8);
+	
+	if (this->tipVisible)
+		framebuffer.drawText(this->topTip, 2, 2, this->smallFont, 4, 6);
+	
+}
+void pcStage::renderInventoryPage(Image& framebuffer)
+{
+	Image& foodIcon = this->gameInstance->uihandler.icons.getIconFromHoldingIcon(holdingIcon::FOOD);
+	Image& waterIcon = this->gameInstance->uihandler.icons.getIconFromHoldingIcon(holdingIcon::WATER);
+	Image& medsIcon = this->gameInstance->uihandler.icons.getIconFromHoldingIcon(holdingIcon::MEDS);
+	Image& gunIcon = this->gameInstance->uihandler.icons.getIconFromHoldingIcon(holdingIcon::GUN);
+	Vector2 displ(5, 23);
+	framebuffer.drawImage(foodIcon, displ.x + 2, displ.y + 2);
+	framebuffer.drawImage(waterIcon, displ.x + 2, framebuffer.height-40);
+	framebuffer.drawImage(medsIcon, displ.x + 77, displ.y + 2);	
+	framebuffer.drawImage(gunIcon, displ.x + 77, framebuffer.height - 40);
+	framebuffer.drawText(std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::FOOD)),displ.x+foodIcon.width+10, -4+displ.y + 2+foodIcon.height/2,this->font);
+	framebuffer.drawText(std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WATER)), displ.x + foodIcon.width + 10, -4 + framebuffer.height - 40 + foodIcon.height / 2, this->font);
+	framebuffer.drawText(std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::MEDS)), displ.x + foodIcon.width + 85, -4 + displ.y + 2 + foodIcon.height / 2, this->font);
+	framebuffer.drawText(std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WEAPON)), displ.x + foodIcon.width + 85, -4 + framebuffer.height - 40 + foodIcon.height / 2, this->font);
+	
 }
 
+void pcStage::renderCrewCard(Image& framebuffer,int crewNum) {
+	Vector2 displ(5+(74*(crewNum%2)+2), 23+(46*trunc(crewNum/2.0f))+1);
+	character& crew = this->gameInstance->charHandler.getCharacter(crewNum);
+	framebuffer.drawRectangle(displ.x, displ.y, 72, 45, (crewNum == this->selectedCard &&crew.isAlive) ? Color::GREEN : Color::WHITE);
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/playerCard.tga"), displ.x, displ.y);
+
+	framebuffer.drawText(crew.name, displ.x + 27, displ.y + 3, this->font);
+
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/astronautBusts.tga"), displ.x + 3, displ.y + 3, (22 * crewNum), 0, 22, 22);
+
+	for (int i = 0; i < crew.status.foodStat; i++) 
+		framebuffer.drawRectangle(displ.x + 13 + (4 * i), displ.y + 29, 3, 3, Color::YELLOW);
+	for (int i = 0; i < crew.status.waterStat; i++)
+		framebuffer.drawRectangle(displ.x + 13 + (4 * i), displ.y + 36, 3, 3, Color::CYAN);
+	for (int i = 0; i < crew.status.healthStat; i++) 
+		framebuffer.drawRectangle(displ.x + 48 + (4 * i), displ.y + 29, 3, 3, Color::RED);
+}
+
+void pcStage::renderCrewPage(Image& framebuffer)
+{
+	Vector2 displ(5, 23);
+	
+	for (int i= 0; i < this->gameInstance->charHandler.numCharacters; i++) {
+		this->renderCrewCard(framebuffer, i);
+	}
+	
+}
+void pcStage::renderPlanetSpacePage(Image& framebuffer)
+{
+}
+void pcStage::renderPlanetPlanetPage(Image& framebuffer)
+{
+}
 void pcStage::update(double seconds_elapsed)
 {
 	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT)) //if key down
@@ -432,16 +497,13 @@ void pcStage::update(double seconds_elapsed)
 	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
 		this->activePage = (ePcPage)min(MAX_PC_MENU - 1, (int) this->activePage + 1);
 
-
+	this->tipVisible = false;
 	switch (this->activePage) {
 	case ePcPage::INVENTORY:
 		this->updateInventoryPage();
 		break;
-	case ePcPage::CONSUME:
-		this->updateConsumePage();
-		break;
-	case ePcPage::INFO:
-		this->updateInfoPage();
+	case ePcPage::CREW:
+		this->updateCrewPage();
 	case ePcPage::PLANET:
 		if (this->atPlanet) {
 			this->updatePlanetPlanetPage();
@@ -452,41 +514,31 @@ void pcStage::update(double seconds_elapsed)
 	}
 }
 
-void pcStage::openPage(ePcPage page)
-{
-	this->activePage = page;
-}
-void pcStage::renderInventoryPage(Image& framebuffer)
-{
-}
-void pcStage::renderConsumePage(Image& framebuffer)
-{
-}
-void pcStage::renderInfoPage(Image& framebuffer)
-{
-}
-void pcStage::renderPlanetSpacePage(Image& framebuffer)
-{
-}
-void pcStage::renderPlanetPlanetPage(Image& framebuffer)
-{
-}
-pcStage::pcStage(Image& font, Image& secondFont): stage(font), secondFont(secondFont)
-{
-	
-}
-
 void pcStage::updateInventoryPage()
 {
 	
 }
 
-void pcStage::updateConsumePage()
-{
-}
 
-void pcStage::updateInfoPage()
+
+void pcStage::updateCrewPage()
 {
+	this->tipVisible = true;
+	this->topTip = "Click on a Member to open options!";
+	//Vector2 displ(5 + (74 * (crewNum % 2) + 2), 23 + (46 * trunc(crewNum / 2.0f)) + 1);
+	this->selectedCard = -1;
+	Vector2 mousePos = this->gameInstance->mapMousePosition();
+	if (mousePos.x >7 && mousePos.x< 79&& mousePos.y>24 && mousePos.y <69 )
+		this->selectedCard = 0;
+	/*else if (mousePos.x > && mousePos.x< && mousePos.y> && mousePos.y <)
+		this->selectedCard = 1;
+	else if (mousePos.x > && mousePos.x< && mousePos.y> && mousePos.y < )
+		this->selectedCard = 2;
+	else if (mousePos.x > && mousePos.x< && mousePos.y> && mousePos.y < )
+		this->selectedCard = 3;
+		*/
+
+
 }
 
 void pcStage::updatePlanetSpacePage()
@@ -502,4 +554,8 @@ void pcStage::initStage(int fallbackStage, ePcPage pcPage, bool atPlanet)
 	this->fallbackStage = fallbackStage;
 	this->atPlanet = atPlanet;
 	this->openPage(pcPage);
+}
+pcStage::pcStage(Image& font, Image& smallFont) : stage(font), smallFont(smallFont)
+{
+	
 }

@@ -7,7 +7,7 @@
 #define mapValue(x,minIn,maxIn,minOut,maxOut) ((x - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut);
 
 const int MAX_PLANET_OPTIONS = 3;
-const int MAX_PC_MENU = 2;
+const int MAX_PC_MENU = 3;
 
 enum class holdingIcon { //Mainly used in uiHandler
 	EMPTY,
@@ -32,7 +32,7 @@ enum class stageType { //Mainly used in stage
 	COUNTDOWN,
 	SURVIVAL,
 	PLANET_CHOOSING,
-	INVENTORY,
+	PC,
 	SELECT_OPTIONS,
 	MENU,
 	TUTORIAL,
@@ -43,7 +43,6 @@ enum class stageType { //Mainly used in stage
 enum class ePcPage { //Mainly used in stage
 	
 	INVENTORY,
-	CONSUME,
-	INFO,
+	CREW,
 	PLANET
 };

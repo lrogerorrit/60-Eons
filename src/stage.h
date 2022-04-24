@@ -143,31 +143,41 @@ public:
 
 class pcStage :public stage {
 private:
-	Image& secondFont;
+	Image& smallFont;
+	
 	int fallbackStage = 0;
 	ePcPage activePage= ePcPage::INVENTORY;
 	bool atPlanet = false;
+	bool tipVisible = false;
+	int selectedCard = -1;
+	std::string topTip = "";
 	
 	void openPage(ePcPage page);
 
 	//render functions
 	void renderInventoryPage(Image& framebuffer);
-	void renderConsumePage(Image& framebuffer);
-	void renderInfoPage(Image& framebuffer);
+
+	void renderCrewCard(Image& framebuffer, int crewNum);
+
+	
+	
+	void renderCrewPage(Image& framebuffer);
 	void renderPlanetSpacePage(Image& framebuffer);
 	void renderPlanetPlanetPage(Image& framebuffer);
 	
 	//update functions
 	void updateInventoryPage();
-	void updateConsumePage();
-	void updateInfoPage();
+	
+	void updateCrewPage();
 	void updatePlanetSpacePage();
 	void updatePlanetPlanetPage();
 	
 public:
+
+	stageType type = stageType::PC;
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
 	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet);
-	pcStage(Image& font, Image & secondFont);
+	pcStage(Image& font, Image & smallFont);
 	
 };

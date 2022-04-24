@@ -60,7 +60,7 @@ public:
 
 
 
-	const int astronautNum = 1;
+	const int astronautNum = 4;
 	character localChar;
 
 	characterHandler charHandler;
@@ -77,7 +77,7 @@ public:
 	assetManager* assetMan= NULL;
 	
 	std::vector<stage*> stages;
-	stageType activeStage=stageType::SURVIVAL;
+	stageType activeStage=stageType::PC;
 	bool debugMode = true;
 	// make a list of ints of size astronautNum
 	
