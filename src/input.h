@@ -4,6 +4,9 @@
 #include "includes.h"
 #include "utils.h"
 #include "framework.h"
+#include "utils/commonItems.h"
+
+
 
 //mapped as in SDL
 enum Gamepad
@@ -68,6 +71,7 @@ struct GamepadState
 
 class Input {
 public:
+	
 	//keyboard state
 	static const Uint8* keystate;
 	static Uint8 prev_keystate[SDL_NUM_SCANCODES]; //previous before
@@ -100,6 +104,9 @@ public:
 
 	static SDL_Joystick* openGamepad(int index);
 	static void updateGamepadState(SDL_Joystick* joystick, GamepadState& state);
+
+	
+	
 };
 
 

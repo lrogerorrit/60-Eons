@@ -83,7 +83,7 @@ SDL_Window* createWindow(const char* caption, int width, int height, bool fullsc
 
 	//init input
 	Input::init(window);
-
+	
 	return window;
 }
 

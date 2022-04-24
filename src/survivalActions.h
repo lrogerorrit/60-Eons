@@ -113,6 +113,26 @@ public:
 	void setIsDepartingPlanet(bool val) {
 		this->isDepartingPlanet = val;
 	};
+	int getTotalDays() {
+		return this->totalDays;
+	};
+	int getTraveledDays() {
+		return this->traveledDays;
+	};
+	int getDaysAtPlanet() {
+		return this->daysAtPlanet;
+	};
+	int getRemainingDays() {
+		if (!this->targetPlanet) return -1;
+		if (this->atPlanet)
+			return (this->targetPlanet->maxDaysInPlanet - this->daysAtPlanet);
+		else
+			return (this->targetPlanet->travelDays - this->traveledDays);
+	}
+	std::vector<planetData>& getGeneratedPlanetData() {
+		return this->possibleTargetList;
+	}
+
 	
 };
 

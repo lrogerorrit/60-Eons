@@ -44,7 +44,7 @@ void survivalActions::choosePlanet(int planetPos)
 void survivalActions::generatePossibleTargets()
 {
 	this->possibleTargetList.clear();
-
+	
 	for (int i = 0; i < MAX_PLANET_OPTIONS; i++) {
 		planetData plData;
 		this->possibleTargetList.push_back(plData);

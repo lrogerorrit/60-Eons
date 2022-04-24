@@ -1,5 +1,6 @@
 #include "input.h"
 
+
 const Uint8* Input::keystate = NULL; //use SDL_SCANCODE_xxx
 Uint8 Input::prev_keystate[SDL_NUM_SCANCODES]; //previous before
 
@@ -155,3 +156,7 @@ void Input::updateGamepadState(SDL_Joystick* joystick, GamepadState& state)
 	else if (axis_direction.y > limit)
 		state.direction |= PAD_DOWN;
 }
+
+
+
+

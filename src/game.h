@@ -15,6 +15,7 @@
 #include <cmath>
 #include "inventoryHandler.h"
 #include "utils/commonItems.h"
+#include "utils/assetManager.h"
 
 
 
@@ -73,9 +74,11 @@ public:
 	uiHandler uihandler;
 	inventoryHandler invHandler;
 
+	assetManager* assetMan= NULL;
 	
 	std::vector<stage*> stages;
-	stageType activeStage=stageType::PLANET_CHOOSING;
+	stageType activeStage=stageType::SURVIVAL;
+	bool debugMode = true;
 	// make a list of ints of size astronautNum
 	
 
@@ -150,8 +153,17 @@ public:
 	inventoryHandler& getInventoryHandler() {
 		return this->invHandler;
 	}
+	void setActiveStage(int num) {
+		this->activeStage = (stageType)num;
+	}
+	void setActiveStage(stageType num) {
+		this->activeStage = num;
+	}
+	stage* getStageOfType(stageType type) {
+		return stages[(int)type];
+	}
 	
-	
+	Vector2ub mapMousePosition();
 	
 };
 

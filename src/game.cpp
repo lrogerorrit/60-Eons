@@ -39,20 +39,24 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	sprite.loadTGA("data/spritesheet.tga"); //example to load an sprite
 	testTileset.loadTGA("data/tileset.tga");
 	//testIcon.loadTGA("data/icons/guns.tga");
-
+	this->assetMan = assetManager::instance;
 	this->charHandler.makeCharacters(this->astronautNum);
 	this->startMap.loadGameMap("data/mymapV2.map");
 	this->localChar = charHandler.getCharacter(0);
 	cellSize = testTileset.width / 16;
 	this->localChar.setPosition(tilePos*cellSize);
-
-	this->uihandler.countdownUIObj.setStartTime(totalTime);
 	
-
+	this->uihandler.countdownUIObj.setStartTime(totalTime);
+	Image& smallFont = assetMan->getImage("data/mini-font-white-4x6.tga");
+	assetMan->cacheImage("data/icons/advanceDay.tga");
+	assetMan->cacheImage("data/icons/pc.tga");
+	assetMan->cacheImage("data/icons/inventory.tga");
+	assetMan->cacheImage("data/icons/close.tga");
+	
 	//this->stages.reserve(6);
 	this->stages.push_back(new countdownStage(testTileset,sprite,font,this->localChar));
-	this->stages.push_back(new survivalStage(font));
-	this->stages.push_back(new planetChoosingStage(font));
+	this->stages.push_back(new survivalStage(font,minifont));
+	this->stages.push_back(new planetChoosingStage(minifont,font));
 	
 	
 
@@ -450,4 +454,15 @@ void Game::onAudio(float *buffer, unsigned int len, double time, SDL_AudioSpec& 
 {
 	//fill the audio buffer using our custom retro synth
 	synth.generateAudio(buffer, len, audio_spec);
+}
+
+
+
+
+Vector2ub Game::mapMousePosition() {
+	Vector2 mouse_position = Input::mouse_position;
+	Vector2ub toReturn;
+	toReturn.x = mapValue(mouse_position.x, 0, window_width, 0, 160);
+	toReturn.y = mapValue(mouse_position.y, 0, window_height, 0, 120);
+	return toReturn;
 }

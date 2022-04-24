@@ -70,7 +70,7 @@ public:
 		this->cellSize = tileset.width / 16;
 	};
 
-	stageType type = stageType::SURVIVAL;
+	stageType type = stageType::COUNTDOWN;
 
 	void render(Image& framebuffer, float dx, float dy);
 	void update(double seconds_elapsed);
@@ -80,19 +80,33 @@ public:
 
 class survivalActions;
 
+enum class eNextCycleGetInfo {
+	NONE,
+	PLANETCHOICE,
+};
 
 class survivalStage :public stage
 {
 private:
-	
+	Image& smallFont;
 	survivalActions* survivalActionHandler=nullptr;
-	
+	eNextCycleGetInfo infoToFech= eNextCycleGetInfo::NONE;
 	void renderSpaceShip(Image& framebuffer);
+	void renderInfo(Image& framebuffer);
+	void renderUI(Image& framebuffer);
 	void renderBackground(Image& framebuffer);
+	
+	std::string iconTip = "";
+	bool tipVisible = false;
 
 public:
 
-	survivalStage(Image& font);
+	stageType type = stageType::SURVIVAL;
+	survivalStage(Image& font, Image& smallFont);
+
+	void choosePlanet();
+
+	void advanceToNextDay();
 
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
@@ -102,19 +116,58 @@ public:
 
 struct planetData;
 
+
+
+
 class planetChoosingStage :public stage {
 private:
+	Image& secondFont;
 	int selectedOption=0;
-	std::vector< planetData*> planetsData;
-public:
-	planetChoosingStage(Image& font):stage(font){};
+	int fallbackStage = 0;
 	
+	std::vector< planetData*> planetsData;
 	void renderPlanetCard(Image& framebuffer, planetData* planData, int pos);
+public:
+	stageType type = stageType::PLANET_CHOOSING;
+	
+	planetChoosingStage(Image& font, Image& secondFont);
+	
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
-	void initStage(std::vector< planetData*>& newData);
+	void initStage(std::vector< planetData>& newData, int fallbackStage);
 	int getSelectedOption() {
 		return this->selectedOption;
 	};
 };
 
+
+class pcStage :public stage {
+private:
+	Image& secondFont;
+	int fallbackStage = 0;
+	ePcPage activePage= ePcPage::INVENTORY;
+	bool atPlanet = false;
+	
+	void openPage(ePcPage page);
+
+	//render functions
+	void renderInventoryPage(Image& framebuffer);
+	void renderConsumePage(Image& framebuffer);
+	void renderInfoPage(Image& framebuffer);
+	void renderPlanetSpacePage(Image& framebuffer);
+	void renderPlanetPlanetPage(Image& framebuffer);
+	
+	//update functions
+	void updateInventoryPage();
+	void updateConsumePage();
+	void updateInfoPage();
+	void updatePlanetSpacePage();
+	void updatePlanetPlanetPage();
+	
+public:
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet);
+	pcStage(Image& font, Image & secondFont);
+	
+};
