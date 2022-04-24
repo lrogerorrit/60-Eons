@@ -1,10 +1,10 @@
+#include "game.h"
 #include "survivalActions.h"
 
 
 
 
 
-const int MAX_PLANET_OPTIONS = 4;
 
 void survivalActions::advanceToNextDay()
 {

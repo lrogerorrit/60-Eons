@@ -7,17 +7,12 @@
 #include "characterHandler.h"
 #include "utils/assetManager.h"
 
+
+
 class Game;
 
 
-enum class stageType {
-	MENU,
-	TUTORIAL,
-	COUNTDOWN,
-	SURVIVAL,
-	END,
-	MESSAGE,
-};
+
 
 
 class stage
@@ -72,10 +67,10 @@ private:
 
 public:
 	countdownStage(Image& tileset, Image& sprite, Image& font, character& localChar) : stage(font), tileset(tileset), sprite(sprite), localChar(localChar) {
-		this->cellSize = tileset.width / 2;
+		this->cellSize = tileset.width / 16;
 	};
 
-	stageType type = stageType::COUNTDOWN;
+	stageType type = stageType::SURVIVAL;
 
 	void render(Image& framebuffer, float dx, float dy);
 	void update(double seconds_elapsed);
@@ -83,22 +78,43 @@ public:
 	
 };
 
+class survivalActions;
 
 
 class survivalStage :public stage
 {
 private:
 	
+	survivalActions* survivalActionHandler=nullptr;
+	
 	void renderSpaceShip(Image& framebuffer);
 	void renderBackground(Image& framebuffer);
 
 public:
 
-
+	survivalStage(Image& font);
 
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
 	void initStage() {};
 
+};
+
+struct planetData;
+
+class planetChoosingStage :public stage {
+private:
+	int selectedOption=0;
+	std::vector< planetData*> planetsData;
+public:
+	planetChoosingStage(Image& font):stage(font){};
+	
+	void renderPlanetCard(Image& framebuffer, planetData* planData, int pos);
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(std::vector< planetData*>& newData);
+	int getSelectedOption() {
+		return this->selectedOption;
+	};
 };
 

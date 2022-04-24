@@ -11,7 +11,7 @@
 class assetManager
 {
 private:
-	std::map<std::string, Image*> imageCache;
+	std::map<std::string, Image> imageCache;
 
 
 	public:

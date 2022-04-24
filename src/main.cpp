@@ -18,9 +18,13 @@
 #include <fstream>
 #include <string>
 
+#include "utils/assetManager.h"
+
 long last_time = 0; //this is used to calcule the elapsed time between frames
 
 Game* game = NULL;
+assetManager* assetMan = NULL;
+
 
 // *********************************
 //create a window using SDL
@@ -190,7 +194,9 @@ int main(int argc, char **argv)
 		return 0;
 
 	//launch the game (game is a global variable)
+	assetMan = new assetManager();
 	game = new Game(w, h, window);
+	
 
 	//main loop, application gets inside here till user closes it
 	mainLoop();

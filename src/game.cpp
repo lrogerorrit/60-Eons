@@ -7,6 +7,7 @@
 #include <time.h>
 #include <stdlib.h>
 
+
 Game* Game::instance = NULL;
 
 
@@ -40,7 +41,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	//testIcon.loadTGA("data/icons/guns.tga");
 
 	this->charHandler.makeCharacters(this->astronautNum);
-	Game::startMap.loadGameMap("data/mymapV2.map");
+	this->startMap.loadGameMap("data/mymapV2.map");
 	this->localChar = charHandler.getCharacter(0);
 	cellSize = testTileset.width / 16;
 	this->localChar.setPosition(tilePos*cellSize);
@@ -48,7 +49,10 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->uihandler.countdownUIObj.setStartTime(totalTime);
 	
 
-	this->stages.reserve(6);
+	//this->stages.reserve(6);
+	this->stages.push_back(new countdownStage(testTileset,sprite,font,this->localChar));
+	this->stages.push_back(new survivalStage(font));
+	this->stages.push_back(new planetChoosingStage(font));
 	
 	
 
@@ -157,8 +161,23 @@ void Game::render()
 
 	//add your code here to fill the framebuffer
 	//...
+	
+	switch (this->activeStage) {
+	case stageType::COUNTDOWN: {
+		Vector2 charPos = this->localChar.getPosition();
+		countdownStage* cStage = (countdownStage*)getStage(stageType::COUNTDOWN);
+		cStage->render(framebuffer, charPos.x, charPos.y);
 
-	getIsCountdownLevel() ? renderCountdown(framebuffer) : renderSurvival(framebuffer);
+		break;
+	}
+	default: {
+		getActiveStage()->render(framebuffer);
+		break;
+	}
+	}
+	//getIsCountdownLevel() ? renderCountdown(framebuffer) : renderSurvival(framebuffer);
+	
+	showFramebuffer(&framebuffer);
 	
 	//some new useful functions
 	/*Vector2 charPos = this->localChar.getPosition();
@@ -174,7 +193,6 @@ void Game::render()
 		framebuffer.drawImage(sprite, (framebuffer.width/2)-9,(framebuffer.height/2)-13, localChar.isMoving?((int)std::round(totalTime*localChar.getSpeed()*.4)%4) * 18:0, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
 		renderDebugGrid(framebuffer);
 	//send image to screen
-	showFramebuffer(&framebuffer);
 	*/
 }
 
@@ -266,8 +284,18 @@ void Game::update(double seconds_elapsed)
 	//...
 	
 	totalTime+= seconds_elapsed;
+
+	switch (this->activeStage) {
+	case stageType::COUNTDOWN: 
+		this->stages[(int)stageType::COUNTDOWN]->update(seconds_elapsed);
+		break;
+	default: 
+		getActiveStage()->update(seconds_elapsed);
+		break;
 	
-	getIsCountdownLevel() ? updateCountdownLevel(seconds_elapsed) : updateSurvivalLevel(seconds_elapsed);
+	}
+	
+	//getIsCountdownLevel() ? updateCountdownLevel(seconds_elapsed) : updateSurvivalLevel(seconds_elapsed);
 	//example of 'was pressed'
 	if (Input::wasKeyPressed(SDL_SCANCODE_A)) //if key A was pressed
 	{

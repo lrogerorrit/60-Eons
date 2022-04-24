@@ -14,12 +14,18 @@
 #include "utils/mapHandler.h"
 #include <cmath>
 #include "inventoryHandler.h"
+#include "utils/commonItems.h"
 
 
 
+class stage;
+class countdownStage;
 
 class Game
 {
+
+private:
+	
 public:
 	static Game* instance;
 
@@ -40,7 +46,7 @@ public:
 	Synth synth;
 
 	//custom stuff
-	Color bgcolor= Color(130.0f, 80.0f, 100.0f);
+	Color bgcolor= Color(0,0,0);
 	
 	const int RENDER_X_CELLS = 3;
 	const int RENDER_Y_CELLS = 3;
@@ -69,7 +75,7 @@ public:
 
 	
 	std::vector<stage*> stages;
-	stageType activeStage=stageType::SURVIVAL;
+	stageType activeStage=stageType::PLANET_CHOOSING;
 	// make a list of ints of size astronautNum
 	
 
@@ -131,8 +137,19 @@ public:
 		return startMap.getCell(tile.x, tile.y);
 	}
 	
-	
+	stage* getActiveStage() {
+		return stages[(int)activeStage];
+	}
+	stage* getStage(stageType reqStage) {
+		return stages[(int)reqStage];
+	}
 
+	characterHandler& getCharacterHandler() {
+		return this->charHandler;
+	}
+	inventoryHandler& getInventoryHandler() {
+		return this->invHandler;
+	}
 	
 	
 	
