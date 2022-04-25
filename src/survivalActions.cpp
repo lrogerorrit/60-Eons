@@ -57,13 +57,13 @@ void survivalActions::consumeItem(int plNum, eItemType type)
 	charHandler.getCharacter(plNum).consumeItem((statusType)(int(type) - 1));
 }
 
-void survivalActions::explorePlanet(int plNum, planetData& pData, bool hasGun)
+planetExplorationResults& survivalActions::explorePlanet(int plNum, planetData& pData, bool hasGun)
 {
 	character& chosenChar = this->charHandler.getCharacter(plNum);
 	assert(chosenChar.isAlive);
 	planetStats planetInfo = this->targetPlanet->stats;
 	int minHealthDamage, maxHealthDamage, damageProb, gunEfectivenes;
-
+	planetExplorationResults results;
 	switch (planetInfo.violenceLevel) {
 	default:
 	case eViolenceLevel::LOW:
@@ -92,24 +92,36 @@ void survivalActions::explorePlanet(int plNum, planetData& pData, bool hasGun)
 		if ((!hasGun) || (hasGun && (randomInt() >= gunEfectivenes))) {
 			int damage = minHealthDamage + (rand() % (maxHealthDamage - minHealthDamage));
 			chosenChar.status.healthStat -= damage;
+			results.wasDamaged = true;
+			results.damageReceived = damage;
 			if (chosenChar.status.healthStat <= 0) {
+				results.wasKilled = true;
 				chosenChar.status.healthStat = 0;
 				chosenChar.isAlive = false;
 				//TODO: Show message that player died
 			}
 		}
 	}
-
-	if (planetInfo.foodLevel > 0)
-		for (int i = 0; i < planetInfo.foodLevel; i++) {
-			this->invHandler.shipInv.addItem(eItemType::FOOD);
+	
+	if (chosenChar.isAlive) {
+		if (planetInfo.foodLevel > 0) {
+			results.foodObtained = planetInfo.foodLevel;
+			for (int i = 0; i < planetInfo.foodLevel; i++) {
+				this->invHandler.shipInv.addItem(eItemType::FOOD);
+			}
 		}
-	if (planetInfo.waterLevel > 0)
-		for (int i = 0; i < planetInfo.waterLevel; i++) {
-			this->invHandler.shipInv.addItem(eItemType::WATER);
+		if (planetInfo.waterLevel > 0) {
+			results.waterObtained= planetInfo.waterLevel;
+			for (int i = 0; i < planetInfo.waterLevel; i++) {
+				this->invHandler.shipInv.addItem(eItemType::WATER);
+			}
 		}
-	if (planetInfo.medLevel > 0)
-		for (int i = 0; i < planetInfo.medLevel; i++) {
-			this->invHandler.shipInv.addItem(eItemType::MEDS);
+		if (planetInfo.medLevel > 0) {
+			results.medsObtained = planetInfo.medLevel;
+			for (int i = 0; i < planetInfo.medLevel; i++) {
+				this->invHandler.shipInv.addItem(eItemType::MEDS);
+			}
 		}
+	}
+	return results;
 }

@@ -77,7 +77,7 @@ public:
 	assetManager* assetMan= NULL;
 	
 	std::vector<stage*> stages;
-	stageType activeStage=stageType::PC;
+	stageType activeStage=stageType::DUAL_OPTION;
 	bool debugMode = true;
 	// make a list of ints of size astronautNum
 	

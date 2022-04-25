@@ -66,6 +66,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->stages.push_back(new pcStage(font, minifont));
 	this->stages.push_back(new multipleOptionsStage(font,minifont));
 	this->stages.push_back(new messageStage(font, minifont));
+	this->stages.push_back(new dualOptionStage(font, minifont));
+	
 	
 
 	enableAudio(); //enable this line if you plan to add audio to your application

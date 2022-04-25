@@ -16,6 +16,13 @@ stage::stage(Image& font):font(font)
 	
 }
 
+void stage::displayMessage(std::string msg, int fallbackStage)
+{
+	messageStage* st = (messageStage*)gameInstance->getStageOfType(stageType::MESSAGE);
+	st->initStage(fallbackStage, msg);
+	this->gameInstance->setActiveStage(stageType::MESSAGE);
+}
+
 
 /*==============================================countdown===================================================*/
 
@@ -493,6 +500,49 @@ void pcStage::renderPlanetPlanetPage(Image& framebuffer)
 }
 void pcStage::update(double seconds_elapsed)
 {
+	switch (infoToFech) {
+	case eNextCycleGetInfoPC::CREW_OPTIONS:
+		multipleOptionsStage* st = (multipleOptionsStage*)gameInstance->getStageOfType(stageType::MULTIPLE_OPTIONS);
+		switch (st->getSelectedOption()) {
+		case 1: //Food
+			if (this->gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::FOOD) > 0) {
+				if (this->gameInstance->charHandler.getCharacter(this->selectedCard).status.foodStat < MAX_STAT_LEVEL)
+					this->survivalActionHandler->consumeItem(this->selectedCard, eItemType::FOOD);
+				else
+					this->displayMessage("Cant give food\nAstronaut is at max\nfood level!",(int)this->type);
+			}
+			else
+				this->displayMessage("Cant give food\nNo food left!", (int)this->type);
+			break;
+		case 2://water
+			if (this->gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WATER) > 0) {
+				if (this->gameInstance->charHandler.getCharacter(this->selectedCard).status.waterStat < MAX_STAT_LEVEL)
+					this->survivalActionHandler->consumeItem(this->selectedCard, eItemType::WATER);
+				else
+					this->displayMessage("Cant give water\nAstronaut is at max\nwater level!", (int)this->type);
+			}
+			else
+				this->displayMessage("Cant give water\nNo water left!", (int)this->type);
+			break;
+		case 3://meds
+			if (this->gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::MEDS) > 0) {
+				if (this->gameInstance->charHandler.getCharacter(this->selectedCard).status.healthStat< MAX_STAT_LEVEL)
+					this->survivalActionHandler->consumeItem(this->selectedCard, eItemType::MEDS);
+				else
+					this->displayMessage("Cant heal\nAstronaut is at max\nhealth level!", (int)this->type);
+			}
+			else
+				this->displayMessage("Cant heal\nNo meds left!", (int)this->type);
+			break;
+		case 4://explore planet
+
+			break;
+
+		}
+
+		break;
+	}
+	this->infoToFech = eNextCycleGetInfoPC::NONE;
 	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT)) //if key down
 		this->activePage = (ePcPage) (max(0, (int) this->activePage- 1));  
 	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
@@ -572,11 +622,12 @@ void pcStage::updatePlanetPlanetPage()
 {
 }
 
-void pcStage::initStage(int fallbackStage, ePcPage pcPage, bool atPlanet)
+void pcStage::initStage(int fallbackStage, ePcPage pcPage, bool atPlanet, survivalActions* survivalAction)
 {
 	this->fallbackStage = fallbackStage;
 	this->atPlanet = atPlanet;
 	this->openPage(pcPage);
+	this->survivalActionHandler == survivalAction;
 }
 pcStage::pcStage(Image& font, Image& smallFont) : stage(font), smallFont(smallFont)
 {
@@ -635,14 +686,14 @@ void multipleOptionsStage::initStage(int fallbackStage, std::vector<std::string>
 
 
 multipleOptionsStage::multipleOptionsStage(Image& font,Image& smallFont) :stage(font),smallFont(smallFont)
-{
-	
+{	
 }
 
 /*==============================================Message===================================================*/
 
 void messageStage::render(Image& framebuffer)
 {
+	framebuffer.fill(gameInstance->bgcolor);
 	std::istringstream iss(this->message);
 	int yDispl = 20;
 	for (std::string line; std::getline(iss, line);) {
@@ -668,4 +719,59 @@ void messageStage::initStage(int fallbackStage, std::string& message)
 
 messageStage::messageStage(Image& font, Image& smallFont): stage(font), smallFont(smallFont)
 {
+}
+
+/*==============================================Dual Option===================================================*/
+
+void dualOptionStage::renderOption(Image& framebuffer, int num) {
+	std::string opString = num == 0 ? this->option1 : this->option2;
+	Vector2 displ(num == 0 ? 5 : 84,90);
+
+	framebuffer.drawRectangle(displ.x, displ.y, 71, 15, this->selectedOption == num ? Color::GREEN : Color::WHITE);
+	framebuffer.drawRectangle(displ.x + 1, displ.y + 1, 69, 13, gameInstance->bgcolor);
+	framebuffer.drawText(opString, (displ.x+71) / 2 + (num==0?-1:1) * (std::round((opString.length() - 1) / 2) * 7) - 7, displ.y + 2, this->font);
+
+}
+
+void dualOptionStage::render(Image& framebuffer)
+{
+	framebuffer.fill(gameInstance->bgcolor);
+	
+	framebuffer.drawText("SPACE : Select", 5, 5, this->smallFont, 4, 6);
+	framebuffer.drawText("ARROWS: Change", framebuffer.width - 61, 5, this->smallFont, 4, 6);
+	std::istringstream iss(this->message);
+	int yDispl = 20;
+	for (std::string line; std::getline(iss, line);) {
+		framebuffer.drawText(line, framebuffer.width / 2 - (std::round((line.length() - 1) / 2) * 7) - 7, yDispl, this->font);
+		yDispl += 12;
+	}
+	this->renderOption(framebuffer, 0);
+	this->renderOption(framebuffer, 1);
+	
+}
+
+void dualOptionStage::update(double seconds_elapsed)
+{
+	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT))
+		this->selectedOption = 0;
+	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT))
+		this->selectedOption = 1;
+	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+		this->gameInstance->setActiveStage(this->fallbackStage);
+}
+
+void dualOptionStage::initStage(int fallbackStage, std::string& message, std::string& option1, std::string& option2)
+{
+	this->fallbackStage = fallbackStage;
+	this->message = message;
+	this->option1 = option1;
+	this->option2 = option2;
+	this->selectedOption = 0;
+}
+
+dualOptionStage::dualOptionStage(Image& font, Image& smallFont):stage(font),smallFont(smallFont)
+{
+	this->option1 = "Option 1";
+	this->option2 = "Option 2";
+	this->message = "Do you want to go\nexplore with a\ngun?";
 }

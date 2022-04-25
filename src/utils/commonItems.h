@@ -8,6 +8,7 @@
 
 const int MAX_PLANET_OPTIONS = 3;
 const int MAX_PC_MENU = 3;
+const int MAX_STAT_LEVEL = 5;
 
 enum class holdingIcon { //Mainly used in uiHandler
 	EMPTY,
@@ -35,6 +36,7 @@ enum class stageType { //Mainly used in stage
 	PC,
 	MULTIPLE_OPTIONS,
 	MESSAGE,
+	DUAL_OPTION,
 	MENU,
 	TUTORIAL,
 	END,
@@ -45,4 +47,14 @@ enum class ePcPage { //Mainly used in stage
 	INVENTORY,
 	CREW,
 	PLANET
+};
+
+
+struct planetExplorationResults {
+	bool wasDamaged=false;
+	bool wasKilled=false;
+	int damageReceived=0;
+	int waterObtained=0;
+	int foodObtained=0;
+	int medsObtained=0;
 };

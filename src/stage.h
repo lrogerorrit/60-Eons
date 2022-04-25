@@ -31,6 +31,7 @@ public:
 	virtual void render(Image& framebuffer) {};
 	virtual void update(double seconds_elapsed) {};
 	virtual void initStage() {};
+	void displayMessage(std::string msg, int fallbackStage);
 };
 
 
@@ -157,6 +158,8 @@ private:
 	int selectedCard = -1;
 	std::string topTip = "";
 	eNextCycleGetInfoPC infoToFech = eNextCycleGetInfoPC::NONE;
+	survivalActions* survivalActionHandler = nullptr;
+	
 	void openPage(ePcPage page);
 
 	//render functions
@@ -184,7 +187,7 @@ public:
 	stageType type = stageType::PC;
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
-	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet);
+	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet, survivalActions* survivalAction);
 	pcStage(Image& font, Image & smallFont);
 	
 };
@@ -197,10 +200,10 @@ private:
 	int selectedOption = 0;
 	int fallbackStage = 0;
 	Image& smallFont;
+	void renderOption(Image& framebuffer, std::string& name, int num);
 	
 public:
 	stageType type = stageType::MULTIPLE_OPTIONS;
-	void renderOption(Image& framebuffer, std::string& name, int num);
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
 	void initStage(int fallbackStage,std::vector<std::string>&options);
@@ -216,11 +219,33 @@ private:
 	int fallbackStage = 0;
 	Image& smallFont;
 	std::string message;
+	
 public:
 	stageType type = stageType::MESSAGE;
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
 	void initStage(int fallbackStage, std::string& message);
 	messageStage(Image& font, Image& smallFont);
+
+};
+
+class dualOptionStage :public stage {
+private:
+	int fallbackStage = 0;
+	Image& smallFont;
+	std::string message;
+	std::string option1;
+	std::string option2;
+	int selectedOption = 0;
+	void renderOption(Image& framebuffer, int num);
+public:
+	stageType type = stageType::DUAL_OPTION;
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(int fallbackStage, std::string& message, std::string& option1, std::string& option2);
+	dualOptionStage(Image& font, Image& smallFont);
+	int getSelectedOption() {
+		return this->selectedOption;
+	};
 
 };

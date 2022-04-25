@@ -93,7 +93,7 @@ public:
 	void choosePlanet(int planetPos);
 	void generatePossibleTargets();
 	void consumeItem(int plNum, eItemType type);
-	void explorePlanet(int plNum, planetData& pData, bool hasGun);
+	planetExplorationResults& explorePlanet(int plNum, planetData& pData, bool hasGun);
 	
 	survivalActions():gameInstance(Game::instance), charHandler(Game::instance->getCharacterHandler()), invHandler(Game::instance->getInventoryHandler()) {};
 	

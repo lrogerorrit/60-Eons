@@ -4,7 +4,8 @@ C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(607,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(618,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(630,30): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(658,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(669,26): warning C4018: '<': signed/unsigned mismatch
 characterHandler.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
   visual.vcxproj -> C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\Game.exe
