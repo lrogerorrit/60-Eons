@@ -6,6 +6,7 @@
 #include "utils/mapHandler.h"
 #include "characterHandler.h"
 #include "utils/assetManager.h"
+#include <sstream>
 
 
 
@@ -140,6 +141,10 @@ public:
 	};
 };
 
+enum class eNextCycleGetInfoPC {
+	NONE,
+	CREW_OPTIONS,
+};
 
 class pcStage :public stage {
 private:
@@ -151,7 +156,7 @@ private:
 	bool tipVisible = false;
 	int selectedCard = -1;
 	std::string topTip = "";
-	
+	eNextCycleGetInfoPC infoToFech = eNextCycleGetInfoPC::NONE;
 	void openPage(ePcPage page);
 
 	//render functions
@@ -167,6 +172,8 @@ private:
 	
 	//update functions
 	void updateInventoryPage();
+
+	void openCrewOptions(int crewNum);
 	
 	void updateCrewPage();
 	void updatePlanetSpacePage();
@@ -180,4 +187,40 @@ public:
 	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet);
 	pcStage(Image& font, Image & smallFont);
 	
+};
+
+
+
+class multipleOptionsStage : public stage {
+private:
+	std::vector<std::string> options;
+	int selectedOption = 0;
+	int fallbackStage = 0;
+	Image& smallFont;
+	
+public:
+	stageType type = stageType::MULTIPLE_OPTIONS;
+	void renderOption(Image& framebuffer, std::string& name, int num);
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(int fallbackStage,std::vector<std::string>&options);
+	int getSelectedOption() {
+		return this->selectedOption;
+	};
+	multipleOptionsStage(Image& font, Image& smallFont);
+};
+
+
+class messageStage :public stage {
+private:
+	int fallbackStage = 0;
+	Image& smallFont;
+	std::string message;
+public:
+	stageType type = stageType::MESSAGE;
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(int fallbackStage, std::string& message);
+	messageStage(Image& font, Image& smallFont);
+
 };

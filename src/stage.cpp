@@ -411,6 +411,7 @@ void pcStage::openPage(ePcPage page)
 }
 void pcStage::render(Image& framebuffer)
 {
+	framebuffer.fill(gameInstance->bgcolor);
 	switch (this->activePage) {
 	case ePcPage::INVENTORY:
 		this->renderInventoryPage(framebuffer);
@@ -519,7 +520,26 @@ void pcStage::updateInventoryPage()
 	
 }
 
+void pcStage::openCrewOptions(int crewNum) {
+	this->infoToFech = eNextCycleGetInfoPC::CREW_OPTIONS;
+	std::cout << "Opening Options for crew " << crewNum << std::endl;
 
+	gameInstance->setActiveStage(stageType::MULTIPLE_OPTIONS);
+	multipleOptionsStage* st = (multipleOptionsStage*)gameInstance->getStageOfType(stageType::MULTIPLE_OPTIONS);
+	std::vector<std::string> optionsToSend;
+	std::string foodNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::FOOD))+")";
+	std::string drinkNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WATER))+")";
+	std::string medNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::MEDS))+")";
+	
+	optionsToSend.push_back("Close");
+	optionsToSend.push_back("Give food (" + foodNum);
+	optionsToSend.push_back("Give water (" + drinkNum);
+	optionsToSend.push_back("Heal (" + medNum);
+	if(this->atPlanet)
+		optionsToSend.push_back("Send Explore Planet");
+	st->initStage((int)this->type, optionsToSend);
+
+}
 
 void pcStage::updateCrewPage()
 {
@@ -530,14 +550,17 @@ void pcStage::updateCrewPage()
 	Vector2 mousePos = this->gameInstance->mapMousePosition();
 	if (mousePos.x >7 && mousePos.x< 79&& mousePos.y>24 && mousePos.y <69 )
 		this->selectedCard = 0;
-	/*else if (mousePos.x > && mousePos.x< && mousePos.y> && mousePos.y <)
-		this->selectedCard = 1;
-	else if (mousePos.x > && mousePos.x< && mousePos.y> && mousePos.y < )
+	else if (mousePos.x >7 && mousePos.x<79 && mousePos.y>70 && mousePos.y <115)
 		this->selectedCard = 2;
-	else if (mousePos.x > && mousePos.x< && mousePos.y> && mousePos.y < )
+	else if (mousePos.x >81 && mousePos.x<153 && mousePos.y>24 && mousePos.y <69 )
+		this->selectedCard = 1;
+	else if (mousePos.x >81 && mousePos.x<153 && mousePos.y>70 && mousePos.y <115 )
 		this->selectedCard = 3;
-		*/
+	
 
+	if (Input::wasMousePressed(0) && this->selectedCard!=-1) {
+		this->openCrewOptions(this->selectedCard);
+	}
 
 }
 
@@ -558,4 +581,91 @@ void pcStage::initStage(int fallbackStage, ePcPage pcPage, bool atPlanet)
 pcStage::pcStage(Image& font, Image& smallFont) : stage(font), smallFont(smallFont)
 {
 	
+	
+}
+/*==============================================Multiple Options===================================================*/
+
+void multipleOptionsStage::renderOption(Image& framebuffer, std::string& name, int num) {
+	Vector2 displ(16, 23 + (14 * num));
+	framebuffer.drawRectangle(displ.x, displ.y, 128, 13, this->selectedOption == num ? Color::GREEN : Color::WHITE);
+	framebuffer.drawRectangle(displ.x + 1, displ.y+1, 126, 11,gameInstance->bgcolor);
+	framebuffer.drawText(name, framebuffer.width / 2 - (std::round((name.length()-.1) / 2) * 7)-3, displ.y + 2, this->font);
+}
+
+void multipleOptionsStage::render(Image& framebuffer)
+{
+	framebuffer.fill(gameInstance->bgcolor);
+	framebuffer.drawRectangle(13, 20, 134, 90, Color::WHITE);
+	framebuffer.drawRectangle(15, 22, 130, 86, gameInstance->bgcolor); 
+
+	
+	framebuffer.drawText("SPACE : Select", 5, 12, this->smallFont, 4, 6);
+	framebuffer.drawText("ARROWS: Change", framebuffer.width-61, 12, this->smallFont, 4, 6);
+
+	framebuffer.drawText("Choose Option:",34, 1, this->font);
+
+	for (int i = 0; i < this->options.size(); i++) {
+		this->renderOption(framebuffer, this->options[i], i);
+	}
+	
+}
+
+void multipleOptionsStage::update(double seconds_elapsed)
+{
+	if (Input::wasKeyPressed(SDL_SCANCODE_UP)) //if key down
+		this->selectedOption = max(0, this->selectedOption - 1);
+	else if (Input::wasKeyPressed(SDL_SCANCODE_DOWN)) //if key down
+		this->selectedOption = min(this->options.size() - 1, this->selectedOption + 1);
+	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+		this->gameInstance->setActiveStage(this->fallbackStage);
+
+}
+
+void multipleOptionsStage::initStage(int fallbackStage, std::vector<std::string>& options)
+{
+	this->selectedOption = 0;
+	this->fallbackStage = fallbackStage;
+
+	this->options.clear();
+	for (std::string& op : options)
+		this->options.push_back(op);
+		
+
+}
+
+
+multipleOptionsStage::multipleOptionsStage(Image& font,Image& smallFont) :stage(font),smallFont(smallFont)
+{
+	
+}
+
+/*==============================================Message===================================================*/
+
+void messageStage::render(Image& framebuffer)
+{
+	std::istringstream iss(this->message);
+	int yDispl = 20;
+	for (std::string line; std::getline(iss, line);) {
+		framebuffer.drawText(line, framebuffer.width / 2 - (std::round((line.length()-1) / 2) * 7) - 7, yDispl, this->font);
+		yDispl += 12;
+	}
+	framebuffer.drawText("SPACE to continue", 19, framebuffer.height - 12, this->font);
+	
+}
+
+void messageStage::update(double seconds_elapsed)
+{
+	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+		this->gameInstance->setActiveStage(this->fallbackStage);
+}
+
+void messageStage::initStage(int fallbackStage, std::string& message)
+{
+	this->fallbackStage = fallbackStage;
+	this->message = message;
+	
+}
+
+messageStage::messageStage(Image& font, Image& smallFont): stage(font), smallFont(smallFont)
+{
 }

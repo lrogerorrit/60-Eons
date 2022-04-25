@@ -33,11 +33,11 @@ enum class stageType { //Mainly used in stage
 	SURVIVAL,
 	PLANET_CHOOSING,
 	PC,
-	SELECT_OPTIONS,
+	MULTIPLE_OPTIONS,
+	MESSAGE,
 	MENU,
 	TUTORIAL,
 	END,
-	MESSAGE,
 };
 
 enum class ePcPage { //Mainly used in stage
