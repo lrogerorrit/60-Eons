@@ -32,6 +32,8 @@ public:
 	virtual void update(double seconds_elapsed) {};
 	virtual void initStage() {};
 	void displayMessage(std::string msg, int fallbackStage);
+	void displayDualOption(std::string msg, std::string op1, std::string op2, int fallbackStage);
+	void displayMultipleOption(std::vector<std::string>& options, int fallbackStage);
 };
 
 
@@ -172,10 +174,12 @@ private:
 	void renderCrewPage(Image& framebuffer);
 	void renderPlanetSpacePage(Image& framebuffer);
 	void renderPlanetPlanetPage(Image& framebuffer);
+
 	
 	//update functions
 	void updateInventoryPage();
 
+	void openDualOptions(std::string& msg, std::string& op1, std::string& op2, eNextCycleGetInfoPC flagToSet);
 	void openCrewOptions(int crewNum);
 	
 	void updateCrewPage();

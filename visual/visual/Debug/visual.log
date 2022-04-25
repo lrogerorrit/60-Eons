@@ -1,11 +1,82 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  game.cpp
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
   stage.cpp
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,89): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(61,103): warning C4018: '>=': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(104,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\image.h(105,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(630,30): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(658,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(669,26): warning C4018: '<': signed/unsigned mismatch
-characterHandler.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-  visual.vcxproj -> C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\Game.exe
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(788,1): error C2528: 'pointer': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(610): message : see reference to class template instantiation 'std::allocator<std::string &>' being compiled
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(704): message : see reference to class template instantiation 'std::_Default_allocator_traits<_Alloc>' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::string &>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(438): message : see reference to class template instantiation 'std::allocator_traits<_Alloc>' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::string &>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(438): message : see reference to alias template instantiation 'std::_Rebind_alloc_t<_Alloc,_Ty>' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::string &>,
+              _Ty=std::string &
+          ]
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(34): message : see reference to class template instantiation 'std::vector<std::string &,std::allocator<std::string &>>' being compiled
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(789,1): error C2528: 'const_pointer': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(808,1): error C2528: 'address': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(812,1): error C2528: 'address': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(825,1): error C2528: '_Ptr': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(830,1): error C2528: 'allocate': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(842,1): error C2528: 'allocate': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(612,1): error C2528: 'abstract declarator': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(613,1): error C2528: 'abstract declarator': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(632,1): error C2528: '<template-parameter>': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(646,1): error C2528: '<template-parameter>': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(739,1): error C2528: 'abstract declarator': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(455): message : see reference to variable template 'const bool _Is_simple_alloc_v<std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > &> >' being compiled
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(739,1): error C2528: '<template-parameter>': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(740,1): error C2528: 'abstract declarator': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(740,1): error C2528: '<template-parameter>': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(456,88): error C2528: '<template-parameter>': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(640,1): error C2535: 'void std::vector<std::string &,std::allocator<std::string &>>::push_back(_Ty)': member function already defined or declared
+          with
+          [
+              _Ty=std::string &
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(636): message : see declaration of 'std::vector<std::string &,std::allocator<std::string &>>::push_back'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(730,1): error C2535: 'std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>> std::vector<_Ty,std::allocator<_Ty>>::insert(std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,_Ty)': member function already defined or declared
+          with
+          [
+              _Ty=std::string &
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(726): message : see declaration of 'std::vector<std::string &,std::allocator<std::string &>>::insert'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(1363,1): error C2528: 'data': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(1367,1): error C2528: 'data': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(748,1): error C2528: 'abstract declarator': pointer to reference is illegal
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(384): message : see reference to class template instantiation 'std::_Simple_types<_Ty>' being compiled
+          with
+          [
+              _Ty=std::string &
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(1359): message : see reference to class template instantiation 'std::_Vector_val<std::_Simple_types<_Ty>>' being compiled
+          with
+          [
+              _Ty=std::string &
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(1753): message : see reference to class template instantiation 'std::_Compressed_pair<std::allocator<std::string &>,std::_Vector_val<std::_Simple_types<_Ty>>,true>' being compiled
+          with
+          [
+              _Ty=std::string &
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xmemory(749,1): error C2528: 'abstract declarator': pointer to reference is illegal
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(36,1): error C2059: syntax error: '}'
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(642,30): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(670,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\roger\Documents\3r\T3\TJE\TJE-2d\src\stage.cpp(681,26): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...

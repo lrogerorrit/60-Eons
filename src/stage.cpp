@@ -23,6 +23,20 @@ void stage::displayMessage(std::string msg, int fallbackStage)
 	this->gameInstance->setActiveStage(stageType::MESSAGE);
 }
 
+void stage::displayDualOption(std::string msg, std::string op1, std::string op2, int fallbackStage)
+{
+	dualOptionStage* st = (dualOptionStage*)gameInstance->getStageOfType(stageType::DUAL_OPTION);
+	st->initStage(fallbackStage, msg,op1,op2);
+	this->gameInstance->setActiveStage(stageType::DUAL_OPTION);
+}
+
+void stage::displayMultipleOption(std::vector<std::string>& options, int fallbackStage)
+{
+	multipleOptionsStage* st = (multipleOptionsStage*)gameInstance->getStageOfType(stageType::MULTIPLE_OPTIONS);
+	st->initStage(fallbackStage,options);
+	this->gameInstance->setActiveStage(stageType::MULTIPLE_OPTIONS);
+}
+
 
 /*==============================================countdown===================================================*/
 
@@ -498,8 +512,15 @@ void pcStage::renderPlanetSpacePage(Image& framebuffer)
 void pcStage::renderPlanetPlanetPage(Image& framebuffer)
 {
 }
+
+void pcStage::openDualOptions(std::string& msg, std::string& op1, std::string& op2, eNextCycleGetInfoPC flagToSet) {
+	this->infoToFech = flagToSet;
+	this->displayDualOption(msg, op1, op2, (int)this->type);
+}
+
 void pcStage::update(double seconds_elapsed)
 {
+	bool dontResetFlag = false;
 	switch (infoToFech) {
 	case eNextCycleGetInfoPC::CREW_OPTIONS:
 		multipleOptionsStage* st = (multipleOptionsStage*)gameInstance->getStageOfType(stageType::MULTIPLE_OPTIONS);
@@ -542,7 +563,8 @@ void pcStage::update(double seconds_elapsed)
 
 		break;
 	}
-	this->infoToFech = eNextCycleGetInfoPC::NONE;
+	if(!dontResetFlag)
+		this->infoToFech = eNextCycleGetInfoPC::NONE;
 	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT)) //if key down
 		this->activePage = (ePcPage) (max(0, (int) this->activePage- 1));  
 	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
@@ -574,8 +596,8 @@ void pcStage::openCrewOptions(int crewNum) {
 	this->infoToFech = eNextCycleGetInfoPC::CREW_OPTIONS;
 	std::cout << "Opening Options for crew " << crewNum << std::endl;
 
-	gameInstance->setActiveStage(stageType::MULTIPLE_OPTIONS);
-	multipleOptionsStage* st = (multipleOptionsStage*)gameInstance->getStageOfType(stageType::MULTIPLE_OPTIONS);
+	
+
 	std::vector<std::string> optionsToSend;
 	std::string foodNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::FOOD))+")";
 	std::string drinkNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WATER))+")";
@@ -587,7 +609,8 @@ void pcStage::openCrewOptions(int crewNum) {
 	optionsToSend.push_back("Heal (" + medNum);
 	if(this->atPlanet)
 		optionsToSend.push_back("Send Explore Planet");
-	st->initStage((int)this->type, optionsToSend);
+	this->displayMultipleOption(optionsToSend, (int)this->type);
+	
 
 }
 
@@ -686,7 +709,7 @@ void multipleOptionsStage::initStage(int fallbackStage, std::vector<std::string>
 
 
 multipleOptionsStage::multipleOptionsStage(Image& font,Image& smallFont) :stage(font),smallFont(smallFont)
-{	
+{
 }
 
 /*==============================================Message===================================================*/
@@ -771,7 +794,5 @@ void dualOptionStage::initStage(int fallbackStage, std::string& message, std::st
 
 dualOptionStage::dualOptionStage(Image& font, Image& smallFont):stage(font),smallFont(smallFont)
 {
-	this->option1 = "Option 1";
-	this->option2 = "Option 2";
-	this->message = "Do you want to go\nexplore with a\ngun?";
+	
 }
