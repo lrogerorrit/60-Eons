@@ -290,7 +290,7 @@ public:
 	void renderBackground(Image& framebuffer);
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
-	void initStage(){};
+	void initStage();
 	menuStage(Image& font, Image& smallFont);
 
 };

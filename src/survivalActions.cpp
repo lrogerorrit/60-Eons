@@ -63,6 +63,8 @@ planetExplorationResults& survivalActions::explorePlanet(int plNum, planetData& 
 	this->hasVisitedPlanet=true;
 	character& chosenChar = this->charHandler.getCharacter(plNum);
 	assert(chosenChar.isAlive);
+	if (hasGun)
+		this->gameInstance->invHandler.shipInv.removeItem(eItemType::WEAPON);
 	planetStats planetInfo = this->targetPlanet->stats;
 	int minHealthDamage, maxHealthDamage, damageProb, gunEfectivenes;
 	planetExplorationResults results;

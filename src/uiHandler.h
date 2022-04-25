@@ -97,6 +97,7 @@ class countdownUI {
 		void hidePrompt() {
 			this->promptVisible = false;
 		}
+		
 	
 };
 

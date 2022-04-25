@@ -72,6 +72,8 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	assetMan->cacheImage("data/shipTail.tga");
 	assetMan->cacheImage("data/planetCard.tga");
 	assetMan->cacheImage("data/planetDataLayout.tga");
+	assetMan->cacheImage("data/planetBackground.tga");
+	assetMan->cacheImage("data/tutorial.tga");
 	
 	
 	
@@ -228,7 +230,7 @@ void Game::update(double seconds_elapsed)
 
 	if (Input::gamepads[0].direction & PAD_UP) //left stick pointing up
 	{
-		bgcolor.set(0, 255, 0);
+		//bgcolor.set(0, 255, 0);
 	}
 	
 	

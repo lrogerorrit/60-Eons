@@ -105,10 +105,10 @@ void countdownStage::renderMap(Image& framebuffer, float dx, float dy) {
 			screenx -= dx;
 			screeny -= dy;
 			
-			if (tilePos.x == x && tilePos.y == y) {
+			/*if (tilePos.x == x && tilePos.y == y) {
 				framebuffer.drawRectangle(screenx, screeny, cs, cs, Color::BLUE); 	//pos in screen
 				}
-			else
+			else*/
 				//draw region of tileset inside framebuffer
 				framebuffer.drawImage(tileset, 		//image
 					screenx, screeny, 	//pos in screen
@@ -142,7 +142,7 @@ void countdownStage::update(double seconds_elapsed) {
 	localChar.isMoving = false;
 
 	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
-	if (Input::isKeyPressed(SDL_SCANCODE_UP)) { //if key up
+	if (Input::isKeyPressed(SDL_SCANCODE_UP)|| Input::gamepads[0].direction & PAD_UP) { //if key up
 		sCell cell = getCellAtPos(charPos.x, charPos.y - max(y_collisionDist, (speed * seconds_elapsed)));
 
 		if (cell.canEnter()) {
@@ -152,7 +152,7 @@ void countdownStage::update(double seconds_elapsed) {
 		localChar.dir = UP;
 
 	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
+	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)|| Input::gamepads[0].direction & PAD_DOWN) //if key down
 	{
 		sCell cell = getCellAtPos(charPos.x, charPos.y + max(y_collisionDist, (speed * seconds_elapsed)));
 		if (cell.canEnter()) {
@@ -161,7 +161,7 @@ void countdownStage::update(double seconds_elapsed) {
 		}
 		localChar.dir = DOWN;
 	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
+	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)|| Input::gamepads[0].direction & PAD_LEFT) { //if key up
 		sCell cell = getCellAtPos(charPos.x - max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
 		if (cell.canEnter()) {
 			localChar.isMoving = true;
@@ -169,7 +169,7 @@ void countdownStage::update(double seconds_elapsed) {
 		}
 		localChar.dir = LEFT;
 	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
+	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)|| Input::gamepads[0].direction & PAD_RIGHT) //if key down
 	{
 		sCell cell = getCellAtPos(charPos.x + max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
 		if (cell.canEnter()) {
@@ -186,14 +186,14 @@ void countdownStage::update(double seconds_elapsed) {
 	if (gameInstance->localTilePos.y <= .4) { //if player is close enough
 		if (gameInstance->startMap.isCellItemType(tilePos.x, tilePos.y)) {
 			gameInstance->uihandler.countdownUIObj.showPrompt("Space - Pick Item");
-			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON)) {
 				gameInstance->invHandler.handInv.addItem(gameInstance->startMap.getCellItemType(tilePos.x, tilePos.y));
 			}
 
 		}
 		else if (gameInstance->startMap.isCellExitType(tilePos.x, tilePos.y)) {
 			gameInstance->uihandler.countdownUIObj.showPrompt("Space - Save Item");
-			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON)) {
 				gameInstance->invHandler.handInv.dumpItemsToShip(gameInstance->invHandler.shipInv);
 			}
 		}
@@ -206,6 +206,18 @@ void countdownStage::update(double seconds_elapsed) {
 	}
 	gameInstance->uihandler.countdownUIObj.updateCountdown(gameInstance->totalTime);
 	gameInstance->uihandler.countdownUIObj.setIconSlotsFromVector(gameInstance->invHandler.handInv.getIconsToRender());
+
+	
+	if (gameInstance->debugMode && Input::wasKeyPressed(SDL_SCANCODE_F1)) {
+		this->gameInstance->uihandler.countdownUIObj.time = 0;
+		this->assetManagerInstance->getAudio("countdownLoop")->stop();
+
+	}
+
+	if (this->gameInstance->uihandler.countdownUIObj.getCountdownTime() == 0) {
+		gameInstance->setActiveStage(stageType::POST_COUNTDOWN);
+		gameInstance->getActiveStage()->initStage();
+	}
 }
 
 /*==============================================survival===================================================*/
@@ -361,6 +373,9 @@ void survivalStage::renderUI(Image& framebuffer) {
 void survivalStage::render(Image& framebuffer) {
 	framebuffer.fill(gameInstance->bgcolor);
 	renderBackground(framebuffer);
+	if (this->survivalActionHandler->isAtPlanet()) {
+		framebuffer.drawImage(this->assetManagerInstance->getImage("data/planetBackground.tga"), framebuffer.width / 2 - 50, framebuffer.height / 2 - 50, 100 * (int)this->survivalActionHandler->getTargetPlanetData()->type, 0,100,100);
+	}
 	renderSpaceShip(framebuffer);
 	renderUI(framebuffer);
 	renderInfo(framebuffer);
@@ -430,11 +445,11 @@ void planetChoosingStage::render(Image& framebuffer)
 
 void planetChoosingStage::update(double seconds_elapsed)
 {
-	if (Input::wasKeyPressed(SDL_SCANCODE_DOWN)) //if key down
+	if (Input::wasKeyPressed(SDL_SCANCODE_DOWN)|| Input::gamepads[0].didDirectionChanged(PAD_DOWN)) //if key down
 		this->selectedOption = min(MAX_PLANET_OPTIONS - 1, this->selectedOption + 1);
-	else if (Input::wasKeyPressed(SDL_SCANCODE_UP)) //if key down
+	else if (Input::wasKeyPressed(SDL_SCANCODE_UP)|| Input::gamepads[0].didDirectionChanged(PAD_UP)) //if key down
 		this->selectedOption = max(0, this->selectedOption - 1);
-	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)||Input::gamepads[0].wasButtonPressed(A_BUTTON))
 		this->gameInstance->setActiveStage(this->fallbackStage);
 }
 
@@ -644,7 +659,7 @@ void pcStage::update(double seconds_elapsed)
 			else {
 				if (this->gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WEAPON) > 0) {
 					dontResetFlag = true;
-					this->openDualOptions("Do you want to take\na gun to explore?", "Yes", "No", eNextCycleGetInfoPC::GUN_CONFIRM);
+					this->openDualOptions("Do you want to take\na gun to explore?", "Yes", "     No", eNextCycleGetInfoPC::GUN_CONFIRM);
 
 				}
 				else
@@ -664,9 +679,9 @@ void pcStage::update(double seconds_elapsed)
 	}
 	if(!dontResetFlag)
 		this->infoToFech = eNextCycleGetInfoPC::NONE;
-	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT)) //if key down
+	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT)|| Input::gamepads[0].didDirectionChanged(PAD_LEFT)) //if key down
 		this->activePage = (ePcPage) (max(0, (int) this->activePage- 1));  
-	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
+	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT)|| Input::gamepads[0].didDirectionChanged(PAD_RIGHT)) //if key down
 		this->activePage = (ePcPage)min(MAX_PC_MENU - 1, (int) this->activePage + 1);
 
 	this->tipVisible = false;
@@ -918,13 +933,14 @@ void endStage::update(double seconds_elapsed)
 {
 	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON)) {
 		this->gameInstance->setActiveStage(stageType::MENU);
-		Input::update();
+		this->gameInstance->getActiveStage()->initStage();
 	}		
 }
 
 void endStage::initStage(int fallbackStage)
 {
 	this->fallbackStage = fallbackStage;
+	this->assetManagerInstance->getAudio("spaceMusic")->stop();
 }
 
 endStage::endStage(Image& font, Image& smallFont) :stage(font), smallFont(smallFont)
@@ -966,12 +982,18 @@ void menuStage::update(double seconds_elapsed)
 		this->showText = !this->showText;
 	}
 	this->updCount+= seconds_elapsed;
-	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-		/*this->gameInstance->setActiveStage(stageType::INTRO);
-		this->gameInstance->getStageOfType(stageType::INTRO)->initStage();*/
+	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON)) {
 		this->gameInstance->setActiveStage(stageType::INTRO);
 		this->gameInstance->getStageOfType(stageType::INTRO)->initStage();
+		
 	}
+}
+
+void menuStage::initStage()
+{
+	Synth::SamplePlayback* menuAudio = this->assetManagerInstance->getAudio("menuMusic");
+	menuAudio->offset = 0;
+	menuAudio->in_use = true;
 }
 
 
@@ -984,13 +1006,20 @@ menuStage::menuStage(Image& font, Image& smallFont):stage(font),smallFont(smallF
 
 void introStage::render(Image& framebuffer)
 {
+	if (currentFrame < totalFrames) return;
+	framebuffer.fill(gameInstance->bgcolor);
+	
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/tutorial.tga"),0,0);
 }
 
 void introStage::update(double seconds_elapsed)
 {
 	if (currentFrame >= totalFrames) {
-		this->gameInstance->setActiveStage(fallbackStage);
-		this->gameInstance->initGame();
+		if (Input::wasKeyPressed(SDL_SCANCODE_SPACE) || Input::gamepads[0].wasButtonPressed(A_BUTTON)) {
+			this->gameInstance->setActiveStage(fallbackStage);
+			this->gameInstance->initGame();
+		}
+		
 	}
 	else {
 		this->displayMessage(this->text[currentFrame], (int)this->type);
