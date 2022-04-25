@@ -7,6 +7,7 @@
 //
 void characterHandler::makeCharacters(const int numCharacters)
 {
+	this->characters.clear();
 	for (int i = 0; i < numCharacters; i++)
 	{
 		character newCharacter = new character(i==0,(CHAR_COLOR)i);

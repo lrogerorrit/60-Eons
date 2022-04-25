@@ -67,7 +67,7 @@ private:
         bool isAlive = true;
 		bool isMoving = true;
 		
-		float movementSpeed = 50.0f;
+		float movementSpeed = 65.0f;
 		facingDirection dir = DOWN;
 		
 		

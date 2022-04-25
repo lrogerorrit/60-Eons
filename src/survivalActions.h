@@ -138,6 +138,17 @@ public:
 		return this->hasVisitedPlanet;
 	}
 
+	void reset() {
+		this->traveledDays = 0;
+		this->daysAtPlanet = 0;
+		this->isDepartingPlanet = true;
+		this->atPlanet = false;
+		this->hasVisitedPlanet = false;
+		this->targetPlanet = nullptr;
+		this->possibleTargetList.clear();
+		this->totalDays = 0;
+	}
+
 	
 };
 

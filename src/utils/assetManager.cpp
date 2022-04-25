@@ -19,6 +19,15 @@ Image& assetManager::getImage(const char* name)
 	return img;
 }
 
+Synth::SamplePlayback* assetManager::getAudio(const char* name)
+{
+	auto it = this->audioCache.find(name);
+
+	if (it != this->audioCache.end())
+		return (it->second);
+	
+}
+
 void assetManager::cacheImage(const char* path)
 {
 	if (this->imageCache.find(path) == this->imageCache.end()) {
@@ -27,4 +36,9 @@ void assetManager::cacheImage(const char* path)
 		this->imageCache[path] = img;
 	}
 	
+}
+
+void assetManager::cacheAudio(const char* name, Synth::SamplePlayback* sample)
+{
+	this->audioCache[name] = sample;
 }

@@ -78,13 +78,15 @@ public:
 	
 	std::vector<stage*> stages;
 	stageType activeStage=stageType::MENU;
+	bool deadCheckActive = true;
 	bool debugMode = true;
 	// make a list of ints of size astronautNum
 	
 
 	//ctor
 	Game( int window_width, int window_height, SDL_Window* window );
-
+	//Resets game
+	void initGame();
 	//main functions
 	void render( void );
 	void update( double dt );
@@ -158,6 +160,7 @@ public:
 	}
 	
 	Vector2ub mapMousePosition();
+
 	
 };
 

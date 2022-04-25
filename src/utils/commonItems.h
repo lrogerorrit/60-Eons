@@ -40,6 +40,7 @@ enum class stageType { //Mainly used in stage
 	END,
 	MENU,
 	INTRO,
+	POST_COUNTDOWN,
 	TUTORIAL,
 };
 

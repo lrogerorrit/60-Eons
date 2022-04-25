@@ -31,7 +31,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	frame = 0;
 	time = 0.0f;
 	elapsed_time = 0.0f;
-	tilePos = Vector2ub(2, 2);
+	tilePos = Vector2ub(7, 2);
 	localTilePos = Vector2(0.0f, 0.0f);
 
 	font.loadTGA("data/bitmap-font-white.tga"); //load bitmap-font image
@@ -41,7 +41,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	//testIcon.loadTGA("data/icons/guns.tga");
 	this->assetMan = assetManager::instance;
 	this->charHandler.makeCharacters(this->astronautNum);
-	this->startMap.loadGameMap("data/mymapV2.map");
+	this->startMap.loadGameMap("data/finalMap.map");
 	this->localChar = charHandler.getCharacter(0);
 	cellSize = testTileset.width / 16;
 	this->localChar.setPosition(tilePos*cellSize);
@@ -62,6 +62,18 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	assetMan->cacheImage("data/pcPlanets.tga");
 	assetMan->cacheImage("data/endScreen.tga");
 	assetMan->cacheImage("data/logo.tga");
+	assetMan->cacheImage("data/starBackground.tga");
+	assetMan->cacheImage("data/starBackground2.tga");
+	assetMan->cacheImage("data/daysStay.tga");
+	assetMan->cacheImage("data/pcDataLayout.tga");
+	assetMan->cacheImage("data/planets0.tga");
+	assetMan->cacheImage("data/planets1.tga");
+	assetMan->cacheImage("data/shipBody.tga");
+	assetMan->cacheImage("data/shipTail.tga");
+	assetMan->cacheImage("data/planetCard.tga");
+	assetMan->cacheImage("data/planetDataLayout.tga");
+	
+	
 	
 	//this->stages.reserve(6);
 	this->stages.push_back(new countdownStage(testTileset,sprite,font,this->localChar));
@@ -74,14 +86,49 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->stages.push_back(new endStage(font, minifont));
 	this->stages.push_back(new menuStage(font, minifont));
 	this->stages.push_back(new introStage(font, minifont));
+	this->stages.push_back(new postCountdownStage(font, minifont));
 	
 	
 
 	enableAudio(); //enable this line if you plan to add audio to your application
 	//synth.playSample("data/music/countdownMusic.wav",1,false);
+	
+	Synth::SamplePlayback* countdownMusic= synth.playSample("data/music/countdownMusic.wav", 1, false);
+	Synth::SamplePlayback* menuMusic = synth.playSample("data/music/menuMusic.wav", 1, true);
+	Synth::SamplePlayback* spaceMusic= synth.playSample("data/music/spaceMusic.wav", 1, true);
+	countdownMusic->stop();
+	spaceMusic->stop();
+
+	
+	
+
+	assetMan->cacheAudio("countdownLoop", countdownMusic);
+	assetMan->cacheAudio("menuMusic", menuMusic);
+	assetMan->cacheAudio("spaceMusic", spaceMusic);
+
 	//synth.osc1.amplitude = 0.5;
 }
 
+void Game::initGame()
+{
+	tilePos = Vector2ub(7, 2);
+	localTilePos = Vector2(0.0f, 0.0f);
+	this->localChar.setPosition(tilePos * cellSize);
+	this->uihandler.countdownUIObj.setStartTime(totalTime);
+	this->charHandler.makeCharacters(this->astronautNum);
+	this->localChar = charHandler.getCharacter(0);
+	this->localChar.setPosition(tilePos * cellSize);
+	assetMan->getAudio("menuMusic")->stop();
+	assetMan->getAudio("spaceMusic")->stop();
+	Synth::SamplePlayback* countdownMusic = assetMan->getAudio("countdownLoop");
+	countdownMusic->offset = 0;
+	countdownMusic->in_use = true;
+	this->deadCheckActive = true;
+	survivalStage* st = (survivalStage*)this->getStageOfType(stageType::SURVIVAL);
+	st->resetSurvivalActions();
+	
+	
+}
 
 
 
@@ -144,10 +191,13 @@ void Game::update(double seconds_elapsed)
 	//...
 	
 	totalTime+= seconds_elapsed;
-
-	if (this->charHandler.getAliveCharacterNum() == 0)
+	if (this->deadCheckActive)
+	if (this->charHandler.getAliveCharacterNum() == 0) {
+		this->deadCheckActive = false;
 		this->setActiveStage(stageType::END);
-	
+		endStage* st = (endStage*)this->getActiveStage();
+		st->initStage((int)stageType::MENU);
+	}
 
 	switch (this->activeStage) {
 	case stageType::COUNTDOWN: 
@@ -317,6 +367,7 @@ void Game::onAudio(float *buffer, unsigned int len, double time, SDL_AudioSpec& 
 	//fill the audio buffer using our custom retro synth
 	synth.generateAudio(buffer, len, audio_spec);
 }
+
 
 
 

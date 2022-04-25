@@ -116,9 +116,10 @@ public:
 
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
-	void initStage() {};
+	void initStage();
 	survivalActions& getSurvivalActions();
 	int getTotalDays();
+	void resetSurvivalActions();
 };
 
 struct planetData;
@@ -311,4 +312,20 @@ public:
 
 
 		
+};
+
+class postCountdownStage :public stage {
+	private:
+	Image& smallFont;
+	int fallbackStage = 0;
+	int currentFrame = 0;
+	int totalFrames = 0;
+	std::vector<std::string> text;
+public:
+	stageType type = stageType::POST_COUNTDOWN;
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage();
+	postCountdownStage(Image& font, Image& smallFont);
+
 };

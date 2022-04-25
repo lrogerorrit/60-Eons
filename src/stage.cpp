@@ -290,6 +290,11 @@ void survivalStage::update(double seconds_elapsed) {
 		this->advanceToNextDay();
 }
 
+void survivalStage::initStage()
+{
+	this->choosePlanet();
+}
+
 survivalActions& survivalStage::getSurvivalActions()
 	{
 		return *this->survivalActionHandler;
@@ -297,6 +302,10 @@ survivalActions& survivalStage::getSurvivalActions()
 int survivalStage::getTotalDays()
 {
 	return this->survivalActionHandler->getTotalDays();
+}
+void survivalStage::resetSurvivalActions()
+{
+	this->survivalActionHandler->reset();
 }
 ;
 
@@ -783,11 +792,11 @@ void multipleOptionsStage::render(Image& framebuffer)
 
 void multipleOptionsStage::update(double seconds_elapsed)
 {
-	if (Input::wasKeyPressed(SDL_SCANCODE_UP)) //if key down
+	if (Input::wasKeyPressed(SDL_SCANCODE_UP)|| Input::gamepads[0].didDirectionChanged(PAD_UP)) //if key down
 		this->selectedOption = max(0, this->selectedOption - 1);
-	else if (Input::wasKeyPressed(SDL_SCANCODE_DOWN)) //if key down
+	else if (Input::wasKeyPressed(SDL_SCANCODE_DOWN)|| Input::gamepads[0].didDirectionChanged(PAD_DOWN)) //if key down
 		this->selectedOption = min(this->options.size() - 1, this->selectedOption + 1);
-	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON))
 		this->gameInstance->setActiveStage(this->fallbackStage);
 
 }
@@ -826,7 +835,7 @@ void messageStage::render(Image& framebuffer)
 
 void messageStage::update(double seconds_elapsed)
 {
-	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON))
 		this->gameInstance->setActiveStage(this->fallbackStage);
 }
 
@@ -872,11 +881,11 @@ void dualOptionStage::render(Image& framebuffer)
 
 void dualOptionStage::update(double seconds_elapsed)
 {
-	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT))
+	if (Input::wasKeyPressed(SDL_SCANCODE_LEFT) || Input::gamepads[0].didDirectionChanged(PAD_LEFT))
 		this->selectedOption = 0;
-	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT))
+	else if (Input::wasKeyPressed(SDL_SCANCODE_RIGHT)||Input::gamepads[0].didDirectionChanged(PAD_RIGHT))
 		this->selectedOption = 1;
-	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON))
 		this->gameInstance->setActiveStage(this->fallbackStage);
 }
 
@@ -907,8 +916,10 @@ void endStage::render(Image& framebuffer)
 
 void endStage::update(double seconds_elapsed)
 {
-	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
-		this->gameInstance->setActiveStage(this->fallbackStage);
+	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)|| Input::gamepads[0].wasButtonPressed(A_BUTTON)) {
+		this->gameInstance->setActiveStage(stageType::MENU);
+		Input::update();
+	}		
 }
 
 void endStage::initStage(int fallbackStage)
@@ -929,6 +940,7 @@ void menuStage::renderBackground(Image& framebuffer) {
 	Image& starsB = assetManagerInstance->getImage("data/starBackground2.tga");
 	int displacement =  fmod((gameInstance->totalTime * 20), framebuffer.width);
 	int displacement2 =  fmod((gameInstance->totalTime * 18), framebuffer.width);
+	
 	framebuffer.drawImage(starsB, -displacement2, 0);
 	framebuffer.drawImage(starsB, framebuffer.width - displacement2, 0);
 	framebuffer.drawImage(stars, -displacement, 0);
@@ -955,6 +967,8 @@ void menuStage::update(double seconds_elapsed)
 	}
 	this->updCount+= seconds_elapsed;
 	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+		/*this->gameInstance->setActiveStage(stageType::INTRO);
+		this->gameInstance->getStageOfType(stageType::INTRO)->initStage();*/
 		this->gameInstance->setActiveStage(stageType::INTRO);
 		this->gameInstance->getStageOfType(stageType::INTRO)->initStage();
 	}
@@ -966,6 +980,7 @@ menuStage::menuStage(Image& font, Image& smallFont):stage(font),smallFont(smallF
 {
 	
 }
+/*==============================================Intro===================================================*/
 
 void introStage::render(Image& framebuffer)
 {
@@ -975,6 +990,7 @@ void introStage::update(double seconds_elapsed)
 {
 	if (currentFrame >= totalFrames) {
 		this->gameInstance->setActiveStage(fallbackStage);
+		this->gameInstance->initGame();
 	}
 	else {
 		this->displayMessage(this->text[currentFrame], (int)this->type);
@@ -994,7 +1010,45 @@ void introStage::initStage()
 
 introStage::introStage(Image& font, Image& smallFont):stage(font),smallFont(smallFont)
 {
-	std::cout << "yes\n";
+	
 	std::vector<std::string> test={ "Alert!\nAlert!\nAlert!", "A Missile has\nbeen detected!", "Please read the\nfollowing guide and\n gather the maximum\n number of resources\npossible", "You'll have\n60 seconds to\ncollect them!" };
 	this->text = test;
+}
+
+/*==============================================Post Countdown===================================================*/
+void postCountdownStage::render(Image& framebuffer)
+{
+}
+
+void postCountdownStage::update(double seconds_elapsed)
+{
+	if (currentFrame >= totalFrames) {
+		this->gameInstance->setActiveStage(fallbackStage);
+		this->gameInstance->getActiveStage()->initStage();
+	}
+	else {
+		this->displayMessage(this->text[currentFrame], (int)this->type);
+	}
+	currentFrame++;
+}
+
+void postCountdownStage::initStage()
+{
+	this->fallbackStage = (int)stageType::SURVIVAL;
+	this->currentFrame = 0;
+	this->totalFrames = text.size();
+	std::cout << this->totalFrames << std::endl;
+	Synth::SamplePlayback* spaceMusic = this->assetManagerInstance->getAudio("spaceMusic");
+	spaceMusic->offset = 0;
+	spaceMusic->in_use = true;
+}
+
+postCountdownStage::postCountdownStage(Image& font, Image& smallFont): stage(font), smallFont(smallFont)
+{
+	std::vector<std::string> toDisplay = { "You managed to escape\non time!","As the commander of\nthis escape mission\nyour objective is\nto keep everyone\nalive","You will now have\nto choose your\ndestination!",
+	"Our planetary database\nhas information about\n multiple planets!","We've collected info\nabout each one!\nResource levels,\nviolence levels and\ntravel distance",
+	"Some planets are\nmore violent\nthan others.\nThe more violent\nthe more probable you\nare to get ambushed\nand injured or killed.","You can take a\ngun with you to\nreduce the chances\nof getting hurt!",
+	"Your escape capsule\nis equipped with a\npc where you'll be\nable to do all\nthe decision taking!","Use it to monitor\nyour crew's status\ncheck the inventory\nand see info about\nyour next destination",
+	"In the pc you'll be\nable to ration your\nsupplies and give\nthem to crew members\nwhen needed!"};
+	this->text = toDisplay;
 }
