@@ -30,7 +30,7 @@ void character::updateResources()
 		}
 	}
 	
-	if (this->daysWithoutEating > 3) {
+	if (this->daysWithoutEating > 2) {
 		if (randomInt() >= randChance) {
 			this->daysWithoutEating = 0;
 			this->status.foodStat--;
@@ -38,7 +38,7 @@ void character::updateResources()
 		
 	}
 
-	if (this->daysWithoutHealing > 5) {
+	if (this->daysWithoutHealing > 3) {
 		if (randomInt() >= randChance) {
 			this->daysWithoutHealing = 0;
 			this->status.healthStat--;

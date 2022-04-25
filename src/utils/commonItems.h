@@ -37,9 +37,10 @@ enum class stageType { //Mainly used in stage
 	MULTIPLE_OPTIONS,
 	MESSAGE,
 	DUAL_OPTION,
-	MENU,
-	TUTORIAL,
 	END,
+	MENU,
+	INTRO,
+	TUTORIAL,
 };
 
 enum class ePcPage { //Mainly used in stage

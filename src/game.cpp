@@ -58,6 +58,10 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	assetMan->cacheImage("data/pcTabText.tga");
 	assetMan->cacheImage("data/playerCard.tga");
 	assetMan->cacheImage("data/astronautBusts.tga");
+	assetMan->cacheImage("data/deadOverlay.tga");
+	assetMan->cacheImage("data/pcPlanets.tga");
+	assetMan->cacheImage("data/endScreen.tga");
+	assetMan->cacheImage("data/logo.tga");
 	
 	//this->stages.reserve(6);
 	this->stages.push_back(new countdownStage(testTileset,sprite,font,this->localChar));
@@ -67,6 +71,9 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	this->stages.push_back(new multipleOptionsStage(font,minifont));
 	this->stages.push_back(new messageStage(font, minifont));
 	this->stages.push_back(new dualOptionStage(font, minifont));
+	this->stages.push_back(new endStage(font, minifont));
+	this->stages.push_back(new menuStage(font, minifont));
+	this->stages.push_back(new introStage(font, minifont));
 	
 	
 
@@ -76,96 +83,11 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 }
 
 
-void Game::updateTilePosition() {
-	Vector2 pos= localChar.getPosition();
-	tilePos = Vector2ub(pos.x / cellSize, (pos.y + y_displ) / cellSize);
-	//calculate position in local tile
-	localTilePos = Vector2((((pos.x + x_displ)) - tilePos.x * cellSize) / cellSize, ((pos.y + y_displ) - tilePos.y * cellSize) / cellSize);
-}
 
 
 
-void Game::renderMapTest(Image& framebuffer,float dx, float dy) {
-	int cs = testTileset.width / 16;
-	
-	
-	/*int cellX = (ogDx) / cs;
-	int cellY = (ogDy+13) / cs;
-
-	std::cout << cellX << ", " << cellY << std::endl;*/
-	
-	dx -= (framebuffer.width / 2);
-	dy -= (framebuffer.height / 2);
-
-	Vector2ub tilePos= getTilePosition();
-	int startX = max(0, tilePos.x - RENDER_X_CELLS);
-	int startY = max(0, tilePos.y- RENDER_Y_CELLS);
-	int endX = min(tilePos.x + RENDER_X_CELLS, Game::startMap.width-1);
-	int endY = min(tilePos.y + RENDER_Y_CELLS, Game::startMap.height-1);
-	//for every cell
-	for (int x = startX;x<=endX; ++x)
-		for (int y = startY;y<=endY; ++y)
-		{
-			//get cell info
-			sCell& cell = startMap.getCell(x, y);
-			if (cell.type == 0) //skip empty
-				continue;
-			int type = (int)cell.type;
-			//compute tile pos in tileset image
-			int tilex = (type % 16) * cs; 	//x pos in tileset
-			int tiley = floor(type / 16) * cs;	//y pos in tileset
-			Area area(tilex, tiley, cs, cs); //tile area
-			int screenx = x * cs; //place offset here if you want
-			int screeny = y * cs;
-			screenx -= dx;
-			screeny -= dy;
-			//avoid rendering out of screen stuff
-			
-			//if (screenx < -cs || (screenx + cs) > framebuffer.width ||
-			//	screeny < -cs || (screeny) > framebuffer.height) {
-			//	//std::cout << screenx << ", " << screeny << ", " << -cs << std::endl;
-			//	continue;
-			//}
-
-			if (tilePos.x == x && tilePos.y == y) {
-				framebuffer.drawRectangle(screenx, screeny, cs, cs, Color::BLUE); 	//pos in screen
-				//print localTilePos to console
-				//std::cout << localTilePos.x << ", " << localTilePos.y << std::endl;
-				
-			}
-			else
-			//draw region of tileset inside framebuffer
-			framebuffer.drawImage(testTileset, 		//image
-				screenx, screeny, 	//pos in screen
-				area); 		//area
-		}
-
-}
 
 
-
-void renderDebugGrid(Image& framebuffer) {
-	framebuffer.drawLine(framebuffer.width / 2, 0, framebuffer.width / 2, framebuffer.height, Color::RED);
-	framebuffer.drawLine(0, framebuffer.height / 2, framebuffer.width, framebuffer.height/2, Color::RED);
-}
-
-
-void Game::renderCountdown(Image &framebuffer) {
-	Vector2 charPos = this->localChar.getPosition();
-	framebuffer.fill(bgcolor);
-	renderMapTest(framebuffer, charPos.x, charPos.y);
-	framebuffer.drawImage(sprite, (framebuffer.width / 2) - 9, (framebuffer.height / 2) - 13, localChar.isMoving ? ((int)std::round(totalTime * localChar.getSpeed() * .4) % 4) * 18 : 0, 27 * localChar.getDirection(), 18, 27);			//draws a scaled image
-	renderDebugGrid(framebuffer);
-	framebuffer.drawImage(testIcon, (framebuffer.width/8) - (testIcon.width / 2), framebuffer.height-(testIcon.height*1.2));
-	framebuffer.drawImage(testIcon, (framebuffer.width / 2) - (testIcon.width / 2), framebuffer.height - (testIcon.height * 1.2));
-	framebuffer.drawImage(testIcon, (7*framebuffer.width / 8) - (testIcon.width / 2), framebuffer.height - (testIcon.height * 1.2));
-	this->uihandler.countdownUIObj.renderUI(framebuffer, font);
-	showFramebuffer(&framebuffer);
-}
-
-void Game::renderSurvival(Image& framebuffer) {
-
-}
 
 //what to do when the image has to be draw
 void Game::render()
@@ -212,83 +134,7 @@ void Game::render()
 
 
 
-void Game::updateCountdownLevel(double seconds_elapsed) {
-	Vector2& charPos = this->localChar.getPositionRef();
-	float speed = this->localChar.getSpeed();
-	//std::cout <<charPos.x<< " "<<charPos.y<<"\n";
-	localChar.isMoving = false;
 
-	//Read the keyboard state, to see all the keycodes: https://wiki.libsdl.org/SDL_Keycode
-	if (Input::isKeyPressed(SDL_SCANCODE_UP)) { //if key up
-		sCell cell = getCellAtPos(charPos.x, charPos.y - max(y_collisionDist, (speed * seconds_elapsed)));
-
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.y -= speed * seconds_elapsed;
-		}
-		localChar.dir = UP;
-
-	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_DOWN)) //if key down
-	{
-		sCell cell = getCellAtPos(charPos.x, charPos.y + max(y_collisionDist, (speed * seconds_elapsed)));
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.y += speed * seconds_elapsed;
-		}
-		localChar.dir = DOWN;
-	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_LEFT)) { //if key up
-		sCell cell = getCellAtPos(charPos.x - max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.x -= speed * seconds_elapsed;
-		}
-		localChar.dir = LEFT;
-	}
-	else if (Input::isKeyPressed(SDL_SCANCODE_RIGHT)) //if key down
-	{
-		sCell cell = getCellAtPos(charPos.x + max(x_collisionDist, (speed * seconds_elapsed)), charPos.y);
-		if (cell.canEnter()) {
-			localChar.isMoving = true;
-			charPos.x += speed * seconds_elapsed;
-		}
-		localChar.dir = RIGHT;
-	}
-	else {
-
-		localChar.dir = DOWN;
-	}
-	updateTilePosition();
-	if (this->localTilePos.y <= .4) { //if player is close enough
-		if (this->startMap.isCellItemType(this->tilePos.x, this->tilePos.y)) {
-			this->uihandler.countdownUIObj.showPrompt("Space - Pick Item");
-			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-				this->invHandler.handInv.addItem(this->startMap.getCellItemType(this->tilePos.x, this->tilePos.y));
-			}
-
-		}
-		else if (this->startMap.isCellExitType(this->tilePos.x, this->tilePos.y)) {
-			this->uihandler.countdownUIObj.showPrompt("Space - Save Item");
-			if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-				this->invHandler.handInv.dumpItemsToShip(this->invHandler.shipInv);
-			}
-		}
-		else {
-			this->uihandler.countdownUIObj.hidePrompt();
-		}
-	}
-	else {
-		this->uihandler.countdownUIObj.hidePrompt();
-	}
-	this->uihandler.countdownUIObj.updateCountdown(totalTime);
-	this->uihandler.countdownUIObj.setIconSlotsFromVector(this->invHandler.handInv.getIconsToRender());
-
-}
-
-void Game::updateSurvivalLevel(double seconds_elapsed) {
-
-};
 
 void Game::update(double seconds_elapsed)
 {
@@ -299,6 +145,10 @@ void Game::update(double seconds_elapsed)
 	
 	totalTime+= seconds_elapsed;
 
+	if (this->charHandler.getAliveCharacterNum() == 0)
+		this->setActiveStage(stageType::END);
+	
+
 	switch (this->activeStage) {
 	case stageType::COUNTDOWN: 
 		this->stages[(int)stageType::COUNTDOWN]->update(seconds_elapsed);
@@ -308,6 +158,8 @@ void Game::update(double seconds_elapsed)
 		break;
 	
 	}
+
+	
 	
 	//getIsCountdownLevel() ? updateCountdownLevel(seconds_elapsed) : updateSurvivalLevel(seconds_elapsed);
 	//example of 'was pressed'
@@ -472,7 +324,12 @@ void Game::onAudio(float *buffer, unsigned int len, double time, SDL_AudioSpec& 
 Vector2ub Game::mapMousePosition() {
 	Vector2 mouse_position = Input::mouse_position;
 	Vector2ub toReturn;
-	toReturn.x = mapValue(mouse_position.x, 0, window_width, 0, 160);
+	int clampedXSize = window_height * (4/3.0);
+	int borderSize= (window_width - clampedXSize) / 2;
+
+	int mx= clamp((int) max(0,mouse_position.x-borderSize),0,clampedXSize);
+	//std::cout << window_width << "," << clampedXSize <<","<<window_height<<"," <<mx<<"," << mouse_position.x << "," << mouse_position.y << std::endl;
+	toReturn.x = mapValue(mx, 0, clampedXSize, 0, 160);
 	toReturn.y = mapValue(mouse_position.y, 0, window_height, 0, 120);
 	return toReturn;
 }

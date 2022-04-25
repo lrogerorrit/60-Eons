@@ -23,19 +23,19 @@ struct characterStatus {
 
 
 const std::string names[] = {
-	"Alfred",
-	"Bert",
+	"Alex",
+	"Roger",
 	"Cecil",
-	"Dennis",
+	"Denis",
 	"Eddie",
-	"Freddie",
-	"Gustav",
+	"Fred",
+	"Gus",
 	"Hans",
 	"Ike",
 	"Jens",
 	"Kurt",
 	"Lars",
-	"Morten",
+	"Morty",
 	"Nils",
 	"Ole",
 };
@@ -132,6 +132,15 @@ public:
 			return characters;
 		};
 		
+		int getAliveCharacterNum() {
+			int num = 0;
+			for (int i = 0; i < characters.size(); i++) {
+				if (characters[i].getIsAlive()) {
+					num++;
+				}
+			}
+			return num;
+		};
 		
 };
 

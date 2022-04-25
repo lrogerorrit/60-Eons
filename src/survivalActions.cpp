@@ -9,7 +9,7 @@
 void survivalActions::advanceToNextDay()
 {
 
-	
+	this->hasVisitedPlanet = false;
 	//go through players and update their resources
 	for (character& plChar : charHandler.getCharacters()) {
 		if (!plChar.isAlive) continue;
@@ -55,10 +55,12 @@ void survivalActions::generatePossibleTargets()
 void survivalActions::consumeItem(int plNum, eItemType type)
 {
 	charHandler.getCharacter(plNum).consumeItem((statusType)(int(type) - 1));
+	gameInstance->invHandler.shipInv.removeItem(type);
 }
 
 planetExplorationResults& survivalActions::explorePlanet(int plNum, planetData& pData, bool hasGun)
 {
+	this->hasVisitedPlanet=true;
 	character& chosenChar = this->charHandler.getCharacter(plNum);
 	assert(chosenChar.isAlive);
 	planetStats planetInfo = this->targetPlanet->stats;
@@ -69,19 +71,19 @@ planetExplorationResults& survivalActions::explorePlanet(int plNum, planetData& 
 	case eViolenceLevel::LOW:
 		minHealthDamage = 1;
 		maxHealthDamage = 1;
-		damageProb = 1;
+		damageProb = 3;
 		gunEfectivenes = 10;
 		break;
 	case eViolenceLevel::MID:
 		minHealthDamage = 1;
 		maxHealthDamage = 3;
-		damageProb = 3;
+		damageProb = 5;
 		gunEfectivenes = 7;
 		break;
 	case eViolenceLevel::HIGH:
 		minHealthDamage = 2;
 		maxHealthDamage = 4;
-		damageProb = 5;
+		damageProb = 7;
 		gunEfectivenes = 5;
 		break;
 

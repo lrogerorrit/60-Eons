@@ -103,19 +103,22 @@ private:
 	std::string iconTip = "";
 	bool tipVisible = false;
 
+	void choosePlanet();
+	void advanceToNextDay();
+	void openPc(ePcPage page);
 public:
 
 	stageType type = stageType::SURVIVAL;
 	survivalStage(Image& font, Image& smallFont);
 
-	void choosePlanet();
 
-	void advanceToNextDay();
+
 
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
 	void initStage() {};
-
+	survivalActions& getSurvivalActions();
+	int getTotalDays();
 };
 
 struct planetData;
@@ -147,6 +150,7 @@ public:
 enum class eNextCycleGetInfoPC {
 	NONE,
 	CREW_OPTIONS,
+	GUN_CONFIRM,
 };
 
 class pcStage :public stage {
@@ -160,7 +164,7 @@ private:
 	int selectedCard = -1;
 	std::string topTip = "";
 	eNextCycleGetInfoPC infoToFech = eNextCycleGetInfoPC::NONE;
-	survivalActions* survivalActionHandler = nullptr;
+	survivalActions* survivalActionHandler=nullptr;
 	
 	void openPage(ePcPage page);
 
@@ -172,26 +176,31 @@ private:
 	
 	
 	void renderCrewPage(Image& framebuffer);
-	void renderPlanetSpacePage(Image& framebuffer);
-	void renderPlanetPlanetPage(Image& framebuffer);
+	void renderPlanetPage(Image& framebuffer);
+
+	void goExplorePlanet(int plNum, bool hasGun);
+
+	
+
+	void openDualOptions(std::string msg, std::string op1, std::string op2, eNextCycleGetInfoPC flagToSet);
 
 	
 	//update functions
 	void updateInventoryPage();
 
-	void openDualOptions(std::string& msg, std::string& op1, std::string& op2, eNextCycleGetInfoPC flagToSet);
+	
 	void openCrewOptions(int crewNum);
 	
 	void updateCrewPage();
-	void updatePlanetSpacePage();
-	void updatePlanetPlanetPage();
+	void updatePlanetPage();
+	
 	
 public:
 
 	stageType type = stageType::PC;
 	void render(Image& framebuffer);
 	void update(double seconds_elapsed);
-	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet, survivalActions* survivalAction);
+	void initStage(int fallbackStage, ePcPage pcPage, bool atPlanet);
 	pcStage(Image& font, Image & smallFont);
 	
 };
@@ -252,4 +261,54 @@ public:
 		return this->selectedOption;
 	};
 
+};
+
+
+class endStage : public stage {
+private:
+	Image& smallFont;
+	int fallbackStage = 0;
+
+public:
+	stageType type = stageType::END;
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(int fallbackStage);
+	endStage(Image& font, Image& smallFont);
+
+
+};
+
+class menuStage : public stage {
+	private:
+	Image& smallFont;
+	bool showText = true;
+	float updCount = 0;
+public:
+	stageType type = stageType::MENU;
+	void renderBackground(Image& framebuffer);
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage(){};
+	menuStage(Image& font, Image& smallFont);
+
+};
+
+class introStage : public stage {
+private:
+	Image& smallFont;
+	int fallbackStage = 0;
+	int currentFrame = 0;
+	int totalFrames = 0;
+	std::vector<std::string> text;
+	
+public:
+	stageType type = stageType::INTRO;
+	void render(Image& framebuffer);
+	void update(double seconds_elapsed);
+	void initStage();
+	introStage(Image& font, Image& smallFont);
+
+
+		
 };

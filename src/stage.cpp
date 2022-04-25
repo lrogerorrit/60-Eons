@@ -230,6 +230,12 @@ void survivalStage::advanceToNextDay() {
 		this->choosePlanet();
 }
 
+void survivalStage::openPc(ePcPage page) {
+	pcStage* st = (pcStage*)this->gameInstance->getStageOfType(stageType::PC);
+	st->initStage((int)this->type, page, this->survivalActionHandler->isAtPlanet());
+	this->gameInstance->setActiveStage(stageType::PC);
+}
+
 void survivalStage::update(double seconds_elapsed) {
 	//fetch info from planet choice stage
 	if (this->infoToFech == eNextCycleGetInfo::PLANETCHOICE) {
@@ -248,10 +254,17 @@ void survivalStage::update(double seconds_elapsed) {
 		if (mousePos.x > 17 && mousePos.x < 47) {
 			this->iconTip = "Open Inventory";
 			this->tipVisible = true;
+			if (Input::wasMousePressed(0)) {
+				this->openPc(ePcPage::INVENTORY);
+			}
 		}
 		else if (mousePos.x > 70 && mousePos.x < 90) {
 			this->iconTip = "Open PC";
 			this->tipVisible = true;
+			if (Input::wasMousePressed(0)) {
+				this->openPc(ePcPage::CREW);
+			}
+			
 		}
 		else if (mousePos.x > 115 && mousePos.x < 140) {
 			this->iconTip = "Advance to next day";
@@ -276,6 +289,18 @@ void survivalStage::update(double seconds_elapsed) {
 	else if (Input::wasKeyPressed(SDL_SCANCODE_F2))
 		this->advanceToNextDay();
 }
+
+survivalActions& survivalStage::getSurvivalActions()
+	{
+		return *this->survivalActionHandler;
+	}
+int survivalStage::getTotalDays()
+{
+	return this->survivalActionHandler->getTotalDays();
+}
+;
+
+
 
 
 void survivalStage::renderBackground(Image& framebuffer) {
@@ -310,7 +335,7 @@ void survivalStage::renderInfo(Image& framebuffer) {
 	framebuffer.drawText("Day " + std::to_string(this->survivalActionHandler->getTotalDays()),2,2,this->font);
 	framebuffer.drawText(remainingText + std::to_string(this->survivalActionHandler->getRemainingDays()), 2, 12, this->smallFont,4,6);
 	if (this->tipVisible)
-		framebuffer.drawText(this->iconTip, framebuffer.width - (4 * this->iconTip.length()+2),10, this->smallFont, 4, 6);
+		framebuffer.drawText(this->iconTip, framebuffer.width - (4 * this->iconTip.length()+2),2, this->smallFont, 4, 6);
 }
 
 void survivalStage::renderUI(Image& framebuffer) {
@@ -440,12 +465,9 @@ void pcStage::render(Image& framebuffer)
 	
 	case ePcPage::CREW:
 		this->renderCrewPage(framebuffer);
+		break;
 	case ePcPage::PLANET:
-		if (this->atPlanet) {
-			this->renderPlanetPlanetPage(framebuffer);
-		}
-		else
-			this->renderPlanetSpacePage(framebuffer);
+		this->renderPlanetPage(framebuffer);
 		break;
 	}
 	Image& tabText = this->assetManagerInstance->getImage("data/pcTabText.tga");
@@ -489,12 +511,17 @@ void pcStage::renderCrewCard(Image& framebuffer,int crewNum) {
 
 	framebuffer.drawImage(this->assetManagerInstance->getImage("data/astronautBusts.tga"), displ.x + 3, displ.y + 3, (22 * crewNum), 0, 22, 22);
 
-	for (int i = 0; i < crew.status.foodStat; i++) 
-		framebuffer.drawRectangle(displ.x + 13 + (4 * i), displ.y + 29, 3, 3, Color::YELLOW);
-	for (int i = 0; i < crew.status.waterStat; i++)
-		framebuffer.drawRectangle(displ.x + 13 + (4 * i), displ.y + 36, 3, 3, Color::CYAN);
-	for (int i = 0; i < crew.status.healthStat; i++) 
-		framebuffer.drawRectangle(displ.x + 48 + (4 * i), displ.y + 29, 3, 3, Color::RED);
+	if (crew.isAlive) {
+		for (int i = 0; i < crew.status.foodStat; i++)
+			framebuffer.drawRectangle(displ.x + 13 + (4 * i), displ.y + 29, 3, 3, Color::YELLOW);
+		for (int i = 0; i < crew.status.waterStat; i++)
+			framebuffer.drawRectangle(displ.x + 13 + (4 * i), displ.y + 36, 3, 3, Color::CYAN);
+		for (int i = 0; i < crew.status.healthStat; i++)
+			framebuffer.drawRectangle(displ.x + 48 + (4 * i), displ.y + 29, 3, 3, Color::RED);
+	}
+	else {
+		framebuffer.drawImage(this->assetManagerInstance->getImage("data/deadOverlay.tga"), displ.x, displ.y);
+	}
 }
 
 void pcStage::renderCrewPage(Image& framebuffer)
@@ -506,14 +533,60 @@ void pcStage::renderCrewPage(Image& framebuffer)
 	}
 	
 }
-void pcStage::renderPlanetSpacePage(Image& framebuffer)
+void pcStage::renderPlanetPage(Image& framebuffer)
 {
-}
-void pcStage::renderPlanetPlanetPage(Image& framebuffer)
-{
+	Vector2 displ(5, 23);
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/planetDataLayout.tga"), displ.x, displ.y);
+	planetData* plData = this->survivalActionHandler->getTargetPlanetData();
+	Image& planetIcon = this->assetManagerInstance->getImage("data/pcPlanets.tga");
+	
+	framebuffer.drawImage(planetIcon, displ.x + 4, displ.y + 4,(int) this->survivalActionHandler->getTargetPlanetData()->type * 32, 0, 32, 32);
+	
+	for (int i = 0; i < plData->stats.foodLevel; i++)
+		framebuffer.drawRectangle(displ.x + 45 + (7 * i), displ.y + 40, 5, 4, Color::YELLOW);
+	for (int i = 0; i < plData->stats.waterLevel; i++)
+		framebuffer.drawRectangle(displ.x + 45 + (7 * i), displ.y + 50, 5, 4, Color::CYAN);
+	for (int i = 0; i < plData->stats.medLevel; i++)
+		framebuffer.drawRectangle(displ.x + 45 + (7 * i), displ.y + 60, 5, 4, Color::RED);
+	for (int i = 0; i < (int) plData->stats.violenceLevel+1; i++)
+		framebuffer.drawRectangle(displ.x + 45 + (7 * i), displ.y + 70, 5, 4, Color::RED);
+	framebuffer.drawText(this->survivalActionHandler->getTargetPlanetData()->name, displ.x + 38, displ.y + 4, this->font);
+	
 }
 
-void pcStage::openDualOptions(std::string& msg, std::string& op1, std::string& op2, eNextCycleGetInfoPC flagToSet) {
+
+void pcStage::goExplorePlanet(int plNum,bool hasGun=false) {
+	
+	planetExplorationResults& results = this->survivalActionHandler->explorePlanet(plNum, *this->survivalActionHandler->getTargetPlanetData(), hasGun);
+	if (results.wasKilled)
+		this->displayMessage("During the exploration\nthe astronaut got\n ambushed and was\n killed!\nYou got no resources.", (int)this->type);
+	else {
+		std::string msg = "";
+		if(results.wasDamaged)
+			msg+="You were ambushed and\nlost " + std::to_string(results.damageReceived) + " health.\n";
+		if (results.foodObtained > 0 || results.medsObtained > 0 || results.waterObtained > 0) {
+			msg += "You found:\n";
+			int count = 0;
+			if (results.foodObtained > 0) {
+				count++;
+				msg += std::to_string(results.foodObtained) + " food, ";
+			}
+			if (results.medsObtained > 0) {
+				msg += std::to_string(results.medsObtained) + " meds, ";
+				count++;
+			}
+			if (count == 2) msg += "\n";
+			if (results.waterObtained > 0)
+				msg += std::to_string(results.waterObtained) + " water.";
+		}
+		else
+			msg += "You got no resources!";
+		this->displayMessage(msg, (int)this->type);
+	}
+		
+};
+
+void pcStage::openDualOptions(std::string msg, std::string op1, std::string op2, eNextCycleGetInfoPC flagToSet) {
 	this->infoToFech = flagToSet;
 	this->displayDualOption(msg, op1, op2, (int)this->type);
 }
@@ -522,7 +595,7 @@ void pcStage::update(double seconds_elapsed)
 {
 	bool dontResetFlag = false;
 	switch (infoToFech) {
-	case eNextCycleGetInfoPC::CREW_OPTIONS:
+	case eNextCycleGetInfoPC::CREW_OPTIONS: {
 		multipleOptionsStage* st = (multipleOptionsStage*)gameInstance->getStageOfType(stageType::MULTIPLE_OPTIONS);
 		switch (st->getSelectedOption()) {
 		case 1: //Food
@@ -530,7 +603,7 @@ void pcStage::update(double seconds_elapsed)
 				if (this->gameInstance->charHandler.getCharacter(this->selectedCard).status.foodStat < MAX_STAT_LEVEL)
 					this->survivalActionHandler->consumeItem(this->selectedCard, eItemType::FOOD);
 				else
-					this->displayMessage("Cant give food\nAstronaut is at max\nfood level!",(int)this->type);
+					this->displayMessage("Cant give food\nAstronaut is at max\nfood level!", (int)this->type);
 			}
 			else
 				this->displayMessage("Cant give food\nNo food left!", (int)this->type);
@@ -547,7 +620,7 @@ void pcStage::update(double seconds_elapsed)
 			break;
 		case 3://meds
 			if (this->gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::MEDS) > 0) {
-				if (this->gameInstance->charHandler.getCharacter(this->selectedCard).status.healthStat< MAX_STAT_LEVEL)
+				if (this->gameInstance->charHandler.getCharacter(this->selectedCard).status.healthStat < MAX_STAT_LEVEL)
 					this->survivalActionHandler->consumeItem(this->selectedCard, eItemType::MEDS);
 				else
 					this->displayMessage("Cant heal\nAstronaut is at max\nhealth level!", (int)this->type);
@@ -556,12 +629,29 @@ void pcStage::update(double seconds_elapsed)
 				this->displayMessage("Cant heal\nNo meds left!", (int)this->type);
 			break;
 		case 4://explore planet
+			if (this->survivalActionHandler->hasVisitedPlanetOnDay()) {
+				this->displayMessage("Please wait until\ntomorrow to visit\nplanet again!",(int)this->type);
+			}
+			else {
+				if (this->gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WEAPON) > 0) {
+					dontResetFlag = true;
+					this->openDualOptions("Do you want to take\na gun to explore?", "Yes", "No", eNextCycleGetInfoPC::GUN_CONFIRM);
 
+				}
+				else
+					goExplorePlanet(this->selectedCard);
+			}
 			break;
 
 		}
+		break;
+	}
+	case eNextCycleGetInfoPC::GUN_CONFIRM: {
+		dualOptionStage* st = (dualOptionStage*)gameInstance->getStageOfType(stageType::DUAL_OPTION);
+		goExplorePlanet(this->selectedCard, st->getSelectedOption() == 0);
 
 		break;
+		}
 	}
 	if(!dontResetFlag)
 		this->infoToFech = eNextCycleGetInfoPC::NONE;
@@ -577,14 +667,22 @@ void pcStage::update(double seconds_elapsed)
 		break;
 	case ePcPage::CREW:
 		this->updateCrewPage();
+		break;
 	case ePcPage::PLANET:
-		if (this->atPlanet) {
-			this->updatePlanetPlanetPage();
-		}
-		else
-			this->updatePlanetSpacePage();
+		if (this->atPlanet)
+			this->updatePlanetPage();
 		break;
 	}
+
+	Vector2 mousePos = this->gameInstance->mapMousePosition();
+	if (mousePos.x > 145 && mousePos.x < 157 && mousePos.y>2 && mousePos.y < 14) {
+		this->tipVisible = true;
+		this->topTip = "Close PC";
+		if (Input::wasMousePressed(0)) 
+			this->gameInstance->setActiveStage(stageType::SURVIVAL);
+		
+	}
+	
 }
 
 void pcStage::updateInventoryPage()
@@ -596,21 +694,22 @@ void pcStage::openCrewOptions(int crewNum) {
 	this->infoToFech = eNextCycleGetInfoPC::CREW_OPTIONS;
 	std::cout << "Opening Options for crew " << crewNum << std::endl;
 
-	
+	if (this->gameInstance->charHandler.getCharacter(crewNum).isAlive) {
 
-	std::vector<std::string> optionsToSend;
-	std::string foodNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::FOOD))+")";
-	std::string drinkNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WATER))+")";
-	std::string medNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::MEDS))+")";
-	
-	optionsToSend.push_back("Close");
-	optionsToSend.push_back("Give food (" + foodNum);
-	optionsToSend.push_back("Give water (" + drinkNum);
-	optionsToSend.push_back("Heal (" + medNum);
-	if(this->atPlanet)
-		optionsToSend.push_back("Send Explore Planet");
-	this->displayMultipleOption(optionsToSend, (int)this->type);
-	
+		std::vector<std::string> optionsToSend;
+		std::string foodNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::FOOD)) + ")";
+		std::string drinkNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::WATER)) + ")";
+		std::string medNum = std::to_string(gameInstance->invHandler.shipInv.getItemCountOfType(eItemType::MEDS)) + ")";
+
+		optionsToSend.push_back("Close");
+		optionsToSend.push_back("Give food (" + foodNum);
+		optionsToSend.push_back("Give water (" + drinkNum);
+		optionsToSend.push_back("Heal (" + medNum);
+		if (this->atPlanet)
+			optionsToSend.push_back("Explore Planet");
+		this->displayMultipleOption(optionsToSend, (int)this->type);
+		
+	}
 
 }
 
@@ -637,26 +736,24 @@ void pcStage::updateCrewPage()
 
 }
 
-void pcStage::updatePlanetSpacePage()
+void pcStage::updatePlanetPage()
 {
 }
 
-void pcStage::updatePlanetPlanetPage()
-{
-}
 
-void pcStage::initStage(int fallbackStage, ePcPage pcPage, bool atPlanet, survivalActions* survivalAction)
+
+void pcStage::initStage(int fallbackStage, ePcPage pcPage, bool atPlanet)
 {
 	this->fallbackStage = fallbackStage;
 	this->atPlanet = atPlanet;
 	this->openPage(pcPage);
-	this->survivalActionHandler == survivalAction;
-}
-pcStage::pcStage(Image& font, Image& smallFont) : stage(font), smallFont(smallFont)
-{
-	
 	
 }
+pcStage::pcStage(Image& font, Image& smallFont) : stage(font), smallFont(smallFont) {
+	survivalStage* st = (survivalStage*)this->gameInstance->getStageOfType(stageType::SURVIVAL);
+	this->survivalActionHandler=&st->getSurvivalActions();
+}
+
 /*==============================================Multiple Options===================================================*/
 
 void multipleOptionsStage::renderOption(Image& framebuffer, std::string& name, int num) {
@@ -795,4 +892,109 @@ void dualOptionStage::initStage(int fallbackStage, std::string& message, std::st
 dualOptionStage::dualOptionStage(Image& font, Image& smallFont):stage(font),smallFont(smallFont)
 {
 	
+}
+
+/*==============================================End Screen===================================================*/
+
+void endStage::render(Image& framebuffer)
+{
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/endScreen.tga"), 0, 0);
+	int survivedDays = ((survivalStage*)gameInstance->getStageOfType(stageType::SURVIVAL))->getTotalDays();
+	
+	framebuffer.drawText("Days survived: "+std::to_string(survivedDays),15,82,this->font);
+	framebuffer.drawText("SPACE to continue",15,framebuffer.height-12,this->font);
+}
+
+void endStage::update(double seconds_elapsed)
+{
+	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE))
+		this->gameInstance->setActiveStage(this->fallbackStage);
+}
+
+void endStage::initStage(int fallbackStage)
+{
+	this->fallbackStage = fallbackStage;
+}
+
+endStage::endStage(Image& font, Image& smallFont) :stage(font), smallFont(smallFont)
+{
+
+}
+
+/*==============================================Menu Screen===================================================*/
+
+void menuStage::renderBackground(Image& framebuffer) {
+
+	Image& stars = assetManagerInstance->getImage("data/starBackground.tga");
+	Image& starsB = assetManagerInstance->getImage("data/starBackground2.tga");
+	int displacement =  fmod((gameInstance->totalTime * 20), framebuffer.width);
+	int displacement2 =  fmod((gameInstance->totalTime * 18), framebuffer.width);
+	framebuffer.drawImage(starsB, -displacement2, 0);
+	framebuffer.drawImage(starsB, framebuffer.width - displacement2, 0);
+	framebuffer.drawImage(stars, -displacement, 0);
+	framebuffer.drawImage(stars, framebuffer.width - displacement, 0);
+
+}
+
+void menuStage::render(Image& framebuffer)
+{
+	framebuffer.fill(gameInstance->bgcolor);
+	this->renderBackground(framebuffer);
+	if (this->showText)
+		framebuffer.drawText("Press SPACE to start", 9, framebuffer.height - 20, this->font);
+		
+	framebuffer.drawImage(this->assetManagerInstance->getImage("data/logo.tga"), framebuffer.width / 2 - 56, 10);
+	
+}
+
+void menuStage::update(double seconds_elapsed)
+{
+	if (this->updCount > 1) {
+		this->updCount = 0;
+		this->showText = !this->showText;
+	}
+	this->updCount+= seconds_elapsed;
+	if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+		this->gameInstance->setActiveStage(stageType::INTRO);
+		this->gameInstance->getStageOfType(stageType::INTRO)->initStage();
+	}
+}
+
+
+
+menuStage::menuStage(Image& font, Image& smallFont):stage(font),smallFont(smallFont)
+{
+	
+}
+
+void introStage::render(Image& framebuffer)
+{
+}
+
+void introStage::update(double seconds_elapsed)
+{
+	if (currentFrame >= totalFrames) {
+		this->gameInstance->setActiveStage(fallbackStage);
+	}
+	else {
+		this->displayMessage(this->text[currentFrame], (int)this->type);
+	}
+	currentFrame++;
+	
+}
+
+void introStage::initStage()
+{
+	
+	this->fallbackStage = (int) stageType::COUNTDOWN;
+	this->currentFrame = 0;
+	this->totalFrames = text.size();
+	std::cout << this->totalFrames<<std::endl;
+}
+
+introStage::introStage(Image& font, Image& smallFont):stage(font),smallFont(smallFont)
+{
+	std::cout << "yes\n";
+	std::vector<std::string> test={ "Alert!\nAlert!\nAlert!", "A Missile has\nbeen detected!", "Please read the\nfollowing guide and\n gather the maximum\n number of resources\npossible", "You'll have\n60 seconds to\ncollect them!" };
+	this->text = test;
 }

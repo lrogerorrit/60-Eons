@@ -33,13 +33,13 @@ struct planetStats {
 		violenceLevel = (eViolenceLevel)randomIntRange(0, 2);
 		switch (violenceLevel) { //The higher the violence level, the more food and water the planet should have (to compensate)
 		case eViolenceLevel::LOW:
-			waterLevel = randomIntRange(0,2);
-			foodLevel = randomIntRange(1, 2);
+			waterLevel = randomIntRange(0,1);
+			foodLevel = randomIntRange(1, 1);
 			medLevel = randomIntRange(0, 1);
 			break;
 		case eViolenceLevel::MID:
-			waterLevel = randomIntRange(1, 3);
-			foodLevel = randomIntRange(1, 3);
+			waterLevel = randomIntRange(1, 2);
+			foodLevel = randomIntRange(1, 2);
 			medLevel = randomIntRange(0, 2);
 			break;
 		case eViolenceLevel::HIGH:
@@ -81,6 +81,7 @@ private:
 	int daysAtPlanet = 0;
 	bool isDepartingPlanet = true;
 	bool atPlanet = false;
+	bool hasVisitedPlanet = false;
 
 	planetData* targetPlanet=nullptr;
 
@@ -131,6 +132,10 @@ public:
 	}
 	std::vector<planetData>& getGeneratedPlanetData() {
 		return this->possibleTargetList;
+	}
+	
+	bool hasVisitedPlanetOnDay() {
+		return this->hasVisitedPlanet;
 	}
 
 	

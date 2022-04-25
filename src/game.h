@@ -77,7 +77,7 @@ public:
 	assetManager* assetMan= NULL;
 	
 	std::vector<stage*> stages;
-	stageType activeStage=stageType::DUAL_OPTION;
+	stageType activeStage=stageType::MENU;
 	bool debugMode = true;
 	// make a list of ints of size astronautNum
 	
@@ -108,11 +108,6 @@ public:
 
 	//custom functions
 
-	void renderCountdown(Image& framebuffer);
-	void renderSurvival(Image& framebuffer);
-
-	void updateCountdownLevel(double seconds_elapsed);
-	void updateSurvivalLevel(double seconds_elapsed);
 
 	inline bool getIsCountdownLevel() { return is_countdownLevel; }
 	inline void setIsCountdownLevel(bool value) { is_countdownLevel = value; }
@@ -120,8 +115,7 @@ public:
 		this->localChar = plChar;
 	};
 	
-	void renderMapTest(Image& framebuffer, float dx, float dy);
-	void updateTilePosition();	
+	
 	Vector2ub getTilePosition() { return tilePos; };
 	Vector2ub getTileAtPos(float x, float y) {
 		return Vector2ub(x / cellSize, (y + y_displ) / cellSize);
